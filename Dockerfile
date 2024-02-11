@@ -11,8 +11,5 @@ ENV HOME=/${WORKDIR} \
 # ENV check（このRUN命令は確認のためなので無くても良い）
 RUN echo ${HOME}
 
-#yarn install
-RUN yarn install
-
 WORKDIR ${HOME}
 
