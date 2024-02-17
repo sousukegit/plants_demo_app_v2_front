@@ -1,18 +1,18 @@
-FROM node:18.18.0-alpine
+FROM node:18-slim
 
+#Dockerファイルで環境変数を設定
 ARG WORKDIR
+ARG API_URL
+
 ENV HOME=/${WORKDIR} \
     LANG=C.UTF-8 \
     TZ=Asia/Tokyo \
-    HOST=0.0.0.0
-
-#RUN yarn install
-
-# ENV check（このRUN命令は確認のためなので無くても良い）
-RUN echo ${HOME}
-
-#yarn install
-RUN yarn install
+    HOST=0.0.0.0 \
+    API_URL=${API_URL}
 
 WORKDIR ${HOME}
 
+RUN apt-get update \
+    && apt-get install -y \
+    git \
+    vim
