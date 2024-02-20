@@ -21,7 +21,7 @@
           <td>{{ user.id }}</td>
           <td>{{ user.name }}</td>
           <td>{{ user.email }}</td>
-          <td>{{ user.created_at }}</td>
+          <td>{{ dateFormat(user.created_at) }}</td>
         </tr>
       </tbody>
     </table>
@@ -34,16 +34,25 @@
   
   <script setup lang="ts">
   
-  const greet = ref<string[]>("")
   const users = ref<string[]>("")
   async function getHello(){
     //先にユーザーを用意
     const { data } = await useFetch('http://localhost:3000/api/v1/users')
-    users.value = data.value
-    greet.value = data.value
+    users.value = data.value    
     console.log(data)
-    console.log(data.value)
+    const config = useRuntimeConfig();
+    console.log(config.apiOrigin);
   }
+
+  
+
+  const dateFormat = (date) =>{
+    const dateTimeFormat = new Intl.DateTimeFormat(
+          'ja', { dateStyle: 'medium', timeStyle: 'short' }
+        )
+        return dateTimeFormat.format(new Date(date))
+  }
+
   
   </script>
   
