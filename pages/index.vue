@@ -1,5 +1,5 @@
 <template>
-  <NuxtLayout>
+ <NuxtLayout>
     <div>
       <button
       class = "bg-red-100 "
@@ -36,7 +36,9 @@
   </template>
   
   <script setup lang="ts">
-import { NuxtLayout } from '#build/components';
+
+
+
 
   //環境変数を取得
   const config = useRuntimeConfig()
