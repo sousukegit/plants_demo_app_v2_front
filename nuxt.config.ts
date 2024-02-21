@@ -6,5 +6,9 @@ export default defineNuxtConfig({
        apiOrigin: process.env.NUXT_API_ORIGIN
       //apiOrigin: ""
     }
-  }
+  },
+  typescript:{
+    strict:true,
+  },
+  modules:["@nuxtjs/tailwindcss"]
 })

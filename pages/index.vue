@@ -1,6 +1,8 @@
 <template>
     <div>
-      <button @click="getHello()">API</button>
+      <button
+      class = "bg-red-100"
+       @click="getHello()">API</button>
     </div>
 
 
