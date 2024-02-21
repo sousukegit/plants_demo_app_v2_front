@@ -1,7 +1,8 @@
 <template>
+  <NuxtLayout>
     <div>
       <button
-      class = "bg-red-100"
+      class = "bg-red-100 "
        @click="getHello()">API</button>
     </div>
 
@@ -31,10 +32,12 @@
     <div v-else>
       ユーザーが取得できませんでした
     </div>
-
+  </NuxtLayout>
   </template>
   
   <script setup lang="ts">
+import { NuxtLayout } from '#build/components';
+
   //環境変数を取得
   const config = useRuntimeConfig()
   const users = ref<string[]>("")
