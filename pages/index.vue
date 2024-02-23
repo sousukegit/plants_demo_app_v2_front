@@ -1,8 +1,9 @@
 <template>
- <NuxtLayout>
+ <TheContainer>
+  <AppH1>aaa</AppH1>
     <div>
       <button
-      class = "bg-red-100 "
+      class= "bg-main-100"
        @click="getHello()">API</button>
     </div>
 
@@ -27,12 +28,13 @@
           <td>{{ dateFormat(user.created_at) }}</td>
         </tr>
       </tbody>
-    </table>
+  </table> 
 
     <div v-else>
       ユーザーが取得できませんでした
     </div>
-  </NuxtLayout>
+    
+  </TheContainer>
   </template>
   
   <script setup lang="ts">

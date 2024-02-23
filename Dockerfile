@@ -21,4 +21,4 @@ RUN apt-get update \
 #npmの依存関係をイメージ内にコピー
 COPY package.json package-lock.json ./
 #.npmのキャッシュを覗いてインストールする（追加分のみ）
-RUN --mount=type=cache,target=/root/.npm npm install
+RUN --mount=type=cache,target=./.npm npm install
