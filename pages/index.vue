@@ -1,47 +1,45 @@
 <template>
- <TheContainer>
-  <AppH1>aaa</AppH1>
-    <div>
-      <button
-      class= "bg-main-100"
-       @click="getHello()">API</button>
-    </div>
+  <NuxtLayout>
+    <TheContainer>
+      <AppH1>aaa</AppH1>
+      <div>
+        <button
+        class= "bg-main-100"
+        @click="getHello()">API</button>
+      </div>
 
 
-    <table v-if="users.length">
-      <thead>
-        <tr>
-          <th>id</th>
-          <th>name</th>
-          <th>email</th>
-          <th>created_at</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="(user, i) in users"
-          :key="user.id"
-        >
-          <td>{{ user.id }}</td>
-          <td>{{ user.name }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ dateFormat(user.created_at) }}</td>
-        </tr>
-      </tbody>
-  </table> 
+      <table v-if="users.length">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>email</th>
+            <th>created_at</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="(user, i) in users"
+            :key="user.id"
+          >
+            <td>{{ user.id }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ dateFormat(user.created_at) }}</td>
+          </tr>
+        </tbody>
+      </table> 
 
-    <div v-else>
-      ユーザーが取得できませんでした
-    </div>
-    
-  </TheContainer>
+      <div v-else>
+        ユーザーが取得できませんでした
+      </div>    
+    </TheContainer>
+  </NuxtLayout>
+
   </template>
   
   <script setup lang="ts">
-
-
-
-
   //環境変数を取得
   const config = useRuntimeConfig()
   const users = ref<string[]>("")
