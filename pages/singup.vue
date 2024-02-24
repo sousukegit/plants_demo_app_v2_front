@@ -15,7 +15,7 @@
             <InputPassword v-model="User.password" :max="8"></InputPassword> 
         </label>
         <ButtonPrimary @click="submit" >登録する</ButtonPrimary>
-        <div>{{userData}}</div>
+        
     </TheContainer>
     
 
@@ -24,16 +24,18 @@
 <script setup lang="ts">
 import { type User } from "~~/types/entities";
 
-definePageMeta({
-    layout:"BeforeLogin",
-});
-
-
 const User = reactive<User>({
     name:"",
     email:"",
     password:""
 })
+definePageMeta({
+    layout:"BeforeLogin",
+});
+
+
+
+
 
 const userData = reactive<T>({
     user:{
@@ -41,7 +43,7 @@ const userData = reactive<T>({
     }
 })
 const submit = () =>{
-    console.log(userData.user)
+    console.log(userData)
 
 }
 

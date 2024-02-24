@@ -1,10 +1,23 @@
 <template>
     <div>
-        <input  :type="inputType"
-        v-model="modelValue" 
-        class="w-full rounded-lg border-2 p-2 dark:bg-coffee"
-        :class="{'bg-danger-100 border-danger-200 dark:border-danger-400': props.modelValue.length> max}">   
-        <span @click="onClick">●</span>
+        <div class="flex">
+            <input  :type="inputType"
+            v-model="modelValue" 
+            class="w-full rounded-lg border-2 p-2 dark:bg-coffee"
+            :class="{'bg-danger-100 border-danger-200 dark:border-danger-400': props.modelValue.length> max}">   
+            <div @click="onClick" class="my-2 ml-1">
+                
+                    <font-awesome-icon  
+                    v-if="iconType==='eye'" 
+                    :icon="['fas', 'eye']"/>
+                    <font-awesome-icon  
+                    v-else 
+                    :icon="['fas', 'eye-slash']"/>
+
+                
+                
+            </div>
+        </div>
         <div v-if="max.length !== ''" 
         class="text-right flex justify-between"
         :class="{'text-danger-700 dark:text-danger-400': props.modelValue.length> max}"
@@ -38,16 +51,14 @@ const modelValue = computed({
     set:(value)=> emits('update:modelValue',value)
 })
 
-//クリック判定
-const isClicked = ref<boolean>(true)
+
+const isClicked = ref<boolean>(false)
 const inputType = ref<string>("password")
+const iconType = ref<string>("eye")
+//クリック判定
 const onClick = () =>{
     isClicked.value = !isClicked.value
     inputType.value = isClicked.value? "input" : "password";
+    iconType.value = isClicked.value? "eye-slash" : "eye"
 }
-
-
-// const iconType = isClicked? "eye-slash" : "eye"
-
-
 </script>
