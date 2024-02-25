@@ -3,8 +3,9 @@
         <div class ="flex justify-between bg-cream mx-2" >
         <div><AppH1>hello plants</AppH1></div>
         <div v-if="loginFlg==1">
-            <ButtonSecondary @click="logout">ログアウト</ButtonSecondary>
-            <ButtonSecondary>ユーザー情報編集</ButtonSecondary>
+            <ButtonSecondary :on-click="login">ログイン</ButtonSecondary>
+            <ButtonSecondary :on-click="logout">ログアウト</ButtonSecondary>
+            <ButtonSecondary :on-click="singup">ユーザー登録</ButtonSecondary>
                     
         </div>
         <div v-else>            
@@ -22,6 +23,12 @@
  const loginFlg = ref<Number>(1)
 
  const logout = () => {
+    navigateTo(`/`);
+  }
+  const login = () => {
+    navigateTo(`/login`);
+  }
+  const singup = () => {
     navigateTo(`/singup`);
   }
 </script>

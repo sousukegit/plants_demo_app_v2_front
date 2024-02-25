@@ -38,8 +38,4 @@ const goBack = () =>{
 //現在のページがトップページなら表示する
 //v-if判定するための変数を用意
 const isNotTopPage = useRoute().path !== "/";
-console.log(isNotTopPage)
-
-
-
 </script>

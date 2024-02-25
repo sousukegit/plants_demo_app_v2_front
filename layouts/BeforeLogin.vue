@@ -10,7 +10,7 @@
    </div>
 </template>
 <script setup lang="ts">
-  const logout = () => {
+ const logout = () => {
     navigateTo(`/`);
   }
 </script>

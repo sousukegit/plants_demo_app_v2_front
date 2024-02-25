@@ -1,5 +1,5 @@
 <template>
-  <NuxtLayout>
+
     <TheContainer>
       <AppH1>aaa</AppH1>
       <div>
@@ -7,8 +7,6 @@
         class= "bg-main-100"
         @click="getHello()">API</button>
       </div>
-
-
       <table v-if="users.length">
         <thead>
           <tr>
@@ -35,7 +33,7 @@
         ユーザーが取得できませんでした
       </div>    
     </TheContainer>
-  </NuxtLayout>
+  
 
   </template>
   
