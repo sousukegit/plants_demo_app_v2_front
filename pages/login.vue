@@ -12,13 +12,16 @@
         <div class="mx-auto my-2">
             <ButtonPrimary :on-click="submit" >ログイン</ButtonPrimary>        
         </div>
-        <div>{{ userData }}</div>            
+        <div>{{ userData }}</div> 
+        <br> <button @click="auth.namechange()">log</button>          
     </TheContainer>
 </template>
 
 <script setup lang="ts">
 
+import { useAuthStore } from '~~/stores/auth';
 import { type User } from "~~/types/entities";
+const auth = useAuthStore();
 
 //環境変数を取得
 const config = useRuntimeConfig()
@@ -48,8 +51,7 @@ const submit = async() =>{
                 headers:{
                     'X-Requested-With': 'XMLHttpRequest',
                     
-                },
-                
+                },                
             }
         ).then(response =>{
             authSuccessful(response)
@@ -60,14 +62,17 @@ const submit = async() =>{
 
 const authSuccessful = (response) =>{
     console.log('authSuccessful',response)
+    auth.setAuth(response.token,response.expires,response.user)
+
     // ①ログイン処理
     //　②記憶ルートにリダイレクト
+
 }
 const authFailure = (response) => {
     if(response && response.status === 404){
         //トースタ出力
+        console.log("ログイン失敗")
     }
-
     //エラー処理
     console.log('authFailure',response)
 }

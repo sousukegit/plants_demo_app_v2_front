@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     strict:true,
   },
   css: ['@fortawesome/fontawesome-svg-core/styles.css'],
-  modules:["@nuxtjs/tailwindcss"],
+  modules:["@nuxtjs/tailwindcss",'@pinia/nuxt'],
   plugins: [
     '@/plugins/fontawesome.ts'
   ]

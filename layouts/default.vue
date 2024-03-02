@@ -6,7 +6,7 @@
             <ButtonSecondary :on-click="login">ログイン</ButtonSecondary>
             <ButtonSecondary :on-click="logout">ログアウト</ButtonSecondary>
             <ButtonSecondary :on-click="singup">ユーザー登録</ButtonSecondary>
-                    
+            <ButtonSecondary :on-click="piniatest">pinia_test</ButtonSecondary>
         </div>
         <div v-else>            
             <button>ログイン</button>
@@ -30,5 +30,8 @@
   }
   const singup = () => {
     navigateTo(`/singup`);
+  }
+  const piniatest = () => {
+    navigateTo(`/pinia_test`);
   }
 </script>

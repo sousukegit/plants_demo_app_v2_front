@@ -7,3 +7,5 @@ npm cache clean --force
 exit
 npm cache clean --force
 exit
+npm cache clean --force  
+exit
