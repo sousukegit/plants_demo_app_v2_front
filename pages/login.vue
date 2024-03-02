@@ -18,21 +18,58 @@
 
 <script setup lang="ts">
 
-import type { NuxtLink } from "#build/components";
 import { type User } from "~~/types/entities";
 
-const User = reactive<User>({
-name:"",
-email:"",
-password:""
+//環境変数を取得
+const config = useRuntimeConfig()
+
+interface login{
+    email:String|null,
+    password:String|null,
+}
+
+const User = reactive<login>({
+email:"user0@example.com",
+password:"password"
 })
 
 const userData = reactive({
-  user:User
+  auth:User
 })
-const submit = () =>{
-console.log(userData)
 
+const submit = async() =>{
+        const response = await $fetch(
+            config.public.apiOrigin+'/api/v1/auth_token',
+            {
+                method:"POST",
+                body:JSON.stringify({
+                    auth: User,
+                    }),                             
+                headers:{
+                    'X-Requested-With': 'XMLHttpRequest',
+                    
+                },
+                
+            }
+        ).then(response =>{
+            authSuccessful(response)
+        }).catch(error=>{
+            authFailure(error)
+        })    
+    }
+
+const authSuccessful = (response) =>{
+    console.log('authSuccessful',response)
+    // ①ログイン処理
+    //　②記憶ルートにリダイレクト
+}
+const authFailure = (response) => {
+    if(response && response.status === 404){
+        //トースタ出力
+    }
+
+    //エラー処理
+    console.log('authFailure',response)
 }
 
 
