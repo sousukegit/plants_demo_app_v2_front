@@ -9,3 +9,6 @@ npm cache clean --force
 exit
 npm cache clean --force  
 exit
+npm i jwt-decode
+npm cache clean --force  
+exit

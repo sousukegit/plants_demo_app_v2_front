@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia'
+import {jwtDecode} from 'jwt-decode'
 
 /** counterストア */
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     count:1,
     user: {
-        current: 'sousuke'
+        current: 'unknown'
       },
     auth: {
       token: null,
@@ -25,6 +26,7 @@ export const useAuthStore = defineStore('auth', {
 namechange()  {
   console.log(this.auth.token)
   console.log(this.auth.expires)
+  console.log(this.auth.payload)
   console.log(this.user.current)
   // this.user.current+"manabe";
 },
@@ -35,11 +37,11 @@ changename(name){
 
 
 
-    setAuth (token, expires, user) {
-       this.auth.token = token 
-       this.auth.expires = expires * 1000
-       this.user.current = user
-        // const jwtPayload = (token) ? jwtDecode(token) : {}
+    setAuth (token, expires, user ) {
+       this.auth.token = (token) ? token : null 
+       this.auth.expires = (expires)? expires * 1000 : 0
+       this.auth.payload = (token) ? jwtDecode(token) : {}
+       this.user.current = (user)? user : "unknown"
     }
 
   },
