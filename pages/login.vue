@@ -53,8 +53,7 @@ const submit = async() =>{
                     auth: User,
                     }),                             
                 headers:{
-                    'X-Requested-With': 'XMLHttpRequest',
-                    
+                    'X-Requested-With': 'XMLHttpRequest',                                       
                 },                
             }
         ).then(response =>{
@@ -66,10 +65,13 @@ const submit = async() =>{
 
 const authSuccessful = (response) =>{
     console.log('authSuccessful',response)
-    auth.setAuth(response.token,response.expires,response.user)
-
     // ①ログイン処理
+    //ユーザー情報をストアへ
+    auth.setAuth(response.token,response.expires,response.user)
+    
+
     //　②記憶ルートにリダイレクト
+    navigateTo('/main')
 
 }
 const authFailure = (response) => {

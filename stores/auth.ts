@@ -30,12 +30,6 @@ namechange()  {
   console.log(this.user.current)
   // this.user.current+"manabe";
 },
-changename(name){
-  this.user.current = name
-  console.log(this.user.current)
-},
-
-
 
     setAuth (token, expires, user ) {
        this.auth.token = (token) ? token : null 
