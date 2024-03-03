@@ -20,12 +20,40 @@
     </div>
 </template>
 <script setup lang="ts">
- const loginFlg = ref<Number>(1)
+ import { useAuthStore } from '~~/stores/auth';
+ const loginFlg = ref<Number>(1) 
+ const auth = useAuthStore();
+ const config = useRuntimeConfig()
+ async function tokenDelete(){
+  try {
+    console.log(auth.auth.token)
+      //先にユーザーを用意
+  const { res } = await $fetch(config.public.apiOrigin+'/api/v1/auth_token',
+          {       
+          method:"DELETE",
+          headers:{
+          'X-Requested-With': 'XMLHttpRequest', 
+          'Authorization': `Bearer ${auth.auth.token}`
+          }  
+       }                    
+      )
+      .then(res=>{
+          console.log(res)          
+      })                
+  }
+   catch (error) {      
+    console.log(error)     
+  }
+}
 
  const logout = () => {
+    tokenDelete()
     navigateTo(`/`);
   }
   const login = () => {
+
+    
+
     navigateTo(`/login`);
   }
   const singup = () => {

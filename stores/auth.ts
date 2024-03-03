@@ -36,7 +36,11 @@ namechange()  {
        this.auth.expires = (expires)? expires * 1000 : 0
        this.auth.payload = (token) ? jwtDecode(token) : {}
        this.user.current = (user)? user : "unknown"
+    },
+    resetPinia(){
+      this.setAuth(null, 0, null)
     }
+   
 
   },
 })

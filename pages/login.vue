@@ -13,18 +13,15 @@
             <ButtonPrimary :on-click="submit" >ログイン</ButtonPrimary>        
         </div>
         <div>{{ userData }}</div> 
-        <div>{{ user.cuurent }}</div> 
-        <br> <button @click="auth.namechange()">log</button>          
+             <br> <button @click="auth.namechange()">log</button>          
     </TheContainer>
 </template>
 
 <script setup lang="ts">
-
-import { useAuthStore } from '~~/stores/auth';
-import { storeToRefs } from 'pinia';
 import { type User } from "~~/types/entities";
+import { useAuthStore } from '~~/stores/auth';
 const auth = useAuthStore();
-const { user } = storeToRefs(auth);
+
 
 
 //環境変数を取得
