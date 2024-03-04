@@ -31,6 +31,7 @@
   const { res } = await $fetch(config.public.apiOrigin+'/api/v1/auth_token',
           {       
           method:"DELETE",
+          credentials: 'include',
           headers:{
           'X-Requested-With': 'XMLHttpRequest', 
           'Authorization': `Bearer ${auth.auth.token}`

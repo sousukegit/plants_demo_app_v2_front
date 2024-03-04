@@ -46,11 +46,12 @@ const submit = async() =>{
             config.public.apiOrigin+'/api/v1/auth_token',
             {
                 method:"POST",
+                credentials: 'include', 
                 body:JSON.stringify({
                     auth: User,
                     }),                             
                 headers:{
-                    'X-Requested-With': 'XMLHttpRequest',                                       
+                    'X-Requested-With': 'XMLHttpRequest',                                                      
                 },                
             }
         ).then(response =>{
