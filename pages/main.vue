@@ -1,38 +1,38 @@
 <template>
     <div>ようこそ{{ userName }}さん</div>
+    <!-- <div>ようこそ{{ userEmail }}さん</div> -->
+    <ButtonSecondary @click="log()">log</ButtonSecondary>
+
     
 </template>
 <script setup lang="ts">
   import { useAuthStore } from '~~/stores/auth';
-  definePageMeta({
-    middleware: ['user']
-  })
+  import { useUserStore } from '~~/stores/user';
+  // definePageMeta({
+  //   middleware: ['user']
+  // })
   const auth = useAuthStore();
+  const user = useUserStore();
   const userName = ref<string>("unknown")
-  userName.value = auth.user.current.name
-
-
-  const config = useRuntimeConfig()    
+  const userEmail = ref<string>("unknown")
+  userEmail.value = user.user.email
+  userName.value = auth.user.name
+ 
    
     console.log('middlewara/user')
     console.log(auth.auth.token)
+  const log = () => {
+    console.log(userEmail.value)
+    alert("log")
+  }
 
-    // async function getHello(){
-    //     try {
-    //         //先にユーザーを用意
-    //     const { data } = await $fetch(config.public.apiOrigin+'/api/v1/users',{
-    //         headers:{
-    //             'X-Requested-With': 'XMLHttpRequest', 
-    //             'Authorization': `Bearer ${auth.token}`
-    //             }  
-    //          }                    
-    //         )
-    //         console.log(data)            
-    //     } catch (error) {
-            
-    //     }
-        
-    // } 
-    // await getHello()
+  // onMounted(() => {
+    
+  //   if(auth.auth.token == null ||auth.auth.token == "" ){   
+  //     alert("アクセス権限がないのでログアウトします") 
+  //     navigateTo("/login")
+  // }
+  // })
+ 
 
 </script>

@@ -20,6 +20,8 @@ export default defineNuxtConfig({
   css: ['@fortawesome/fontawesome-svg-core/styles.css'],
   modules:["@nuxtjs/tailwindcss",'@pinia/nuxt'],
   plugins: [
-    '@/plugins/fontawesome.ts'
+    '@/plugins/fontawesome.ts',
+    '@/plugins/history-state.ts',
+    '@/plugins/refreshTokenInit.server.ts'
   ]
 })

@@ -40,8 +40,8 @@
   <script setup lang="ts">
   //環境変数を取得
   const config = useRuntimeConfig()
-
-
+  // const post = usePost()
+  // console.log(post)
   const users = ref<string[]>("")
   async function getHello(){
     //先にユーザーを用意

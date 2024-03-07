@@ -65,8 +65,7 @@ const authSuccessful = (response) =>{
     console.log('authSuccessful',response)
     // ①ログイン処理
     //ユーザー情報をストアへ
-    auth.setAuth(response.token,response.expires,response.user)
-    
+    auth.setAuth(response)    
 
     //　②記憶ルートにリダイレクト
     navigateTo('/main')
