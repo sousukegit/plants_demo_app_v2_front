@@ -16,3 +16,9 @@ npm install vue-history-state
 exit
 npm cache clean --force  
 exit
+npm i pinia-plugin-persistedstate
+npm cache clean --force  
+exit
+npm i -D @pinia-plugin-persistedstate/nuxt
+npm cache clean --force  
+exit

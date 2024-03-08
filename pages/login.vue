@@ -9,11 +9,11 @@
             <NuxtLink class="text-sm text-accent-600 underline" to="#">パスワードを忘れた？</NuxtLink>
         </div>        
             <InputPassword v-model="User.password" :max="8"></InputPassword> 
-        <div class="mx-auto my-2">
-            <ButtonPrimary :on-click="submit" >ログイン</ButtonPrimary>        
+        <div class="mx-auto my-2"> 
+            <ButtonPrimary :on-click="loginFunc" >ログイン</ButtonPrimary>      
         </div>
         <div>{{ userData }}</div> 
-             <br> <button @click="auth.namechange()">log</button>          
+        
     </TheContainer>
 </template>
 
@@ -41,26 +41,21 @@ const userData = reactive({
   auth:User
 })
 
-const submit = async() =>{
-        const response = await $fetch(
-            config.public.apiOrigin+'/api/v1/auth_token',
-            {
-                method:"POST",
-                credentials: 'include', 
-                body:JSON.stringify({
-                    auth: User,
-                    }),                             
-                headers:{
-                    'X-Requested-With': 'XMLHttpRequest',                                                      
-                },                
-            }
-        ).then(response =>{
-            authSuccessful(response)
-        }).catch(error=>{
-            authFailure(error)
-        })    
-    }
-
+const login = async() => {
+    try {
+    const response = await useApi('/api/v1/auth_token',userData);
+    // 成功時の処理
+    authSuccessful(response)
+    } catch (error) {
+        // エラー時の処理
+    console.error(error);
+    authFailure(error)
+    }  
+}
+async function loginFunc(){
+   await login()
+}
+      
 const authSuccessful = (response) =>{
     console.log('authSuccessful',response)
     // ①ログイン処理

@@ -1,20 +1,18 @@
-export const usePost = (endpoint, data) => {
-    //環境変数を取得
-    const config = useRuntimeConfig()
-    const submit = async() =>{
-        const response = await $fetch(
-            config.public.apiOrigin+endpoint,
-            {
-                method:"POST",
-                credentials: 'include', 
-                body:JSON.stringify({
-                    data
-                    }),                             
-                headers:{
-                    'X-Requested-With': 'XMLHttpRequest',                                                      
-                },                
-            }
-        )
-    }
-    return submit
-  }
+export const useApi = async <T>(url: string, requestBody?: T, customHeaders?: Record<string, string>) => {
+    const config = useRuntimeConfig();
+
+    const headers: Record<string, string> = {
+        'X-Requested-With': 'XMLHttpRequest',
+        ...(customHeaders || {}),
+    };
+
+    return await $fetch(
+        config.public.apiOrigin + `${url}`,
+        {
+            method: "POST",
+            credentials: 'include',
+            body: requestBody? JSON.stringify(requestBody) : undefined,
+            headers,
+        }
+    );
+};
