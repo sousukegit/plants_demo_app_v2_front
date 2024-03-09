@@ -25,7 +25,7 @@ export default defineNuxtConfig({
         ],
   plugins: [
     '@/plugins/fontawesome.ts',
-    '@/plugins/refreshTokenInit.ts',
+    '@/plugins/refreshTokenInit.client.ts',
 
   ]
 })

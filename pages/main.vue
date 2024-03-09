@@ -1,5 +1,6 @@
 <template>
-    <div>ようこそ{{ userName }}さん</div>
+  <div>ようこそ<ClientOnly>{{ userName }}</ClientOnly>さん</div>
+    
     <!-- <div>ようこそ{{ userEmail }}さん</div> -->
     <ButtonSecondary @click="log()">log</ButtonSecondary>
 
@@ -9,7 +10,7 @@
   import { useAuthStore } from '~~/stores/auth';
   import { useUserStore } from '~~/stores/user';
   // definePageMeta({
-  //   middleware: ['user']
+  //   middleware: ['redirectNotUser']
   // })
   const auth = useAuthStore();
   const user = useUserStore();

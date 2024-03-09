@@ -6,7 +6,7 @@
         
         <div class="flex justify-between">
             <label>パスワード</label>
-            <NuxtLink class="text-sm text-accent-600 underline" to="#">パスワードを忘れた？</NuxtLink>
+            <NuxtLink class="text-sm text-accent-600 underline dark:text-cream" to="#">パスワードを忘れた？</NuxtLink>
         </div>        
             <InputPassword v-model="User.password" :max="8"></InputPassword> 
         <div class="mx-auto my-2"> 
@@ -43,7 +43,7 @@ const userData = reactive({
 
 const login = async() => {
     try {
-    const response = await useApi('/api/v1/auth_token',userData);
+    const response = await usePost('/api/v1/auth_token',userData);
     // 成功時の処理
     authSuccessful(response)
     } catch (error) {

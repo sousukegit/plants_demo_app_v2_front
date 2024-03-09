@@ -11,10 +11,10 @@
                 <inputText v-model="User.email" :max="60" ></inputText> 
             </label>
             <label>パスワード
-                <InputPassword v-model="User.password" :max="8"></InputPassword> 
+                <InputPassword v-model="User.password" :min="8"></InputPassword> 
             </label>
-            <ButtonPrimary :on-click="submit" >登録する</ButtonPrimary>
-            
+            <ButtonPrimary :on-click="signupFunc" >登録する</ButtonPrimary>
+            <div>{{userData}}</div>
         </TheContainer>
     
 
@@ -29,21 +29,25 @@ const User = reactive<User>({
     email:"",
     password:""
 })
-// definePageMeta({
-//     layout:"BeforeLogin",
-// });
-
-
-
-
-
 const userData = reactive<T>({
     user:User
 })
-const submit = () =>{
-    console.log(userData)
 
+const signup = async() => {
+    try {
+    const response = await usePost('/api/v1/users',userData);
+    // 成功時の処理
+    console.log(response)
+    } catch (error) {
+        // エラー時の処理
+    console.error(error);
+    }  
 }
+async function signupFunc(){
+    await signup()
+}
+
+
 
 
 </script>

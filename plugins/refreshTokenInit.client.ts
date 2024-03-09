@@ -1,7 +1,8 @@
 import { useAuthStore } from '~~/stores/auth';
 
 //リロード時や初期アクセス時にリフレッシュトークンを持っていたらログイン状態にする
-export default defineNuxtPlugin( () =>{
+//セッション情報が改ざんされた場合、Rails側でセッション情報はさくじょ
+export default defineNuxtPlugin( async () =>{
     console.log("plugins refreshTokenInit")
     const config = useRuntimeConfig()
     const auth = useAuthStore(); 
@@ -21,7 +22,7 @@ export default defineNuxtPlugin( () =>{
             auth.setAuth(response)
             console.log(response)
           }).catch(error=>{
-              console.log(error)
+             
           })    
     }    
 
@@ -29,7 +30,7 @@ export default defineNuxtPlugin( () =>{
         const response = await refresh()
     }
 
-    // initFunc()
+    await initFunc()
      
 })
     
