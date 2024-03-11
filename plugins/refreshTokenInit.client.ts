@@ -21,6 +21,8 @@ export default defineNuxtPlugin( async () =>{
           ).then(response =>{
             auth.setAuth(response)
             console.log(response)
+            //ログイン状態であればログイントップにリダイレクト
+            navigateTo('/main')
           }).catch(error=>{
              
           })    

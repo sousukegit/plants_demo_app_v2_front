@@ -2,7 +2,7 @@
     <header>
         <div class ="flex justify-between bg-cream mx-2" >
         <div><AppH1>hello plants</AppH1></div>
-        <div v-if="loginFlg">
+        <div v-if=auth.loggedIn>
         <ClientOnly>
           <ButtonSecondary :on-click="logout">ログアウト</ButtonSecondary>        
         </ClientOnly>    
@@ -13,7 +13,7 @@
             <ButtonSecondary :on-click="login">ログイン</ButtonSecondary>
             <ButtonSecondary :on-click="singup">ユーザー登録</ButtonSecondary>  
           </ClientOnly> 
-        </div>      
+        </div>  
     </div>
     </header>
    
@@ -22,11 +22,14 @@
     </div>
 </template>
 <script setup lang="ts">
-
+import { storeToRefs } from 'pinia'
 import { useAuthStore } from '~~/stores/auth';
  const loginFlg = ref<boolean>(false) 
  const auth = useAuthStore();
  const config = useRuntimeConfig()
+
+
+
  if(auth.loggedIn){
     loginFlg.value = true
  }
@@ -54,10 +57,11 @@ import { useAuthStore } from '~~/stores/auth';
   }
 }
 
- const logout = () => {
+ const logout = () => {    
     tokenDelete()
+    auth.resetPinia()
+    alert("ログアウトしました")
     navigateTo(`/`)
-    loginFlg.value = false
   }
   const login = () => {
 

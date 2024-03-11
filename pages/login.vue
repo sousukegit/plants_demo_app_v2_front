@@ -8,7 +8,7 @@
             <label>パスワード</label>
             <NuxtLink class="text-sm text-accent-600 underline dark:text-cream" to="#">パスワードを忘れた？</NuxtLink>
         </div>        
-            <InputPassword v-model="User.password" :max="8"></InputPassword> 
+            <InputPassword v-model="User.password" :min="8"></InputPassword> 
         <div class="mx-auto my-2"> 
             <ButtonPrimary :on-click="loginFunc" >ログイン</ButtonPrimary>      
         </div>
