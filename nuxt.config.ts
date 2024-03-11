@@ -18,8 +18,14 @@ export default defineNuxtConfig({
     strict:true,
   },
   css: ['@fortawesome/fontawesome-svg-core/styles.css'],
-  modules:["@nuxtjs/tailwindcss"],
+  modules:["@nuxtjs/tailwindcss",
+          '@pinia/nuxt',
+          '@pinia-plugin-persistedstate/nuxt'
+          
+        ],
   plugins: [
-    '@/plugins/fontawesome.ts'
+    '@/plugins/fontawesome.ts',
+    '@/plugins/refreshTokenInit.client.ts',
+
   ]
 })

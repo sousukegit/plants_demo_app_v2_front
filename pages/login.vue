@@ -6,33 +6,73 @@
         
         <div class="flex justify-between">
             <label>パスワード</label>
-            <NuxtLink class="text-sm text-accent-600 underline" to="#">パスワードを忘れた？</NuxtLink>
+            <NuxtLink class="text-sm text-accent-600 underline dark:text-cream" to="#">パスワードを忘れた？</NuxtLink>
         </div>        
-            <InputPassword v-model="User.password" :max="8"></InputPassword> 
-        <div class="mx-auto my-2">
-            <ButtonPrimary :on-click="submit" >ログイン</ButtonPrimary>        
+            <InputPassword v-model="User.password" :min="8"></InputPassword> 
+        <div class="mx-auto my-2"> 
+            <ButtonPrimary :on-click="loginFunc" >ログイン</ButtonPrimary>      
         </div>
-        <div>{{ userData }}</div>            
+        <div>{{ userData }}</div> 
+        
     </TheContainer>
 </template>
 
 <script setup lang="ts">
-
-import type { NuxtLink } from "#build/components";
 import { type User } from "~~/types/entities";
+import { useAuthStore } from '~~/stores/auth';
+const auth = useAuthStore();
 
-const User = reactive<User>({
-name:"",
-email:"",
-password:""
+
+
+//環境変数を取得
+const config = useRuntimeConfig()
+
+interface login{
+    email:String|null,
+    password:String|null,
+}
+
+const User = reactive<login>({
+email:"user0@example.com",
+password:"password"
 })
 
 const userData = reactive({
-  user:User
+  auth:User
 })
-const submit = () =>{
-console.log(userData)
 
+const login = async() => {
+    try {
+    const response = await usePost('/api/v1/auth_token',userData);
+    // 成功時の処理
+    authSuccessful(response)
+    } catch (error) {
+        // エラー時の処理
+    console.error(error);
+    authFailure(error)
+    }  
+}
+async function loginFunc(){
+   await login()
+}
+      
+const authSuccessful = (response) =>{
+    console.log('authSuccessful',response)
+    // ①ログイン処理
+    //ユーザー情報をストアへ
+    auth.setAuth(response)    
+
+    //　②記憶ルートにリダイレクト
+    navigateTo('/main')
+
+}
+const authFailure = (response) => {
+    if(response && response.status === 404){
+        //トースタ出力
+        console.log("ログイン失敗")
+    }
+    //エラー処理
+    console.log('authFailure',response)
 }
 
 
