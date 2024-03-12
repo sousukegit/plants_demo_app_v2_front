@@ -38,6 +38,7 @@ const signup = async() => {
     const response = await usePost('/api/v1/users',userData);
     // 成功時の処理
     console.log(response)
+    navigateTo("/signupAfter")
     } catch (error) {
         // エラー時の処理
     console.error(error);
