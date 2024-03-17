@@ -63,7 +63,7 @@ const user_id = ref<Number>(auth.user.id);
 price_point.value = 5
 mania_point.value = 5
 health_point.value = 5
-comment.value = `${auth.user.name}は最高と感じました（テスト）`
+comment.value = `${auth.user.name}は最高と感じました（テスト）`  
 
 //オブジェクトにする
 const reviewData = reactive({
