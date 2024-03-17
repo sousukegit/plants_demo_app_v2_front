@@ -33,8 +33,8 @@ interface login{
 }
 
 const User = reactive<login>({
-email:"user0@example.com",
-password:"password"
+    email:"user0@example.com",
+    password:"password"
 })
 
 const userData = reactive({

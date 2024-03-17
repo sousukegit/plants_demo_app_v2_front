@@ -72,7 +72,5 @@ import { useAuthStore } from '~~/stores/auth';
   const singup = () => {
     navigateTo(`/signup`);
   }
-  const piniatest = () => {
-    navigateTo(`/pinia_test`);
-  }
+
 </script>
