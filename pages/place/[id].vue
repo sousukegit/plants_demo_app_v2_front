@@ -4,7 +4,7 @@
 <div v-if="place">
     <div>{{ place.name }}</div>
 </div>
-
+<!-- 口コミの詳細と、口コミを書く画面に遷移するようにする -->
 <!-- タブで口コミ一覧と情報を切りわけ -->
 <ButtonSecondary :on-click="reviewFunc">レビュー送信</ButtonSecondary>
 </TheContainer>
