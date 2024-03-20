@@ -4,7 +4,7 @@
       <div class ="flex justify-between bg-cream dark:bg-coffee dark:border-b-2 dark:border-cream dark:text-cream" id="hamberger" >
         <div  class="mx-2" >
           <!-- 戻る -->
-          <font-awesome-icon  @click="back" :icon="['fas', 'chevron-left']" class="mt-6 text-2xl mr-2"/>
+          <font-awesome-icon  @click="$router.go(-1)" :icon="['fas', 'chevron-left']" class="mt-6 text-2xl mr-2"/>
           <!-- ハンバーガー -->
           <font-awesome-icon @click="showModal" class="mt-5 text-2xl" :icon="['fas', 'bars']" /> 
           <!-- navをモーダルウィンドウで表示 -->
@@ -65,7 +65,7 @@ import { useAuthStore } from '~~/stores/auth';
  const loginFlg = ref<boolean>(false) 
  const auth = useAuthStore();
  const config = useRuntimeConfig()
- const route = useRoute()
+ const router = useRouter()
 
 
 
