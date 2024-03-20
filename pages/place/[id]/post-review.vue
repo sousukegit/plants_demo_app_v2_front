@@ -4,14 +4,37 @@
         <WhiteContainer>
             <AppH2>{{ place.name }}のレビュー</AppH2>
             <AppH3>総合満足度</AppH3>
-            <!-- 　TODO　星評価 -->
+            <NuxtRating
+            :read-only="false"
+            :rating-count="5.0"
+            :rating-size="'32px'"
+            :rating-value="4"
+            @rating-selected="setRating" />
             <AppH3>植物部門別</AppH3>
                 <div>管理状態</div>
-                <!-- 　TODO　星評価 -->
+                <NuxtRating
+                :read-only="false"
+                :rating-count="5.0"
+                :rating-size="'28px'"
+                :rating-value="4"
+                rating-content="🌱"
+                @rating-selected="setHealthPoint" />
                 <div>価格帯</div>
-                <!-- 　TODO　星評価 -->
+                <NuxtRating
+                :read-only="false"
+                :rating-count="5.0"
+                :rating-size="'28px'"
+                :rating-value="4"
+                rating-content="🌱"
+                @rating-selected="setPricePoint" />
                 <div>マニア度</div>
-                <!-- 　TODO　星評価 -->
+                <NuxtRating
+                :read-only="false"
+                :rating-count="5.0"
+                :rating-size="'28px'"
+                :rating-value="4"
+                rating-content="🌱"
+                @rating-selected="setManiaPoint" />
             <AppH3>店舗にいた種類</AppH3>
             <!-- 　TODO　ハッシュタグをつける -->
 
@@ -71,10 +94,20 @@ import { useAuthStore } from '~~/stores/auth';
   const health_point = ref<Number>(null);
   const user_id = ref<Number>(auth.user.id);
   
-  //testデータ
-  price_point.value = 5
-  mania_point.value = 5
-  health_point.value = 5
+  //データをセット
+  const setRating = (event: number) =>{
+    console.log(event);
+  }
+  const setHealthPoint = (event: number) =>{
+    mania_point.value = event
+  }
+  const setPricePoint= (event: number) =>{
+    price_point.value = event
+  }
+  const setManiaPoint= (event: number) =>{
+    mania_point.value = event
+  }
+
   comment.value = `${auth.user.name}は最高と感じました（テスト）`  
   
   //オブジェクトにする
@@ -105,4 +138,5 @@ import { useAuthStore } from '~~/stores/auth';
     await review()
   }
   
+
 </script>
