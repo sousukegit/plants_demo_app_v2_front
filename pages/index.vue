@@ -1,6 +1,6 @@
 <template>
 <!-- ここは簡単なランディングページにしたい -->
-    <TheContainer>
+
       <AppH1>aaa</AppH1>
       <div>
         <button
@@ -32,7 +32,7 @@
       <div v-else>
         ユーザーが取得できませんでした
       </div>    
-    </TheContainer>
+
   
 
   </template>

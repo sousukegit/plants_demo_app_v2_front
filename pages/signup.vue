@@ -1,7 +1,6 @@
-<template>    
-
-    
-        <TheContainer> 
+<template> 
+    <TheContainer> 
+        <WhiteContainer>
             <AppH2>アカウント作成</AppH2>
             <label>ニックネーム
                 <inputText v-model="User.name" :max="30"></inputText> 
@@ -14,10 +13,8 @@
                 <InputPassword v-model="User.password" :min="8"></InputPassword> 
             </label>
             <ButtonPrimary :on-click="signupFunc" >登録する</ButtonPrimary>
-            <div>{{userData}}</div>
-        </TheContainer>
-    
-
+        </WhiteContainer>           
+    </TheContainer>
 </template>
 
 <script setup lang="ts">
