@@ -5,37 +5,45 @@
             <AppH2>{{ place.name }}のレビュー</AppH2>
             <AppH3>総合満足度</AppH3>
             <!-- todo railsにカラム追加 -->
-            <NuxtRating
-            :read-only="false"
-            :rating-count="5.0"
-            :rating-size="'32px'"
-            :rating-value="4"
-            @rating-selected="setRating" />
-            <AppH3>植物部門別</AppH3>
-                <div>管理状態</div>
+            <div class="ml-0 w-40">
                 <NuxtRating
                 :read-only="false"
                 :rating-count="5.0"
-                :rating-size="'28px'"
+                :rating-size="'32px'"
+                :rating-value="4"
+                @rating-selected="setRating" />
+            </div>            
+            <AppH3>植物部門別</AppH3>
+            <div>管理状態</div>
+            <div class="ml-0 w-40">
+                <NuxtRating
+                :read-only="false"
+                :rating-count="5.0"
+                :rating-size="'24px'"
                 :rating-value="4"
                 rating-content="🌱"
                 @rating-selected="setHealthPoint" />
-                <div>価格帯</div>
+            </div>                
+            <div>価格帯</div>
+            <div class="ml-0 w-40">
                 <NuxtRating
                 :read-only="false"
                 :rating-count="5.0"
-                :rating-size="'28px'"
+                :rating-size="'24px'"
                 :rating-value="4"
                 rating-content="🌱"
                 @rating-selected="setPricePoint" />
-                <div>マニア度</div>
+            </div>            
+            <div>マニア度</div>
+            <div class="ml-0 w-40">
                 <NuxtRating
                 :read-only="false"
                 :rating-count="5.0"
-                :rating-size="'28px'"
+                :rating-size="'24px'"
                 :rating-value="4"
                 rating-content="🌱"
                 @rating-selected="setManiaPoint" />
+            </div>            
             <AppH3>店舗にいた種類</AppH3>
             <!-- 　TODO　ハッシュタグをつける -->
 
@@ -45,6 +53,7 @@
                 <inputTextarea v-model="comment"></inputTextarea>
             <ButtonPrimary :on-click="reviewFunc">レビューを送信する</ButtonPrimary>
         </WhiteContainer>
+        <div>{{ reviewData }}</div>
      </TheContainer>
   
 </template>
@@ -90,14 +99,15 @@ import { useAuthStore } from '~~/stores/auth';
   const place_id = ref<Number>(placeID);
   const google_place_id = ref<String>("");
   const comment = ref<String>("");
-  const price_point = ref<Number>(null);
-  const mania_point = ref<Number>(null);
-  const health_point = ref<Number>(null);
+  const rating = ref<Number>(4);
+  const price_point = ref<Number>(4);
+  const mania_point = ref<Number>(4);
+  const health_point = ref<Number>(4);
   const user_id = ref<Number>(auth.user.id);
   
   //データをセット
   const setRating = (event: number) =>{
-    console.log(event);
+    rating.value = event
   }
   const setHealthPoint = (event: number) =>{
     mania_point.value = event
@@ -109,25 +119,29 @@ import { useAuthStore } from '~~/stores/auth';
     mania_point.value = event
   }
 
-  comment.value = `${auth.user.name}は最高と感じました（テスト）`  
+  comment.value = `${auth.user.name}は最高と感じました（テスト）` 
+  
+  const reviewData = reactive({
+    place_id: place_id,
+    google_place_id: google_place_id,
+    comment: comment,
+    rating: rating,
+    price_point: price_point,
+    mania_point: mania_point,
+    health_point: health_point,
+    user_id: user_id
+});
   
   //オブジェクトにする
-  const reviewData = reactive({
-    review:{
-      place_id: place_id.value,
-      google_place_id: google_place_id,
-      comment: comment.value,
-      price_point: price_point.value,
-      mania_point: mania_point.value,
-      health_point: health_point.value,
-      user_id: user_id.value
-    }
+  const reviewSend = reactive({
+    review:reviewData
   })
   
   
   const review = async() => {
     try {
-    const response = await usePost('/api/v1/reviews',reviewData);
+    console.log(reviewData)
+    const response = await usePost('/api/v1/reviews',reviewSend);
     // 成功時の処理
     console.log(response)
     } catch (error) {
