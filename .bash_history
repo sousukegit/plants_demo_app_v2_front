@@ -22,3 +22,7 @@ exit
 npm i -D @pinia-plugin-persistedstate/nuxt
 npm cache clean --force  
 exit
+exit
+npm install nuxt-rating
+npm cache clean --force  
+exit
