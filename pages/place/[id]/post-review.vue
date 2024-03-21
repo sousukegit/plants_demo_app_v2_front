@@ -4,6 +4,7 @@
         <WhiteContainer>
             <AppH2>{{ place.name }}のレビュー</AppH2>
             <AppH3>総合満足度</AppH3>
+            <!-- todo railsにカラム追加 -->
             <NuxtRating
             :read-only="false"
             :rating-count="5.0"
