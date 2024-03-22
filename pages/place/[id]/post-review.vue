@@ -48,12 +48,33 @@
             <!-- 　TODO　ハッシュタグをつける -->
 
             <AppH3>写真</AppH3>
-              <!-- 　TODO　アップロード機能 -->
+             <!-- 　TODO　アップロード機能 -->
+            <section>
+              <label for="image">image: 
+                <!-- MEMO @change 画像がアップロードされると発火する -->
+              <input 
+                type="file" 
+                id="image" 
+                name="" 
+                accept=" .png, .jpg, .jpeg" 
+                @change="handleImageUploaded"  
+                />
+              </label>
+            </section>
+            <section>
+              <button type="submit" @click="upload" >upload</button>
+            </section>
+             
+
+              <!-- <img
+            v-if="state.imagePath"
+            src="state.imagePath"/> -->
+
             <AppH3>コメント</AppH3>           
                 <inputTextarea v-model="comment"></inputTextarea>
             <ButtonPrimary :on-click="reviewFunc">レビューを送信する</ButtonPrimary>
-        </WhiteContainer>
-        <div>{{ reviewData }}</div>
+            <ButtonPrimary :on-click="reviewUpload">testi</ButtonPrimary>
+          </WhiteContainer>
      </TheContainer>
   
 </template>
@@ -153,5 +174,61 @@ import { useAuthStore } from '~~/stores/auth';
     await review()
   }
   
+
+  // 画像アップロード（検証中）
+  interface State {
+  inputFileImg: File,
+  imagePath: string,
+  }
+ const errorSize = ref(false);
+ const errorImage = ref(false);
+
+
+ const state: State = reactive({
+    inputFileImg: new File(['sample'], '', {
+      type: 'image/jpeg',
+    }),
+    imagePath: '',
+  })
+
+   // ①画像をuploadすると、画像データがstateに入る
+   const handleImageUploaded = (e: Event) => {
+    if (e.target instanceof HTMLInputElement && e.target.files) {
+      state.inputFileImg = e.target.files[0]
+      let size = state.inputFileImg.size
+      let type = state.inputFileImg.type
+      // 2MBまで
+      errorSize.value = size > 200000? true: false 
+      errorImage.value =  type != 'image/jpg' && type != 'image/jpeg' &&  type != 'image/png' ? true: false
+      console.log(state.inputFileImg )
+      }
+  }
+
+  //アップするときはappendで一つずつ取り出す
+ const reviewUpload = () =>{
+  if(!errorImage.value&&!errorImage.value ){
+    const formData = new FormData();
+    formData.append("file",state.inputFileImg)
+    formData.append("place_id",place_id.value)
+    formData.append("google_place_id",google_place_id.value)  
+    formData.append("comment",comment.value )
+    formData.append("rating",rating.value )
+    formData.append("price_point",price_point.value )
+    formData.append("health_point",health_point.value )
+    formData.append("user_id",user_id.value )
+    // 中身確認用
+  for (let value of formData.entries()) {
+    console.log(value);
+  }
+
+  }
+  console.log(FormData)
+ }
+
+
+ 
+
+  
+  //API通信するときは'content-type': 'multipart/form-data'ヘッダを付与する
 
 </script>

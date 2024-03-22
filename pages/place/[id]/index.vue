@@ -36,9 +36,6 @@
   
   </template>
   <script setup lang="ts">
-  import AppH2 from '~/components/AppH2.vue';
-import AppLink from '~/components/AppLink.vue';
-  import ButtonSecondary from '~/components/ButtonSecondary.vue';
   import { useAuthStore } from '~~/stores/auth';
     const auth = useAuthStore();
     const customHeaders = {
