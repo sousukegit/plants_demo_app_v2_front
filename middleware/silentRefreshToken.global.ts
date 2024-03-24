@@ -50,7 +50,7 @@ export default defineNuxtRouteMiddleware( (to,from) =>{
       }
     //ユーザーが存在しているかを確認する
     //遷移しないディレクトリ
-    const notRedirectPaths = ["/","/login","/signup"]
+    const notRedirectPaths = ["/","/login","/signup","/signupAfter"]
     if (!auth.isExistUser){
       //特定のディレクトリならリダイレクトしない
       if(notRedirectPaths.includes(to.path)){

@@ -12,7 +12,7 @@
                 :rating-size="'32px'"
                 :rating-value="4"
                 @rating-selected="setRating" />
-            </div>            
+            </div>
             <AppH3>植物部門別</AppH3>
             <div>管理状態</div>
             <div class="ml-0 w-40">
@@ -23,7 +23,7 @@
                 :rating-value="4"
                 rating-content="🌱"
                 @rating-selected="setHealthPoint" />
-            </div>                
+            </div>
             <div>価格帯</div>
             <div class="ml-0 w-40">
                 <NuxtRating
@@ -33,7 +33,7 @@
                 :rating-value="4"
                 rating-content="🌱"
                 @rating-selected="setPricePoint" />
-            </div>            
+            </div>
             <div>マニア度</div>
             <div class="ml-0 w-40">
                 <NuxtRating
@@ -43,40 +43,37 @@
                 :rating-value="4"
                 rating-content="🌱"
                 @rating-selected="setManiaPoint" />
-            </div>            
+            </div>
             <AppH3>店舗にいた種類</AppH3>
             <!-- 　TODO　ハッシュタグをつける -->
 
             <AppH3>写真</AppH3>
              <!-- 　TODO　アップロード機能 -->
             <section>
-              <label for="image">image: 
+              <label for="image">image:
                 <!-- MEMO @change 画像がアップロードされると発火する -->
-              <input 
-                type="file" 
-                id="image" 
-                name="" 
-                accept=" .png, .jpg, .jpeg" 
-                @change="handleImageUploaded"  
+              <input
+                type="file"
+                id="image"
+                name=""
+                accept=" .png, .jpg, .jpeg"
+                ref="preview"
+                @change="handleImageUploaded"
                 />
               </label>
+
             </section>
             <section>
               <button type="submit" @click="upload" >upload</button>
             </section>
-             
 
-              <!-- <img
-            v-if="state.imagePath"
-            src="state.imagePath"/> -->
+            <img v-if="src" :src="src" alt=""/>
 
-            <AppH3>コメント</AppH3>           
+            <AppH3>コメント</AppH3>
                 <inputTextarea v-model="comment"></inputTextarea>
-            <ButtonPrimary :on-click="reviewFunc">レビューを送信する</ButtonPrimary>
-            <ButtonPrimary :on-click="reviewUpload">testi</ButtonPrimary>
+            <ButtonPrimary :on-click="reviewUpload ">レビューを送信する</ButtonPrimary>
           </WhiteContainer>
      </TheContainer>
-  
 </template>
 <script setup lang="ts">
 
@@ -84,12 +81,10 @@ import { useAuthStore } from '~~/stores/auth';
     const auth = useAuthStore();
     const customHeaders = {
         'Authorization': `Bearer ${auth.auth.token}`
-    }; 
-
+    };
     //ルートIDをURLより取得
   const route = useRoute()
-  const placeID =route.params.id 
-  
+  const placeID =route.params.id
   //店舗情報取得
   const place = ref<string>("")
   onMounted(() => {
@@ -98,14 +93,11 @@ import { useAuthStore } from '~~/stores/auth';
             const response = await useGet(`/api/v1/places/${placeID}`,customHeaders);
             //TODO 成功時の処理
             console.log(response)
-            
             google_place_id.value = response.google_place_id
-  
             place.value = response
-            console.log(place.value)
             } catch (error) {
-            console.log(error)          
-            }  
+            console.log(error)
+            }
         }
         async function getPlacesFunc(){
             await getPlaces()
@@ -114,8 +106,8 @@ import { useAuthStore } from '~~/stores/auth';
   })
 
 
-  //口コミのポスト
-  
+  //口コミのポスト--
+
   //ポストデータ
   const place_id = ref<Number>(placeID);
   const google_place_id = ref<String>("");
@@ -125,7 +117,7 @@ import { useAuthStore } from '~~/stores/auth';
   const mania_point = ref<Number>(4);
   const health_point = ref<Number>(4);
   const user_id = ref<Number>(auth.user.id);
-  
+
   //データをセット
   const setRating = (event: number) =>{
     rating.value = event
@@ -141,41 +133,14 @@ import { useAuthStore } from '~~/stores/auth';
   }
 
   comment.value = `${auth.user.name}は最高と感じました（テスト）` 
-  
-  const reviewData = reactive({
-    place_id: place_id,
-    google_place_id: google_place_id,
-    comment: comment,
-    rating: rating,
-    price_point: price_point,
-    mania_point: mania_point,
-    health_point: health_point,
-    user_id: user_id
-});
-  
-  //オブジェクトにする
-  const reviewSend = reactive({
-    review:reviewData
-  })
-  
-  
-  const review = async() => {
-    try {
-    console.log(reviewData)
-    const response = await usePost('/api/v1/reviews',reviewSend);
-    // 成功時の処理
-    console.log(response)
-    } catch (error) {
-        // エラー時の処理
-    console.error(error);
-    }  
-  }
-  async function reviewFunc(){
-    await review()
-  }
-  
+
+
 
   // 画像アップロード（検証中）
+
+  //プレビュー用のURLを定義
+  const src = ref<string>()
+
   interface State {
   inputFileImg: File,
   imagePath: string,
@@ -186,7 +151,7 @@ import { useAuthStore } from '~~/stores/auth';
 
  const state: State = reactive({
     inputFileImg: new File(['sample'], '', {
-      type: 'image/jpeg',
+      type: '',
     }),
     imagePath: '',
   })
@@ -195,40 +160,63 @@ import { useAuthStore } from '~~/stores/auth';
    const handleImageUploaded = (e: Event) => {
     if (e.target instanceof HTMLInputElement && e.target.files) {
       state.inputFileImg = e.target.files[0]
-      let size = state.inputFileImg.size
-      let type = state.inputFileImg.type
-      // 2MBまで
-      errorSize.value = size > 200000? true: false 
-      errorImage.value =  type != 'image/jpg' && type != 'image/jpeg' &&  type != 'image/png' ? true: false
-      console.log(state.inputFileImg )
+      console.log(state.inputFileImg)
+
+      
+      if(state.inputFileImg){
+        //プレビュー処理
+      //srcにファイル読み取り後値が動的に入るようコールバック関数をひきすうに
+        const reader =  useFileReader((result) => src.value = result)
+        reader.read(state.inputFileImg)
+         //バリデート処理
+        let size = state.inputFileImg.size
+        let type = state.inputFileImg.type
+        // 2MBまで
+        errorSize.value = size > 200000? true: false
+        errorImage.value =  type != 'image/jpg' && type != 'image/jpeg' &&  type != 'image/png' ? true: false
+
       }
+    }
   }
 
-  //アップするときはappendで一つずつ取り出す
+  //バイナリーデータを含むのでFormData.appendで一つずついれて送る
  const reviewUpload = () =>{
   if(!errorImage.value&&!errorImage.value ){
     const formData = new FormData();
-    formData.append("file",state.inputFileImg)
+    formData.append("image",state.inputFileImg)
     formData.append("place_id",place_id.value)
     formData.append("google_place_id",google_place_id.value)  
     formData.append("comment",comment.value )
     formData.append("rating",rating.value )
     formData.append("price_point",price_point.value )
     formData.append("health_point",health_point.value )
+    formData.append("mania_point",mania_point.value )
     formData.append("user_id",user_id.value )
     // 中身確認用
-  for (let value of formData.entries()) {
-    console.log(value);
-  }
+    for (let value of formData.entries()) {
+      console.log(value);
+    }
 
+    const review = async() => {
+        try {
+        const response = await usePost('/api/v1/reviews',formData,customHeaders);
+        // 成功時の処理
+        //成功したら口コミ一覧にリダイレクト
+
+        console.log(response)
+        } catch (error) {
+            // エラー時の処理
+        console.error(error);
+        }
+      }
+      async function reviewFunc(){
+        await review()
+      }
+      reviewFunc()
   }
-  console.log(FormData)
+  else{
+    alert("画像がサイズを超えています")
+  }
  }
-
-
- 
-
-  
-  //API通信するときは'content-type': 'multipart/form-data'ヘッダを付与する
 
 </script>

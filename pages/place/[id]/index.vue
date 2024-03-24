@@ -24,7 +24,13 @@
         </div>
     <!-- 口コミ情報一覧（最新） -->
         <div v-else-if="isActive === '3'">Tab Event
-        
+          <div v-for="(review,i) in reviews" 
+          :key="review.id" 
+          class="border">
+            <div>{{ review.user_id }}</div>
+            <div>{{ review.comment }}</div>
+            <AppLink :href="`/place/${placeID}/${review.id}`">口コミをみる</AppLink>
+          </div>
         </div>
     </div>
 
@@ -36,7 +42,9 @@
   
   </template>
   <script setup lang="ts">
-  import { useAuthStore } from '~~/stores/auth';
+
+import { useAuthStore } from '~~/stores/auth';
+
     const auth = useAuthStore();
     const customHeaders = {
         'Authorization': `Bearer ${auth.auth.token}`
@@ -54,6 +62,8 @@
   
   //店舗情報取得
   const place = ref<string>("")
+  const reviews = ref([])
+
   onMounted(() => {
     const getPlaces = async() => {
             try {
@@ -64,6 +74,7 @@
             google_place_id.value = response.google_place_id
   
             place.value = response
+            reviews.value = response.reviews
             console.log(place.value)
             } catch (error) {
             console.log(error)          
