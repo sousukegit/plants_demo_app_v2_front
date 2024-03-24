@@ -46,18 +46,22 @@
             </div>
             <AppH3>店舗にいた種類</AppH3>
             <!-- 　TODO　ハッシュタグをつける -->
-
+            <input type="text"/>
             <AppH3>写真</AppH3>
              <!-- 　TODO　アップロード機能 -->
-            <section>
-              <label for="image">image:
+            <section class="py-2">
+              <img v-if="src.length>0" :src="src[0]" alt=""/>
+              <img v-if="src" :src="src[1]" alt=""/>
+              <label for="image" class="text-center p-4 border border-coffee rounded-md hover:bg-accent-100 bg-accent-300">
+                <font-awesome-icon :icon="['fas', 'plus']" class="text-2xl"/>
                 <!-- MEMO @change 画像がアップロードされると発火する -->
               <input
                 type="file"
                 id="image"
                 name=""
                 accept=" .png, .jpg, .jpeg"
-                ref="preview"
+                multiple="true"
+                class="hidden"
                 @change="handleImageUploaded"
                 />
               </label>
@@ -67,7 +71,7 @@
               <button type="submit" @click="upload" >upload</button>
             </section>
 
-            <img v-if="src" :src="src" alt=""/>
+           
 
             <AppH3>コメント</AppH3>
                 <inputTextarea v-model="comment"></inputTextarea>
@@ -138,8 +142,8 @@ import { useAuthStore } from '~~/stores/auth';
 
   // 画像アップロード（検証中）
 
-  //プレビュー用のURLを定義
-  const src = ref<string>()
+  //プレビュー用のURL配列を定義
+  const src = ref<string[]>([])
 
   interface State {
   inputFileImg: File,
@@ -156,25 +160,42 @@ import { useAuthStore } from '~~/stores/auth';
     imagePath: '',
   })
 
+  const fileList = ref<FileList>();
+
+
    // ①画像をuploadすると、画像データがstateに入る
    const handleImageUploaded = (e: Event) => {
     if (e.target instanceof HTMLInputElement && e.target.files) {
       state.inputFileImg = e.target.files[0]
-      console.log(state.inputFileImg)
 
-      
-      if(state.inputFileImg){
-        //プレビュー処理
-      //srcにファイル読み取り後値が動的に入るようコールバック関数をひきすうに
-        const reader =  useFileReader((result) => src.value = result)
-        reader.read(state.inputFileImg)
-         //バリデート処理
-        let size = state.inputFileImg.size
-        let type = state.inputFileImg.type
-        // 2MBまで
-        errorSize.value = size > 200000? true: false
-        errorImage.value =  type != 'image/jpg' && type != 'image/jpeg' &&  type != 'image/png' ? true: false
+      fileList.value = e.target.files
+      console.log(fileList.value)
 
+
+      //if(state.inputFileImg){
+      if(fileList.value.length > 0){
+        //forで取り出して処理する（Foreach使えない）
+        for(let i=0; i<fileList.value.length; i++){
+          const file = fileList.value[i]
+          src[i] = ref<string>('')
+          //プレビュー処理
+          //srcにファイル読み取り後値が動的に入るようコールバック関数をひきすうに
+          const reader =  useFileReader((result) =>{
+            src[i].value = result
+            console.log('SRC:'+src[i].value)
+          } )
+          reader.read(file)
+          //バリデート処理
+          let size = file.size
+          let type = file.type
+          // 2MBまで
+          errorSize.value = size > 200000? true: false
+          errorImage.value =  type != 'image/jpg' && type != 'image/jpeg' &&  type != 'image/png' ? true: false
+          console.log(src[i].value)
+        }
+      }
+      else{
+        //何も選択しなかった場合、写真を空にする
       }
     }
   }
