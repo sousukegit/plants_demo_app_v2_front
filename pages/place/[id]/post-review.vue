@@ -122,9 +122,6 @@ import { useAuthStore } from '~~/stores/auth';
         getPlacesFunc()
   })
 
-
-  //口コミのポスト--
-
   //ポストデータ
   const place_id = ref<Number>(placeID);
   const google_place_id = ref<String>("");
@@ -153,7 +150,7 @@ import { useAuthStore } from '~~/stores/auth';
 
 
 
-  // 画像アップロード（検証中）-------------------
+  // 画像アップロード-------------------
 
   //プレビュー用のURL配列を定義
   const srcs = ref<string[]>([])
@@ -182,7 +179,7 @@ import { useAuthStore } from '~~/stores/auth';
   // ①画像をuploadすると、画像データがstateに入る
   const handleImageUploaded = (e: Event) => {
     if (e.target instanceof HTMLInputElement && e.target.files) {
-      //state.inputFileImg = e.target.files[0]
+      state.inputFileImg = e.target.files[0]
       fileList.value = e.target.files
 
       if(fileList.value.length > 0){
@@ -192,10 +189,7 @@ import { useAuthStore } from '~~/stores/auth';
 
           //プレビュー処理
           //srcにファイル読み取り後値が動的に入るようコールバック関数をひきすうに
-          const reader =  useFileReader((result) =>{
-            srcs.value[i] = result
-            console.log('SRC:'+srcs.value[i])
-          } )
+          const reader =  useFileReader((result) => { srcs.value[i] = result} )
           reader.read(file)
           //バリデート処理
           let size = file.size
@@ -203,7 +197,8 @@ import { useAuthStore } from '~~/stores/auth';
           // 2MBまで
           errorSize.value = size > 200000? true: false
           errorImage.value =  type != 'image/jpg' && type != 'image/jpeg' &&  type != 'image/png' ? true: false
-          console.log(srcs.value[i])
+          console.log(fileList.value)
+console.log(state.inputFileImg)
         }
       }
       else{
@@ -217,7 +212,8 @@ import { useAuthStore } from '~~/stores/auth';
  const reviewUpload = () =>{
   if(!errorImage.value&&!errorImage.value ){
     const formData = new FormData();
-    formData.append("image",state.inputFileImg)
+    //formData.append("images",state.inputFileImg)
+    formData.append("images",fileList.value)
     formData.append("place_id",place_id.value)
     formData.append("google_place_id",google_place_id.value)
     formData.append("comment",comment.value )
