@@ -50,21 +50,33 @@
             <AppH3>写真</AppH3>
              <!-- 　TODO　アップロード機能 -->
             <section class="py-2">
-              <img v-if="src.length>0" :src="src[0]" alt=""/>
-              <img v-if="src" :src="src[1]" alt=""/>
-              <label for="image" class="text-center p-4 border border-coffee rounded-md hover:bg-accent-100 bg-accent-300">
-                <font-awesome-icon :icon="['fas', 'plus']" class="text-2xl"/>
-                <!-- MEMO @change 画像がアップロードされると発火する -->
-              <input
-                type="file"
-                id="image"
-                name=""
-                accept=" .png, .jpg, .jpeg"
-                multiple="true"
-                class="hidden"
-                @change="handleImageUploaded"
-                />
-              </label>
+              <div class="grid col-span-3 grid-cols-3">
+                <div
+                v-if="srcs.length>0"
+                v-for="(src,i) in srcs"
+                :key="i"
+                >
+                    <img :src="src" class="h-40 w-40 object-cover rounded-md">
+                  </div>
+                
+                <div>
+                  <label for="image" class="text-center p-4 border border-coffee rounded-md hover:bg-accent-100 bg-accent-300">
+                  <font-awesome-icon :icon="['fas', 'plus']" class="text-2xl"/>
+                  <!-- MEMO @change 画像がアップロードされると発火する -->
+                  <input
+                    type="file"
+                    id="image"
+                    name=""
+                    accept=" .png, .jpg, .jpeg"
+                    multiple="true"
+                    class="hidden"
+                    @change="handleImageUploaded"
+                    />
+                  </label>
+                </div>
+              </div>
+
+              
 
             </section>
             <section>
@@ -136,14 +148,14 @@ import { useAuthStore } from '~~/stores/auth';
     mania_point.value = event
   }
 
-  comment.value = `${auth.user.name}は最高と感じました（テスト）` 
+  comment.value = `${auth.user.name}は最高と感じました（テスト）`
 
 
 
-  // 画像アップロード（検証中）
+  // 画像アップロード（検証中）-------------------
 
   //プレビュー用のURL配列を定義
-  const src = ref<string[]>([])
+  const srcs = ref<string[]>([])
 
   interface State {
   inputFileImg: File,
@@ -166,23 +178,19 @@ import { useAuthStore } from '~~/stores/auth';
    // ①画像をuploadすると、画像データがstateに入る
    const handleImageUploaded = (e: Event) => {
     if (e.target instanceof HTMLInputElement && e.target.files) {
-      state.inputFileImg = e.target.files[0]
-
+      //state.inputFileImg = e.target.files[0]
       fileList.value = e.target.files
-      console.log(fileList.value)
 
-
-      //if(state.inputFileImg){
       if(fileList.value.length > 0){
         //forで取り出して処理する（Foreach使えない）
         for(let i=0; i<fileList.value.length; i++){
           const file = fileList.value[i]
-          src[i] = ref<string>('')
+
           //プレビュー処理
           //srcにファイル読み取り後値が動的に入るようコールバック関数をひきすうに
           const reader =  useFileReader((result) =>{
-            src[i].value = result
-            console.log('SRC:'+src[i].value)
+            srcs.value[i] = result
+            console.log('SRC:'+srcs.value[i])
           } )
           reader.read(file)
           //バリデート処理
@@ -191,11 +199,12 @@ import { useAuthStore } from '~~/stores/auth';
           // 2MBまで
           errorSize.value = size > 200000? true: false
           errorImage.value =  type != 'image/jpg' && type != 'image/jpeg' &&  type != 'image/png' ? true: false
-          console.log(src[i].value)
+          console.log(srcs.value[i])
         }
       }
       else{
         //何も選択しなかった場合、写真を空にする
+        srcs.value = []
       }
     }
   }
@@ -206,7 +215,7 @@ import { useAuthStore } from '~~/stores/auth';
     const formData = new FormData();
     formData.append("image",state.inputFileImg)
     formData.append("place_id",place_id.value)
-    formData.append("google_place_id",google_place_id.value)  
+    formData.append("google_place_id",google_place_id.value)
     formData.append("comment",comment.value )
     formData.append("rating",rating.value )
     formData.append("price_point",price_point.value )
