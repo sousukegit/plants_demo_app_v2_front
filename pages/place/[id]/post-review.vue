@@ -50,18 +50,19 @@
             <AppH3>写真</AppH3>
              <!-- 　TODO　アップロード機能 -->
             <section class="py-2">
-              <div class="grid col-span-3 grid-cols-3">
+              <div class="grid sm:grid-cols-5 grid-cols-3 gap-1 ">
                 <div
-                v-if="srcs.length>0"
-                v-for="(src,i) in srcs"
-                :key="i"
-                >
-                    <img :src="src" class="h-40 w-40 object-cover rounded-md">
-                  </div>
-                
-                <div>
-                  <label for="image" class="text-center p-4 border border-coffee rounded-md hover:bg-accent-100 bg-accent-300">
-                  <font-awesome-icon :icon="['fas', 'plus']" class="text-2xl"/>
+                  v-if="srcs.length>0"
+                  v-for="(src,i) in srcs"
+                  :key="i"
+                  >
+                  <img :src="src" class="h-32 w-32 sm:h-40 sm:w-40 object-cover rounded-md">
+                  <button @click="removeImage(i)" class="-translate-y-32 sm:-translate-y-40 ml-1 my-1  border px-1 rounded-full bg-cream right-0">×</button>
+                </div>
+                <div class="my-4 mx-auto">
+                  <label for="image" class="text-center p-6 border border-coffee rounded-md hover:bg-accent-100 bg-accent-300">
+                    
+                  <font-awesome-icon :icon="['fas', 'camera-retro']" class="text-2xl"/>
                   <!-- MEMO @change 画像がアップロードされると発火する -->
                   <input
                     type="file"
@@ -173,10 +174,13 @@ import { useAuthStore } from '~~/stores/auth';
   })
 
   const fileList = ref<FileList>();
+  //材料を削除する処理
+  const removeImage = (index:number) => {
+  srcs.value.splice(index,1);
+  }
 
-
-   // ①画像をuploadすると、画像データがstateに入る
-   const handleImageUploaded = (e: Event) => {
+  // ①画像をuploadすると、画像データがstateに入る
+  const handleImageUploaded = (e: Event) => {
     if (e.target instanceof HTMLInputElement && e.target.files) {
       //state.inputFileImg = e.target.files[0]
       fileList.value = e.target.files
@@ -208,7 +212,7 @@ import { useAuthStore } from '~~/stores/auth';
       }
     }
   }
-
+  //送信処理----------------
   //バイナリーデータを含むのでFormData.appendで一つずついれて送る
  const reviewUpload = () =>{
   if(!errorImage.value&&!errorImage.value ){
