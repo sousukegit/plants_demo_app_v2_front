@@ -49,15 +49,35 @@
             <input type="text"/>
             <AppH3>写真</AppH3>
              <!-- 　TODO　アップロード機能 -->
-            <section class="py-2">
+            <section class="py-2" id="picShow">
               <div class="grid sm:grid-cols-5 grid-cols-3 gap-1 ">
                 <div
                   v-if="srcs.length>0"
                   v-for="(src,i) in srcs"
                   :key="i"
                   >
-                  <img :src="src" class="h-32 w-32 sm:h-40 sm:w-40 object-cover rounded-md">
+                  <img @click="showModal(i)" :src="src" class="h-32 w-32 sm:h-40 sm:w-40 object-cover rounded-md">
                   <button @click="removeImage(i)" class="-translate-y-32 sm:-translate-y-40 ml-1 my-1  border px-1 rounded-full bg-cream right-0">×</button>
+                  <Teleport v-if="doesPicShowModal" to="#picShow">
+                        <div  v-if="doesPicShowModal"
+                            @click="(event)=>{
+                                //子要素以外をクリックしたらモーダルウィンドウを閉じる
+                                if(event.target === event.currentTarget){
+                                    doesPicShowModal = false;
+                                }
+                            }"
+                            class="fixed inset-0 h-screen w-screen items-center justify-center
+                            bg-coffee bg-opacity-50 py-20 dark:bg-cream dark:bg-opacity-30"
+                            >
+                            <button
+                            class="absolute top-0 text-5xl font-bold text-coffee hover:opacity-70 dark:text-cream"
+                            @click="doesShowModal = false"
+                            >×
+                            </button>
+                              <div class="flex items-center"><img :src="srcs[srcNum]" class="w-full"></div>
+                             
+                            </div>
+                    </Teleport>
                 </div>
                 <div class="my-4 mx-auto">
                   <label for="image" class="text-center p-6 border border-coffee rounded-md hover:bg-accent-100 bg-accent-300">
@@ -154,7 +174,8 @@ import { useAuthStore } from '~~/stores/auth';
 
   //プレビュー用のURL配列を定義
   const srcs = ref<string[]>([])
-
+  //Filelistから取り出したFileを格納する送付用の配列を定義
+  const files = ref<File[]>([])
   interface State {
   inputFileImg: File,
   imagePath: string,
@@ -171,22 +192,29 @@ import { useAuthStore } from '~~/stores/auth';
   })
 
   const fileList = ref<FileList>();
-  //材料を削除する処理
+  //画像を削除する処理
   const removeImage = (index:number) => {
   srcs.value.splice(index,1);
   }
+  //モーダルウィンドウの表示状態を管理
+  const doesPicShowModal = ref(false);
+  const srcNum = ref();
+  const showModal = (index:number):void => {
+    doesPicShowModal.value = true;
+    srcNum.value = index
+  };
 
   // ①画像をuploadすると、画像データがstateに入る
   const handleImageUploaded = (e: Event) => {
     if (e.target instanceof HTMLInputElement && e.target.files) {
-      state.inputFileImg = e.target.files[0]
+      //state.inputFileImg = e.target.files[0]
       fileList.value = e.target.files
 
       if(fileList.value.length > 0){
         //forで取り出して処理する（Foreach使えない）
         for(let i=0; i<fileList.value.length; i++){
           const file = fileList.value[i]
-
+          files.value.push(file)
           //プレビュー処理
           //srcにファイル読み取り後値が動的に入るようコールバック関数をひきすうに
           const reader =  useFileReader((result) => { srcs.value[i] = result} )
@@ -197,7 +225,8 @@ import { useAuthStore } from '~~/stores/auth';
           // 2MBまで
           errorSize.value = size > 200000? true: false
           errorImage.value =  type != 'image/jpg' && type != 'image/jpeg' &&  type != 'image/png' ? true: false
-          console.log(fileList.value)
+console.log(files.value)
+console.log( fileList.value)
 console.log(state.inputFileImg)
         }
       }
@@ -213,7 +242,8 @@ console.log(state.inputFileImg)
   if(!errorImage.value&&!errorImage.value ){
     const formData = new FormData();
     //formData.append("images",state.inputFileImg)
-    formData.append("images",fileList.value)
+    //formData.append("images",fileList.value)
+    formData.append("images",files.value)
     formData.append("place_id",place_id.value)
     formData.append("google_place_id",google_place_id.value)
     formData.append("comment",comment.value )
