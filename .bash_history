@@ -26,3 +26,11 @@ exit
 npm install nuxt-rating
 npm cache clean --force  
 exit
+npm install compressorjs
+npm cache clean --force  
+exit
+npm install compressorjs
+exit
+npm install browser-image-compression --save
+npm cache clean --force  
+exit

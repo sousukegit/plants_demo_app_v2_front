@@ -113,7 +113,10 @@
 <script setup lang="ts">
 
 import { useAuthStore } from '~~/stores/auth';
-// import { Compressor } from 'compressorjs';
+// https://github.com/fengyuanchen/compressorjs　画像加工モジュール(起動できなかった)
+//import {Compressor } from 'compressorjs';
+//https://www.npmjs.com/package/browser-image-compression?activeTab=readme　画像加工モジュール
+import imageCompression from "browser-image-compression";
 
 
 const auth = useAuthStore();
@@ -181,8 +184,30 @@ interface State {
 inputFileImg: File,
 imagePath: string,
 }
+//エラーチェック
 const errorSize = ref(false);
 const errorImage = ref(false);
+
+//圧縮用の関数を定義
+const fileCompresseer = async (file:File,i:number) =>{
+      //実行されたらfalse
+      compresseedFin.value = false
+      const options ={
+        //グーグルの理想基準に変更　https://developer.chrome.com/docs/lighthouse/performance/total-byte-weight?utm_source=lighthouse&utm_medium=unknown&hl=変更変更
+          maxSizeMB: 1.6,
+          maxWidthOrHeight: 1000
+        };
+        try {
+          const compresseedFile = await imageCompression(file, options);
+          //圧縮したファイルを格納
+          files.value.push(compresseedFile)
+          //成功したらしたらTrue
+          compresseedFin.value = true
+          
+        } catch (error) {
+          console.log(error)
+        }
+      }
 
 
 const state: State = reactive({
@@ -204,6 +229,9 @@ const showModal = (index:number):void => {
   doesPicShowModal.value = true;
   srcNum.value = index
 };
+//画像圧縮処理を監視する
+const compresseedFin = ref<Boolean>(false);
+
 
 // ①画像をuploadすると、画像データがstateに入る
 const handleImageUploaded = (e: Event) => {
@@ -215,7 +243,7 @@ const handleImageUploaded = (e: Event) => {
       //forで取り出して処理する（Foreach使えない）
       for(let i=0; i<fileList.value.length; i++){
         const file = fileList.value[i]
-        files.value.push(file)
+        //files.value.push(file)
         //プレビュー処理
         //srcにファイル読み取り後値が動的に入るようコールバック関数をひきすうに
         const reader =  useFileReader((result) => { srcs.value[i] = result} )
@@ -226,9 +254,8 @@ const handleImageUploaded = (e: Event) => {
         // 2MBまで
         errorSize.value = size > 200000? true: false
         errorImage.value =  type != 'image/jpg' && type != 'image/jpeg' &&  type != 'image/png' ? true: false
-console.log(files.value)
-console.log( fileList.value)
-console.log(state.inputFileImg)
+        //圧縮
+        fileCompresseer(file,i)
       }
     }
     else{
@@ -240,7 +267,7 @@ console.log(state.inputFileImg)
 //送信処理----------------
 //バイナリーデータを含むのでFormData.appendで一つずついれて送る
 const reviewUpload = () =>{
-if(!errorImage.value&&!errorImage.value ){
+if(!errorImage.value&&!errorImage.value&&compresseedFin.value){
   const formData = new FormData();
   //formData.append("images",state.inputFileImg)
   //formData.append("images",fileList.value)
@@ -253,10 +280,13 @@ if(!errorImage.value&&!errorImage.value ){
   formData.append("health_point",health_point.value )
   formData.append("mania_point",mania_point.value )
   formData.append("user_id",user_id.value )
+  
   // 中身確認用
   for (let value of formData.entries()) {
     console.log(value);
   }
+  console.log(files.value)
+
 
   const review = async() => {
       try {

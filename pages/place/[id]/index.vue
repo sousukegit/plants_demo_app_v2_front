@@ -35,6 +35,7 @@
     </div>
 
     </div>
+    <div>aa</div>
     <AppLink :href="`/place/${place.id}/post-review`">タップしてレビュー</AppLink>
 
   </TheContainer>
@@ -44,6 +45,9 @@
   <script setup lang="ts">
 
 import { useAuthStore } from '~~/stores/auth';
+// https://github.com/fengyuanchen/compressorjs　画像加工モジュール
+//import  Compressor  from 'compressorjs';
+
 
     const auth = useAuthStore();
     const customHeaders = {
