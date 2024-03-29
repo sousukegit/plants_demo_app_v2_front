@@ -14,9 +14,7 @@ export const useAuthStore = defineStore('auth', {
     auth: {
       token: null,
       expires: 0,
-      payload: {
-               
-      }
+      payload: {}
     },
     toast:{
       msg: null,
@@ -67,7 +65,7 @@ export const useAuthStore = defineStore('auth', {
       this.user.name = ""
       this.user.sub = null
 
-      this.auth.token =  null 
+      this.auth.token =  null
       this.auth.expires = 0
       this.auth.payload =  {}
 

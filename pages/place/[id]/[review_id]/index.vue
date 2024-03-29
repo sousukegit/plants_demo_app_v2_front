@@ -3,6 +3,7 @@
     <TheContainer>
         <WhiteContainer>
              <div>{{ review.id }}</div>
+             <div>{{ review.user.name }}</div>
              <div>{{ review.comment }}</div>
              <img :src="review.image_url">
              <div>{{ review.image_url }}</div>

@@ -94,15 +94,11 @@
                   </label>
                 </div>
               </div>
-
-              
-
             </section>
             <section>
               <button type="submit" @click="upload" >upload</button>
             </section>
 
-           
 
             <AppH3>コメント</AppH3>
                 <inputTextarea v-model="comment"></inputTextarea>
@@ -111,7 +107,6 @@
      </TheContainer>
 </template>
 <script setup lang="ts">
-
 import { useAuthStore } from '~~/stores/auth';
 // https://github.com/fengyuanchen/compressorjs　画像加工モジュール(起動できなかった)
 //import {Compressor } from 'compressorjs';
@@ -120,6 +115,8 @@ import imageCompression from "browser-image-compression";
 
 
 const auth = useAuthStore();
+const review = useReviewStore();
+
 const customHeaders = {
     'Authorization': `Bearer ${auth.auth.token}`
 };
@@ -172,8 +169,6 @@ const setManiaPoint= (event: number) =>{
 
 comment.value = `${auth.user.name}は最高と感じました（テスト）`
 
-
-
 // 画像アップロード-------------------
 
 //プレビュー用のURL配列を定義
@@ -221,6 +216,7 @@ const fileList = ref<FileList>();
 //画像を削除する処理
 const removeImage = (index:number) => {
 srcs.value.splice(index,1);
+files.value.splice(index,1)
 }
 //モーダルウィンドウの表示状態を管理
 const doesPicShowModal = ref(false);
@@ -236,7 +232,7 @@ const compresseedFin = ref<Boolean>(false);
 // ①画像をuploadすると、画像データがstateに入る
 const handleImageUploaded = (e: Event) => {
   if (e.target instanceof HTMLInputElement && e.target.files) {
-    //state.inputFileImg = e.target.files[0]
+    state.inputFileImg = e.target.files[0]
     fileList.value = e.target.files
 
     if(fileList.value.length > 0){
@@ -246,7 +242,9 @@ const handleImageUploaded = (e: Event) => {
         //files.value.push(file)
         //プレビュー処理
         //srcにファイル読み取り後値が動的に入るようコールバック関数をひきすうに
-        const reader =  useFileReader((result) => { srcs.value[i] = result} )
+        const reader =  useFileReader((result) => { 
+          srcs.value[i] = result
+        } )
         reader.read(file)
         //バリデート処理
         let size = file.size
@@ -271,7 +269,16 @@ if(!errorImage.value&&!errorImage.value&&compresseedFin.value){
   const formData = new FormData();
   //formData.append("images",state.inputFileImg)
   //formData.append("images",fileList.value)
-  formData.append("images",files.value)
+  for(let i=0; i < files.value.length; i++){
+    formData.append("images[]",files.value[i])
+  }
+  // if (fileList.value) {
+  //     for (let i = 0; i < fileList.value.length; i++) {
+  //       formData.append("images[]", fileList.value[i]);
+  //     }
+  //   }
+
+  //formData.append("images",files.value)
   formData.append("place_id",place_id.value)
   formData.append("google_place_id",google_place_id.value)
   formData.append("comment",comment.value )

@@ -19,15 +19,24 @@
       <!-- 口コミの詳細と、口コミを書く画面に遷移するようにする -->
         </div>
     <!-- 口コミ写真一覧 -->
-        <div v-else-if="isActive === '2'">Tab News
-        
+        <div v-else-if="isActive === '2'" 
+        class="p-2">
+          <div >
+            <AppH2>写真一覧</AppH2>
+            <!-- //gridで正方形にならぶ -->
+            <div>aaaa</div>
+          </div>
         </div>
     <!-- 口コミ情報一覧（最新） -->
-        <div v-else-if="isActive === '3'">Tab Event
+        <div v-else-if="isActive === '3'"
+        class="p-2">
+          <AppH2>口コミ一覧</AppH2>
           <div v-for="(review,i) in reviews" 
           :key="review.id" 
           class="border">
             <div>{{ review.user_id }}</div>
+            
+            
             <div>{{ review.comment }}</div>
             <AppLink :href="`/place/${placeID}/${review.id}`">口コミをみる</AppLink>
           </div>
@@ -44,6 +53,7 @@
   </template>
   <script setup lang="ts">
 
+import AppH2 from '~/components/AppH2.vue';
 import { useAuthStore } from '~~/stores/auth';
 // https://github.com/fengyuanchen/compressorjs　画像加工モジュール
 //import  Compressor  from 'compressorjs';

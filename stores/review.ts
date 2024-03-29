@@ -5,14 +5,15 @@ import { defineStore } from 'pinia'
 export const useReviewStore = defineStore('review', {
   state: () => ({
     //写真URLの保存
-      srcs:[]
-  
+      srcs:[],
+      filelist:[]
+
   }),
   getters: {
 
 
   },
   actions: {
-
+   
   },
 })
