@@ -198,7 +198,6 @@ const fileCompresseer = async (file:File,i:number) =>{
           files.value.push(compresseedFile)
           //成功したらしたらTrue
           compresseedFin.value = true
-          
         } catch (error) {
           console.log(error)
         }
