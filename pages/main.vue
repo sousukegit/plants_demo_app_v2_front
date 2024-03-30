@@ -1,14 +1,16 @@
 <template>
   <TheContainer>
   <div>ようこそ<ClientOnly>{{ userName }}</ClientOnly>さん</div>
-
-  <AppLink  :href="`/place`">場所から探す</AppLink>
+  <WhiteContainer>
+    <AppLink  :href="`/place`">場所から探す</AppLink>
+    <AppLink  :href="`/species`">種類から探す</AppLink>
+  </WhiteContainer>
+  
 
   </TheContainer> 
 </template>
 <script setup lang="ts">
-  import AppLink from '~/components/AppLink.vue';
-import ButtonSecondary from '~/components/ButtonSecondary.vue';
+
 import { useAuthStore } from '~~/stores/auth';
   import { useUserStore } from '~~/stores/user';
   // definePageMeta({

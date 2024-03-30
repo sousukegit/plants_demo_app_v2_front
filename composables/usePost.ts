@@ -11,7 +11,8 @@ export const usePost = async <T>(url: string, requestBody?: T, customHeaders?: R
         {
             method: "POST",
             credentials: 'include',
-            body: requestBody? JSON.stringify(requestBody) : undefined,
+            // body: requestBody? JSON.stringify(requestBody) : undefined,
+            body: requestBody? requestBody : undefined,
             headers,
         }
     );
