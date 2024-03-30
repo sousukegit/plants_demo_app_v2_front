@@ -203,14 +203,6 @@ const fileCompresseer = async (file:File,i:number) =>{
         }
       }
 
-
-const state: State = reactive({
-  inputFileImg: new File(['sample'], '', {
-    type: '',
-  }),
-  imagePath: '',
-})
-
 const fileList = ref<FileList>();
 //画像を削除する処理
 const removeImage = (index:number) => {
@@ -231,14 +223,11 @@ const compresseedFin = ref<Boolean>(false);
 // ①画像をuploadすると、画像データがstateに入る
 const handleImageUploaded = (e: Event) => {
   if (e.target instanceof HTMLInputElement && e.target.files) {
-    state.inputFileImg = e.target.files[0]
     fileList.value = e.target.files
-
     if(fileList.value.length > 0){
       //forで取り出して処理する（Foreach使えない）
       for(let i=0; i<fileList.value.length; i++){
         const file = fileList.value[i]
-        //files.value.push(file)
         //プレビュー処理
         //srcにファイル読み取り後値が動的に入るようコールバック関数をひきすうに
         const reader =  useFileReader((result) => { 
@@ -266,18 +255,9 @@ const handleImageUploaded = (e: Event) => {
 const reviewUpload = () =>{
 if(!errorImage.value&&!errorImage.value&&compresseedFin.value){
   const formData = new FormData();
-  //formData.append("images",state.inputFileImg)
-  //formData.append("images",fileList.value)
   for(let i=0; i < files.value.length; i++){
     formData.append("images[]",files.value[i])
   }
-  // if (fileList.value) {
-  //     for (let i = 0; i < fileList.value.length; i++) {
-  //       formData.append("images[]", fileList.value[i]);
-  //     }
-  //   }
-
-  //formData.append("images",files.value)
   formData.append("place_id",place_id.value)
   formData.append("google_place_id",google_place_id.value)
   formData.append("comment",comment.value )
