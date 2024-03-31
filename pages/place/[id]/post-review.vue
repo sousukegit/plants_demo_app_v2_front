@@ -108,8 +108,6 @@
 </template>
 <script setup lang="ts">
 import { useAuthStore } from '~~/stores/auth';
-// https://github.com/fengyuanchen/compressorjs　画像加工モジュール(起動できなかった)
-//import {Compressor } from 'compressorjs';
 //https://www.npmjs.com/package/browser-image-compression?activeTab=readme　画像加工モジュール
 import imageCompression from "browser-image-compression";
 

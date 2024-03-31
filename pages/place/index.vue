@@ -18,9 +18,17 @@
   <script setup lang="ts">
     import { useAuthStore } from '~~/stores/auth';
     import { useUserStore } from '~~/stores/user';
+    import { useTagsStore } from '~~/stores/tags';
+    import { useHistoryState } from 'vue-history-state'
+
+    const tag = useTagsStore();
+    const historyState = useHistoryState()
+      if (historyState.action === 'back') {
+        tag.resetPlaceTag()
+        alert("back")
+        }
 
     const auth = useAuthStore();
-    const user = useUserStore();
     const userName = ref<string>("unknown")
     const customHeaders = {
         'Authorization': `Bearer ${auth.auth.token}`
