@@ -16,6 +16,7 @@
     "@nuxtjs/tailwindcss": "^6.11.4",
     "@pinia/nuxt": "^0.5.1",
     "browser-image-compression": "^2.0.2",
+    "chart.js": "^4.4.2",
     "compressorjs": "^1.2.1",
     "jwt-decode": "^4.0.0",
     "nuxt": "^3.10.1",
@@ -23,10 +24,12 @@
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
     "vue": "^3.4.15",
+    "vue-chartjs": "^5.3.0",
     "vue-history-state": "^0.14.0",
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
-    "@pinia-plugin-persistedstate/nuxt": "^1.2.0"
+    "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
+    "@types/chart.js": "^2.9.41"
   }
 }

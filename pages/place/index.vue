@@ -46,7 +46,7 @@
               places.value = response
               console.log(places.value)
               } catch (error) {
-              console.log(error)          
+              console.log(error)
               }  
           }
           async function getPlacesFunc(){

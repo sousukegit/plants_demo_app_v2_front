@@ -34,3 +34,8 @@ exit
 npm install browser-image-compression --save
 npm cache clean --force  
 exit
+npm install Chart.js
+npm install vue-chartjs
+npm install @types/chart.js -D
+npm i chart.js
+exit
