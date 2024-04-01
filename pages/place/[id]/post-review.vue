@@ -171,15 +171,22 @@ comment.value = `${auth.user.name}は最高と感じました（テスト）`
 
 //プレビュー用のURL配列を定義
 const srcs = ref<string[]>([])
+//ファイルリスト
+const fileList = ref<FileList>();
 //Filelistから取り出したFileを格納する送付用の配列を定義
 const files = ref<File[]>([])
-interface State {
-inputFileImg: File,
-imagePath: string,
-}
+
 //エラーチェック
 const errorSize = ref(false);
 const errorImage = ref(false);
+
+//モーダルウィンドウの表示状態を管理
+const doesPicShowModal = ref(false);
+const srcNum = ref();
+const showModal = (index:number):void => {
+  doesPicShowModal.value = true;
+  srcNum.value = index
+};
 
 //圧縮用の関数を定義
 const fileCompresseer = async (file:File,i:number) =>{
@@ -201,19 +208,13 @@ const fileCompresseer = async (file:File,i:number) =>{
         }
       }
 
-const fileList = ref<FileList>();
+
 //画像を削除する処理
 const removeImage = (index:number) => {
 srcs.value.splice(index,1);
 files.value.splice(index,1)
 }
-//モーダルウィンドウの表示状態を管理
-const doesPicShowModal = ref(false);
-const srcNum = ref();
-const showModal = (index:number):void => {
-  doesPicShowModal.value = true;
-  srcNum.value = index
-};
+
 //画像圧縮処理を監視する
 const compresseedFin = ref<Boolean>(false);
 
@@ -274,7 +275,7 @@ if(!errorImage.value&&!errorImage.value&&compresseedFin.value){
 
   const review = async() => {
       try {
-      const response = await usePost('/api/v1/reviews',formData,customHeaders);
+      const response = await usePost<FormData>('/api/v1/reviews',formData,customHeaders);
       // 成功時の処理
       //成功したら口コミ一覧にリダイレクト
 

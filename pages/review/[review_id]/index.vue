@@ -87,6 +87,7 @@
 </template>
 <script setup lang="ts">
 import { useAuthStore } from '~~/stores/auth';
+import imageCompression from "browser-image-compression";
    const auth = useAuthStore();
    const customHeaders = {
        'Authorization': `Bearer ${auth.auth.token}`
@@ -155,43 +156,95 @@ const currentData = (review) :void=> {
     comment.value = review.comment
 }
 
+
+//画像アップロードーーーー
+
+//ファイルリスト
+const fileList = ref<FileList>();
+//Filelistから取り出したFileを格納する送付用の配列を定義
+const files = ref<File[]>([])
+
+//エラーチェック
+const errorSize = ref(false);
+const errorImage = ref(false);
+
+//モーダルウィンドウの表示状態を管理
+const doesPicShowModal = ref(false);
+const srcNum = ref();
+const showModal = (index:number):void => {
+  doesPicShowModal.value = true;
+  srcNum.value = index
+};
+
+//圧縮用の関数を定義
+const fileCompresseer = async (file:File,i:number) =>{
+      //実行されたらfalse
+      compresseedFin.value = false
+      const options ={
+        //グーグルの理想基準に変更　https://developer.chrome.com/docs/lighthouse/performance/total-byte-weight?utm_source=lighthouse&utm_medium=unknown&hl=変更変更
+          maxSizeMB: 1.6,
+          maxWidthOrHeight: 1000
+        };
+        try {
+          const compresseedFile = await imageCompression(file, options);
+          //圧縮したファイルを格納
+          files.value.push(compresseedFile)
+          //成功したらしたらTrue
+          compresseedFin.value = true
+        } catch (error) {
+          console.log(error)
+        }
+      }
+
+
+//画像を削除する処理
+const removeImage = (index:number) => {
+srcs.value.splice(index,1);
+files.value.splice(index,1)
+}
+
+//画像圧縮処理を監視する
+const compresseedFin = ref<Boolean>(false);
+
+
+
 //写真を編集
 // ①画像をuploadすると、画像データがstateに入る
 const handleImageUploaded = (e: Event) => {
-//   if (e.target instanceof HTMLInputElement && e.target.files) {
-//     fileList.value = e.target.files
-//     if(fileList.value.length > 0){
-//       //forで取り出して処理する（Foreach使えない）
-//       for(let i=0; i<fileList.value.length; i++){
-//         const file = fileList.value[i]
-//         //プレビュー処理
-//         //srcにファイル読み取り後値が動的に入るようコールバック関数をひきすうに
-//         const reader =  useFileReader((result) => {
-//           srcs.value[i] = result
-//         } )
-//         reader.read(file)
-//         //バリデート処理
-//         let size = file.size
-//         let type = file.type
-//         // 2MBまで
-//         errorSize.value = size > 200000? true: false
-//         errorImage.value =  type != 'image/jpg' && type != 'image/jpeg' &&  type != 'image/png' ? true: false
-//         //圧縮
-//         fileCompresseer(file,i)
-//       }
-//     }
-//     else{
-//       //何も選択しなかった場合、写真を空にする
-//       srcs.value = []
-//     }
-//   }
+    if (e.target instanceof HTMLInputElement && e.target.files) {
+    fileList.value = e.target.files
+    if(fileList.value.length > 0){
+      //forで取り出して処理する（Foreach使えない）
+      for(let i=0; i<fileList.value.length; i++){
+        const file = fileList.value[i]
+        //プレビュー処理
+        //srcにファイル読み取り後値が動的に入るようコールバック関数をひきすうに
+        const reader =  useFileReader((result) => { 
+          srcs.value[i] = result
+        } )
+        reader.read(file)
+        //バリデート処理
+        let size = file.size
+        let type = file.type
+        // 2MBまで
+        errorSize.value = size > 200000? true: false
+        errorImage.value =  type != 'image/jpg' && type != 'image/jpeg' &&  type != 'image/png' ? true: false
+        //圧縮
+        fileCompresseer(file,i)
+      }
+    }
+    else{
+      //何も選択しなかった場合、写真を空にする
+      srcs.value = []
+    }
+  }
 }
 
 const reviewEdit = ():void => {
     const formData = new FormData();
-//     for(let i=0; i < files.value.length; i++){
-//     formData.append("images[]",files.value[i])
-//   }
+    for(let i=0; i < files.value.length; i++){
+    formData.append("images[]",files.value[i])
+  }
    formData.append("comment",comment.value )
    formData.append("rating",rating.value )
    formData.append("price_point",price_point.value )
