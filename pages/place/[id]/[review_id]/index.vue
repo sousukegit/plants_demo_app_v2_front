@@ -56,6 +56,7 @@ import { useAuthStore } from '~~/stores/auth';
 
   //ルートIDをURLより取得
   const route = useRoute()
+  const placeID =route.params.id
   const reviewID =route.params.review_id
 
   const review = ref("");
@@ -91,8 +92,22 @@ import { useAuthStore } from '~~/stores/auth';
   }
   const deleteReview = ():void => {
     //TODO　消しますか？　アラート
-    window.confirm('このレビューを削除しますか？')
-    //TODO　DeleteのAPI
+    if(window.confirm('このレビューを削除しますか？')){
+        const deleteReview = async() => {
+            try {
+            const response = await useDelete(`/api/v1/reviews/${reviewID}`,customHeaders);
+            //TODO 成功時の処理
+            alert("レビューを削除しました。")
+            navigateTo(`/place/${placeID}`)
+            } catch (error) {
+            console.log(error)
+            }
+        }
+        async function deleteReviewFunc(){
+            await deleteReview()
+        }
+        deleteReviewFunc()
+    }
 }
- 
+
 </script>

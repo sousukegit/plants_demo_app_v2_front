@@ -14,6 +14,12 @@
             <!-- トップは店舗情報、口コミ、写真、地図を表示する -->
           <div v-if="place">
               <AppH2>{{ place.name }}</AppH2>
+            <!-- todo 写真のスライダー -->
+            <!-- 現在の総合評価 　押したら口コミ一覧へ遷移-->
+            <!-- タップして評価 　押したらレビューへ遷移-->
+            <!-- レーダー -->
+            <!-- 口コミ 押したら詳細に遷移-->
+              <AppH3></AppH3>
               <div>{{ place.google_place_id }}</div>
           </div>
       <!-- 口コミの詳細と、口コミを書く画面に遷移するようにする -->
@@ -33,13 +39,18 @@
         class="p-2"
         >
           <AppH2>口コミ一覧</AppH2>
-          <div v-for="(review,i) in reviews"
+          <div 
+          v-if="reviews.length > 0"
+          v-for="(review,i) in reviews"
           :key="review.id"
           class="border"
           >
             <div>{{ review.user_id }}</div>
             <div>{{ review.comment }}</div>
             <AppLink :href="`/place/${placeID}/${review.id}`">口コミをみる</AppLink>
+          </div>
+          <div v-else>
+              口コミはまだありません。
           </div>
         </div>
     </div>
@@ -53,6 +64,7 @@
   
   </template>
   <script setup lang="ts">
+import AppH3 from '~/components/AppH3.vue';
 import { useAuthStore } from '~~/stores/auth';
 import { useTagsStore } from '~~/stores/tags';
 
