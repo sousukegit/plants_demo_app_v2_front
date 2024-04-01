@@ -24,8 +24,8 @@
     const tag = useTagsStore();
     const historyState = useHistoryState()
       if (historyState.action === 'back') {
+        //tag情報をリセット
         tag.resetPlaceTag()
-        alert("back")
         }
 
     const auth = useAuthStore();

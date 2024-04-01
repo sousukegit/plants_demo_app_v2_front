@@ -1,4 +1,4 @@
-export const useGet = async (url: string,  customHeaders?: Record<string, string>) => {
+export const usePatch = async <T>(url: string, requestBody?: T, customHeaders?: Record<string, string>) => {
     const config = useRuntimeConfig();
 
     const headers: Record<string, string> = {
@@ -9,8 +9,10 @@ export const useGet = async (url: string,  customHeaders?: Record<string, string
     return await $fetch(
         config.public.apiOrigin + `${url}`,
         {
-            method: "GET",
+            method: "PATCH",
             credentials: 'include',
+            // body: requestBody? JSON.stringify(requestBody) : undefined,
+            body: requestBody? requestBody : undefined,
             headers,
         }
     );

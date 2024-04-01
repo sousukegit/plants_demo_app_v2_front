@@ -27,8 +27,10 @@
             <div>{{ review.price_point }}</div>
             <AppH3>コメント</AppH3>
             <div>{{ review.comment }}</div>
-            <AppH3  v-if="srcs !== null">写真</AppH3>
-            <div class="grid sm:grid-cols-5 grid-cols-3 gap-1 ">
+            <AppH3 >写真</AppH3>
+            <div class="grid sm:grid-cols-5 grid-cols-3 gap-1 "
+            v-if="srcs !== null"
+            >
                 <div
                 v-if="srcs !== null"
                 v-for="(src,i) in srcs"
@@ -37,6 +39,7 @@
                     <img  :src="src" class="h-32 w-32 sm:h-40 sm:w-40 object-cover ">
                 </div>
             </div>
+            <div v-else>写真はありません</div>
         </WhiteContainer>
     </TheContainer>
 

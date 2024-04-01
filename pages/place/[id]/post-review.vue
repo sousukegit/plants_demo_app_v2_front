@@ -156,7 +156,7 @@ const setRating = (event: number) =>{
   rating.value = event
 }
 const setHealthPoint = (event: number) =>{
-  mania_point.value = event
+  health_point.value = event
 }
 const setPricePoint= (event: number) =>{
   price_point.value = event
