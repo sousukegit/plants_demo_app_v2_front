@@ -25,6 +25,16 @@ import { Radar } from 'vue-chartjs'
 // ここでChartJSでこれらを使います〜と登録してあげます。
 ChartJS.register(CategoryScale, LinearScale, BarElement,PointElement ,RadialLinearScale, LineElement, Filler, Title, Tooltip, Legend)
 
+type plantReview = {
+  health_point : number | undefined
+  price_point : number | undefined
+  mania_point : number | undefined
+}
+
+// const props = defineProps<{
+//   health_point = data.health_point
+
+// }>()
 // ここではchartに使うdataを登録していきます。
 // ChartData<'radar'>でRadar-Chartの型付けを使ってます。
 // 他にも<"bar">などがあります。
