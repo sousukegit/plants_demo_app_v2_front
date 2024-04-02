@@ -18,9 +18,17 @@
   <script setup lang="ts">
     import { useAuthStore } from '~~/stores/auth';
     import { useUserStore } from '~~/stores/user';
+    import { useTagsStore } from '~~/stores/tags';
+    import { useHistoryState } from 'vue-history-state'
+
+    const tag = useTagsStore();
+    const historyState = useHistoryState()
+      if (historyState.action === 'back') {
+        //tag情報をリセット
+        tag.resetPlaceTag()
+        }
 
     const auth = useAuthStore();
-    const user = useUserStore();
     const userName = ref<string>("unknown")
     const customHeaders = {
         'Authorization': `Bearer ${auth.auth.token}`
@@ -38,7 +46,7 @@
               places.value = response
               console.log(places.value)
               } catch (error) {
-              console.log(error)          
+              console.log(error)
               }  
           }
           async function getPlacesFunc(){

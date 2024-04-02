@@ -1,4 +1,4 @@
-export const useGet = async <T>(url: string,  customHeaders?: Record<string, string>) => {
+export const useGet = async (url: string,  customHeaders?: Record<string, string>) => {
     const config = useRuntimeConfig();
 
     const headers: Record<string, string> = {
@@ -10,7 +10,7 @@ export const useGet = async <T>(url: string,  customHeaders?: Record<string, str
         config.public.apiOrigin + `${url}`,
         {
             method: "GET",
-            credentials: 'include',          
+            credentials: 'include',
             headers,
         }
     );
