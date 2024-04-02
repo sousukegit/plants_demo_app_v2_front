@@ -36,7 +36,7 @@
                 v-for="(src,i) in srcs"
                 :key="i"
                 >
-                    <img  :src="src" class="h-32 w-32 sm:h-40 sm:w-40 object-cover ">
+                    <img  :src="src" class="h-32 w-full sm:h-40  object-cover ">
                 </div>
             </div>
             <div v-else>写真はありません</div>

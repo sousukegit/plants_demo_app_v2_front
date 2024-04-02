@@ -56,7 +56,7 @@
                   v-for="(src,i) in srcs"
                   :key="i"
                   >
-                  <img @click="showModal(i)" :src="src" class="h-32 w-32 sm:h-40 sm:w-40 object-cover rounded-md">
+                  <img @click="showModal(i)" :src="src" class="h-32 w-full sm:h-40 object-cover rounded-md">
                   <button @click="removeImage(i)" class="-translate-y-32 sm:-translate-y-40 ml-1 my-1  border px-1 rounded-full bg-cream right-0">×</button>
                   <Teleport v-if="doesPicShowModal" to="#picShow">
                         <div  v-if="doesPicShowModal"
@@ -95,11 +95,6 @@
                 </div>
               </div>
             </section>
-            <section>
-              <button type="submit" @click="upload" >upload</button>
-            </section>
-
-
             <AppH3>コメント</AppH3>
                 <inputTextarea v-model="comment"></inputTextarea>
             <ButtonPrimary :on-click="reviewUpload ">レビューを送信する</ButtonPrimary>
@@ -145,10 +140,10 @@ onMounted(() => {
 const place_id = ref<Number>(placeID);
 const google_place_id = ref<String>("");
 const comment = ref<String>("");
-const rating = ref<Number>(4);
-const price_point = ref<Number>(4);
-const mania_point = ref<Number>(4);
-const health_point = ref<Number>(4);
+const rating = ref<Number>(0);
+const price_point = ref<Number>(0);
+const mania_point = ref<Number>(0);
+const health_point = ref<Number>(0);
 const user_id = ref<Number>(auth.user.id);
 
 //データをセット
@@ -164,8 +159,6 @@ const setPricePoint= (event: number) =>{
 const setManiaPoint= (event: number) =>{
   mania_point.value = event
 }
-
-comment.value = `${auth.user.name}は最高と感じました（テスト）`
 
 // 画像アップロード-------------------
 
@@ -265,21 +258,12 @@ if(!errorImage.value&&!errorImage.value&&compresseedFin.value){
   formData.append("health_point",health_point.value )
   formData.append("mania_point",mania_point.value )
   formData.append("user_id",user_id.value )
-  
-  // 中身確認用
-  for (let value of formData.entries()) {
-    console.log(value);
-  }
-  console.log(files.value)
-
 
   const review = async() => {
       try {
       const response = await usePost<FormData>('/api/v1/reviews',formData,customHeaders);
-      // 成功時の処理
-      //成功したら口コミ一覧にリダイレクト
-
-      console.log(response)
+      alert("口コミ登録しました。")
+      navigateTo(`/place/${placeID}`)
       } catch (error) {
           // エラー時の処理
       console.error(error);
@@ -291,7 +275,7 @@ if(!errorImage.value&&!errorImage.value&&compresseedFin.value){
     reviewFunc()
 }
 else{
-  alert("画像がサイズを超えています")
+  alert("登録できませんでした。")
 }
 }
 
