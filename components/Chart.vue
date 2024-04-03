@@ -25,16 +25,14 @@ import { Radar } from 'vue-chartjs'
 // ここでChartJSでこれらを使います〜と登録してあげます。
 ChartJS.register(CategoryScale, LinearScale, BarElement,PointElement ,RadialLinearScale, LineElement, Filler, Title, Tooltip, Legend)
 
-type plantReview = {
-  health_point : number | undefined
-  price_point : number | undefined
-  mania_point : number | undefined
-}
+// type Props = {
+//   health_point : number | undefined
+//   price_point : number | undefined
+//   mania_point : number | undefined
+// }
 
-// const props = defineProps<{
-//   health_point = data.health_point
+// const props = defineProps<Props>()
 
-// }>()
 // ここではchartに使うdataを登録していきます。
 // ChartData<'radar'>でRadar-Chartの型付けを使ってます。
 // 他にも<"bar">などがあります。
@@ -46,17 +44,18 @@ const data:ChartData<'radar'> = {
   ],
   datasets: [
     {
-      label: '平均値',
+      label: '植物評価',
       backgroundColor: 'rgba(179,181,198,0.2)',
       borderColor: 'rgba(179,181,198,1)',
       pointBackgroundColor: 'rgba(179,181,198,1)',
       pointBorderColor: '#fff',
       pointHoverBackgroundColor: '#fff',
       pointHoverBorderColor: 'rgba(179,181,198,1)',
-      data: [3.2, 4.5, 4.2]
+      data: [3.1, 2.0, 3.5]
+     // data: [props.health_point, props.price_point, props.mania_point]
     },
     {
-      label: 'あなたのデータ',
+      label: '植物平均評価',
       backgroundColor: 'rgba(255,99,132,0.2)',
       borderColor: 'rgba(255,99,132,1)',
       pointBackgroundColor: 'rgba(255,99,132,1)',

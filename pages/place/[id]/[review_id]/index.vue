@@ -22,6 +22,14 @@
             </div>
 
             <AppH3>植物レーダー</AppH3>
+            <!-- <div>
+            <Chart  v-if="review.rating !== null && review.rating !== undefined"
+            :health_point = "review.health_point"
+            :mania_point = "review.mania_point"
+            :price_point = "review.price_point"
+             />
+            </div> -->
+            
             <div>{{ review.health_point }}</div>
             <div>{{ review.mania_point }}</div>
             <div>{{ review.price_point }}</div>
