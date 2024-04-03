@@ -39,3 +39,5 @@ npm install vue-chartjs
 npm install @types/chart.js -D
 npm i chart.js
 exit
+npm cache clean --force
+exit
