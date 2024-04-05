@@ -58,6 +58,7 @@
                 :key="i"
                 >
                     <img  :src="src" class="h-32 w-full sm:h-40  object-cover ">
+                    <button @click="removeImage(i)" class="-translate-y-32 sm:-translate-y-40 ml-1 my-1  border px-1 rounded-full bg-cream right-0">×</button>
                 </div>
                 <div class="my-4 mx-auto">
                   <label for="image" class="text-center p-6 border border-coffee rounded-md hover:bg-accent-100 bg-accent-300">
@@ -117,10 +118,9 @@ import imageCompression from "browser-image-compression";
             user.value = response.user
             rating.value = response.rating
             srcs.value = response.image_url
-
             console.log(srcs.value)
             files.value = response.image_url
-
+            console.log(files.value)
             currentData(review.value)
             console.log(review.value)
             } catch (error) {
@@ -201,8 +201,17 @@ const fileCompresseer = async (file:File,i:number) =>{
 
 //画像を削除する処理
 const removeImage = (index:number) => {
+  console.log("srcs消す前")
+  console.log(srcs.value)
+  console.log(files.value)
 srcs.value.splice(index,1);
+console.log("srcs消す後")
+  console.log(srcs.value)
+  console.log(files.value)
 files.value.splice(index,1)
+console.log("files消す前")
+  console.log(srcs.value)
+  console.log(files.value)
 }
 
 //画像圧縮処理を監視する
@@ -211,6 +220,7 @@ const compresseedFin = ref<Boolean>(false);
 //写真を編集
 // ①画像をuploadすると、画像データがstateに入る
 const handleImageUploaded = (e: Event) => {
+  console.log("添付処理前")
   console.log(srcs.value)
     if (e.target instanceof HTMLInputElement && e.target.files) {
     fileList.value = e.target.files
