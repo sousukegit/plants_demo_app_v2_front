@@ -116,7 +116,6 @@ import imageCompression from "browser-image-compression";
             place.value = response.place
             user.value = response.user
             rating.value = response.rating
-
             srcs.value = response.image_url
 
             console.log(srcs.value)
@@ -191,9 +190,7 @@ const fileCompresseer = async (file:File,i:number) =>{
         try {
           const compresseedFile = await imageCompression(file, options);
           //圧縮したファイルを格納
-          console.log(files.value)
           files.value.push(compresseedFile)
-          console.log(files.value)
           //成功したらしたらTrue
           compresseedFin.value = true          
         } catch (error) {
@@ -211,8 +208,6 @@ files.value.splice(index,1)
 //画像圧縮処理を監視する
 const compresseedFin = ref<Boolean>(false);
 
-
-
 //写真を編集
 // ①画像をuploadすると、画像データがstateに入る
 const handleImageUploaded = (e: Event) => {
@@ -227,10 +222,7 @@ const handleImageUploaded = (e: Event) => {
         console.log(srcs.value)
         //srcにファイル読み取り後値が動的に入るようコールバック関数をひきすうに
         const reader =  useFileReader((result) => {
-          console.log(srcs.value)
-          console.log("result"+result)
-          //srcs.value.push(result)
-          console.log(srcs.value)
+          srcs.value.push(result)
         })
         reader.read(fileList.value[i])
         const file = fileList.value[i]
@@ -241,8 +233,12 @@ const handleImageUploaded = (e: Event) => {
         errorSize.value = size > 200000? true: false
         errorImage.value =  type != 'image/jpg' && type != 'image/jpeg' &&  type != 'image/png' ? true: false
         //圧縮して送付用の配列に格納        
-        fileCompresseer(file,i)
-        console.log(files.value)
+        //fileCompresseer(file,i)
+console.log(srcs.value)
+console.log(files.value)
+//files.value.push(file)
+console.log(srcs.value)
+console.log(files.value)
       }
     }
     else{
