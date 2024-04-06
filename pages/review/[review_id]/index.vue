@@ -101,6 +101,10 @@ import imageCompression from "browser-image-compression";
   const place = ref("");
   const user = ref("");
   const rating = ref(null);
+  const comment = ref<String>("");
+  const price_point = ref(null);
+  const mania_point = ref(null);
+  const health_point = ref(null);
   const srcs = ref<string[]>([]);
   //ファイルのみのリスト
   const fileList = ref<FileList>();
@@ -116,7 +120,6 @@ import imageCompression from "browser-image-compression";
             review.value = response
             place.value = response.place
             user.value = response.user
-            rating.value = response.rating
             srcs.value = Array.from(response.image_url)
             files.value = Array.from(response.image_url)
             currentData(review.value)
@@ -131,14 +134,15 @@ import imageCompression from "browser-image-compression";
         getReviewFunc()
   })
 
-  //ポストデータ
-// const place_id = ref<Number>(placeID);
-// const google_place_id = ref<String>("");
-const comment = ref<String>("");
-// //const rating = ref<Number>(4);
-const price_point = ref<Number>(null);
-const mania_point = ref<Number>(null);
-const health_point = ref<Number>(null);
+//取得したデータを格納
+const currentData = (review) :void=> {
+    comment.value = review.comment
+    rating.value = review.rating
+    health_point.value = review.health_point
+    price_point.value = review.price_point
+    mania_point.value = review.mania_point
+    console.log(mania_point.value)
+}
 // const user_id = ref<Number>(auth.user.id);
 
 //データをセット
@@ -154,10 +158,7 @@ const setPricePoint= (event: number) =>{
 const setManiaPoint= (event: number) =>{
   mania_point.value = event
 }
-//取得したデータを格納
-const currentData = (review) :void=> {
-    comment.value = review.comment
-}
+
 
 
 //画像アップロードーーーー
