@@ -21,12 +21,91 @@
           <div v-if="place">
               <AppH2>{{ place.name }}</AppH2>
             <!-- todo 写真のスライダー -->
+            <swiper-container
+            navigation="true" 
+            pagination="true" 
+            scrollbar="true"
+            >
+              <swiper-slide 
+              v-if="srcs.length > 0"
+              v-for="(src, i) in srcs" :key="i" eager
+              >
+                  <div>                  
+                    <img class="object-cover h-80 lg:h-96 mx-auto w-full xl:max-w-screen-lg" :src="src" />
+                  </div>
+              </swiper-slide>
+              <swiper-slide 
+              v-else>
+              <div>">
+                    <img class="object-cover h-80 lg:h-96 mx-auto w-full xl:max-w-screen-lg" src="/assets/images/plantimage.jpg" />
+                  </div>
+              </swiper-slide>            
+            </swiper-container>
             <!-- 現在の総合評価 　押したら口コミ一覧へ遷移-->
-            <!-- タップして評価 　押したらレビューへ遷移-->
+            <AppH3>評価</AppH3>
+            <div class="flex">
+                <div class="ml-0 w-38">
+                    <NuxtRating
+                    :read-only="true"
+                    :rating-count="5.0"
+                    :rating-size="'24px'"
+                    :rating-value="5"
+                    />
+                </div>
+                <div class= "ml-40">5</div>
+            </div>
+            <!-- <div>タップして評価の★</div> -->
             <!-- レーダー -->
+            <AppH3>植物別評価</AppH3>
+            <!-- <Chart  v-if="review.rating !== null && review.rating !== undefined"
+            :health_point = "review.health_point"
+            :mania_point = "review.mania_point"
+            :price_point = "review.price_point"
+             /> -->
+             <Chart 
+            :health_point = "4.2"
+            :mania_point = "4.3"
+            :price_point = "3.9"
+             />
             <!-- 口コミ 押したら詳細に遷移-->
-              <AppH3></AppH3>
-              <div>{{ place.google_place_id }}</div>
+            <AppH3>口コミ</AppH3>
+            <div
+          v-if="reviews.length > 0"
+          v-for="(review,i) in reviews"
+          :key="review.id"
+          class="border rounded-md p-2"
+          >
+            <div class="text-xl">{{ users[i].name }}</div>
+            <!-- ★ -->
+            <div class="flex">
+                <div class="ml-0 w-38" v-if="review.rating !== null && review.rating !== undefined">
+                    <NuxtRating
+                    :read-only="true"
+                    :rating-count="5.0"
+                    :rating-size="'24px'"
+                    :rating-value="review.rating"
+                    />
+                </div>
+                <div class= "ml-40">{{ review.rating }}</div>
+            </div>
+            <!-- 写真 -->            
+            <div class="grid  grid-cols-3 sm:grid-cols-5">
+              <div
+              v-for="(scr,i) in review.image_url"
+              :key="i">
+                  <img :src="scr"
+                  class="h-32 w-full sm:h-40  object-cover ">
+              </div>
+            </div>
+
+            <div>{{ review.comment }}</div>
+            <AppLink :href="`/place/${placeID}/${review.id}`">口コミをみる</AppLink>
+          </div>
+          <div v-else>
+              口コミはまだありません。
+          </div>
+              
+              
           </div>
       <!-- 口コミの詳細と、口コミを書く画面に遷移するようにする -->
         </div>
@@ -36,14 +115,14 @@
         >
             <AppH2>写真一覧</AppH2>
             <!-- //gridで正方形にならぶ -->
-            <div v-if="reviews.length > 0"
+            <div v-if="srcs.length > 0"
             class="grid grid-cols-3 gap-1">
               <div
-              v-for="(scr,i) in scrs"
+              v-for="(src,i) in srcs"
               :key="i"
               >
                 <div>
-                  <img :src="scr"
+                  <img :src="src"
                   class="h-32 w-full sm:h-40  object-cover ">
                 </div>
               </div>
@@ -66,7 +145,7 @@
           >
             <div class="text-xl">{{ users[i].name }}</div>
             <!-- ★ -->
-            <div class="flex ">
+            <div class="flex">
                 <div class="ml-0 w-38" v-if="review.rating !== null && review.rating !== undefined">
                     <NuxtRating
                     :read-only="true"
@@ -106,7 +185,9 @@
 import AppH3 from '~/components/AppH3.vue';
 import { useAuthStore } from '~~/stores/auth';
 import { useTagsStore } from '~~/stores/tags';
-import Index from '../index.vue';
+import { register } from 'swiper/element/bundle';
+register();
+
 
 
   const auth = useAuthStore();
@@ -135,7 +216,7 @@ import Index from '../index.vue';
   const place = ref<string>("")
   const reviews = ref([])
   const users = ref([])
-  const scrs = ref([])
+  const srcs = ref([])
 
   onMounted(() => {
     const getPlaces = async() => {
@@ -147,7 +228,7 @@ import Index from '../index.vue';
             place.value = response
             reviews.value = response.reviews
             for (let i = 0; i < response.reviews.length; i++) {
-              scrs.value= scrs.value.concat(response.reviews[i].image_url) 
+              srcs.value= srcs.value.concat(response.reviews[i].image_url) 
               users.value= users.value.concat(response.reviews[i].user)
             }
             console.log(place.value)

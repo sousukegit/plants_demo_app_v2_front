@@ -41,3 +41,6 @@ npm i chart.js
 exit
 npm cache clean --force
 exit
+npm install swiper
+npm cache clean --force  
+exit
