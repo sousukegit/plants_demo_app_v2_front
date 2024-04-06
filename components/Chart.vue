@@ -45,12 +45,12 @@ const data:ChartData<'radar'> = {
   datasets: [
     {
       label: '植物評価',
-      backgroundColor: 'rgba(179,181,198,0.2)',
-      borderColor: 'rgba(179,181,198,1)',
-      pointBackgroundColor: 'rgba(179,181,198,1)',
+      backgroundColor: 'rgba(39, 63, 243,0.1)',
+      borderColor: 'rgba(39, 63, 243,1)',
+      pointBackgroundColor: 'rgba(39, 63, 243,1)',
       pointBorderColor: '#fff',
       pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(179,181,198,1)',
+      pointHoverBorderColor: 'rgba(39, 63, 243,1)',
       // data: [props.health_point, props.price_point,props.mania_point]
       data: [props.health_point,props.price_point,props.mania_point]
     },
@@ -74,10 +74,14 @@ const options:ChartOptions<'radar'> = {
   scales: {
             r:{
               min:0,
-              max:5.0
+              max:5.0,
+              pointLabels: {
+                font: {
+                  size: 18
+                }
+              }
             }
-        }
-  
+        } 
 };
 </script>
 

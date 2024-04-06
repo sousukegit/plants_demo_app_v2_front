@@ -108,7 +108,6 @@ import imageCompression from "browser-image-compression";
 
 
 const auth = useAuthStore();
-const review = useReviewStore();
 
 const customHeaders = {
     'Authorization': `Bearer ${auth.auth.token}`
