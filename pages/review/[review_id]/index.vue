@@ -117,10 +117,8 @@ import imageCompression from "browser-image-compression";
             place.value = response.place
             user.value = response.user
             rating.value = response.rating
-            srcs.value = response.image_url
-            console.log(srcs.value)
-            files.value = response.image_url
-            console.log(files.value)
+            srcs.value = Array.from(response.image_url)
+            files.value = Array.from(response.image_url)
             currentData(review.value)
             console.log(review.value)
             } catch (error) {
@@ -201,17 +199,8 @@ const fileCompresseer = async (file:File,i:number) =>{
 
 //画像を削除する処理
 const removeImage = (index:number) => {
-  console.log("srcs消す前")
-  console.log(srcs.value)
-  console.log(files.value)
-srcs.value.splice(index,1);
-console.log("srcs消す後")
-  console.log(srcs.value)
-  console.log(files.value)
+srcs.value.splice(index,1)
 files.value.splice(index,1)
-console.log("files消す前")
-  console.log(srcs.value)
-  console.log(files.value)
 }
 
 //画像圧縮処理を監視する
@@ -220,7 +209,6 @@ const compresseedFin = ref<Boolean>(false);
 //写真を編集
 // ①画像をuploadすると、画像データがstateに入る
 const handleImageUploaded = (e: Event) => {
-  console.log("添付処理前")
   console.log(srcs.value)
     if (e.target instanceof HTMLInputElement && e.target.files) {
     fileList.value = e.target.files
@@ -242,13 +230,8 @@ const handleImageUploaded = (e: Event) => {
         // 2MBまで
         errorSize.value = size > 200000? true: false
         errorImage.value =  type != 'image/jpg' && type != 'image/jpeg' &&  type != 'image/png' ? true: false
-        //圧縮して送付用の配列に格納        
-        //fileCompresseer(file,i)
-console.log(srcs.value)
-console.log(files.value)
-//files.value.push(file)
-console.log(srcs.value)
-console.log(files.value)
+        //圧縮して送付用の配列に格納
+        fileCompresseer(file,i)
       }
     }
     else{
