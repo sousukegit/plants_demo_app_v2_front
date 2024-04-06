@@ -215,6 +215,7 @@ const compresseedFin = ref<Boolean>(false);
 // ①画像をuploadすると、画像データがstateに入る
 const handleImageUploaded = (e: Event) => {
   if (e.target instanceof HTMLInputElement && e.target.files) {
+    console.log(srcs.value)
     fileList.value = e.target.files
     if(fileList.value.length > 0){
       //forで取り出して処理する（Foreach使えない）

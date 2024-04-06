@@ -24,7 +24,7 @@
                 :read-only="false"
                 :rating-count="5.0"
                 :rating-size="'24px'"
-                :rating-value="4"
+                :rating-value="review.health_point"
                 rating-content="🌱"
                 @rating-selected="setHealthPoint" />
             </div>
@@ -34,7 +34,7 @@
                 :read-only="false"
                 :rating-count="5.0"
                 :rating-size="'24px'"
-                :rating-value="4"
+                :rating-value="review.price_point"
                 rating-content="🌱"
                 @rating-selected="setPricePoint" />
             </div>
@@ -44,21 +44,21 @@
                 :read-only="false"
                 :rating-count="5.0"
                 :rating-size="'24px'"
-                :rating-value="4"
+                :rating-value="review.mania_point"
                 rating-content="🌱"
                 @rating-selected="setManiaPoint" />
             </div>
-            
 
             <AppH3>写真</AppH3>
-            <div class="grid sm:grid-cols-5 grid-cols-3 gap-1 "           
+            <div class="grid sm:grid-cols-5 grid-cols-3 gap-1 "
             >
                 <div
                 v-if="srcs !== null"
                 v-for="(src,i) in srcs"
                 :key="i"
                 >
-                    <img  :src="src" class="h-32 w-32 sm:h-40 sm:w-40 object-cover ">
+                    <img  :src="src" class="h-32 w-full sm:h-40  object-cover ">
+                    <button @click="removeImage(i)" class="-translate-y-32 sm:-translate-y-40 ml-1 my-1  border px-1 rounded-full bg-cream right-0">×</button>
                 </div>
                 <div class="my-4 mx-auto">
                   <label for="image" class="text-center p-6 border border-coffee rounded-md hover:bg-accent-100 bg-accent-300">
@@ -101,7 +101,11 @@ import imageCompression from "browser-image-compression";
   const place = ref("");
   const user = ref("");
   const rating = ref(null);
-  const srcs = ref<string[]>(null);
+  const srcs = ref<string[]>([]);
+  //ファイルのみのリスト
+  const fileList = ref<FileList>();
+  //Filelistから取り出して圧縮したFileとURLを格納する送付用の配列を定義
+  const files = ref<File[]|string>([])
 
    onMounted(() => {
     const getReview = async() => {
@@ -113,8 +117,8 @@ import imageCompression from "browser-image-compression";
             place.value = response.place
             user.value = response.user
             rating.value = response.rating
-            srcs.value = response.image_url
-
+            srcs.value = Array.from(response.image_url)
+            files.value = Array.from(response.image_url)
             currentData(review.value)
             console.log(review.value)
             } catch (error) {
@@ -150,7 +154,6 @@ const setPricePoint= (event: number) =>{
 const setManiaPoint= (event: number) =>{
   mania_point.value = event
 }
-
 //取得したデータを格納
 const currentData = (review) :void=> {
     comment.value = review.comment
@@ -159,10 +162,7 @@ const currentData = (review) :void=> {
 
 //画像アップロードーーーー
 
-//ファイルリスト
-const fileList = ref<FileList>();
-//Filelistから取り出したFileを格納する送付用の配列を定義
-const files = ref<File[]>([])
+
 
 //エラーチェック
 const errorSize = ref(false);
@@ -190,7 +190,7 @@ const fileCompresseer = async (file:File,i:number) =>{
           //圧縮したファイルを格納
           files.value.push(compresseedFile)
           //成功したらしたらTrue
-          compresseedFin.value = true
+          compresseedFin.value = true          
         } catch (error) {
           console.log(error)
         }
@@ -199,42 +199,43 @@ const fileCompresseer = async (file:File,i:number) =>{
 
 //画像を削除する処理
 const removeImage = (index:number) => {
-srcs.value.splice(index,1);
+srcs.value.splice(index,1)
 files.value.splice(index,1)
 }
 
 //画像圧縮処理を監視する
 const compresseedFin = ref<Boolean>(false);
 
-
-
 //写真を編集
 // ①画像をuploadすると、画像データがstateに入る
 const handleImageUploaded = (e: Event) => {
+  console.log(srcs.value)
     if (e.target instanceof HTMLInputElement && e.target.files) {
     fileList.value = e.target.files
+    console.log(srcs.value)
     if(fileList.value.length > 0){
       //forで取り出して処理する（Foreach使えない）
       for(let i=0; i<fileList.value.length; i++){
-        const file = fileList.value[i]
         //プレビュー処理
+        console.log(srcs.value)
         //srcにファイル読み取り後値が動的に入るようコールバック関数をひきすうに
-        const reader =  useFileReader((result) => { 
-          srcs.value[i] = result
-        } )
-        reader.read(file)
+        const reader =  useFileReader((result) => {
+          srcs.value.push(result)
+        })
+        reader.read(fileList.value[i])
+        const file = fileList.value[i]
         //バリデート処理
         let size = file.size
         let type = file.type
         // 2MBまで
         errorSize.value = size > 200000? true: false
         errorImage.value =  type != 'image/jpg' && type != 'image/jpeg' &&  type != 'image/png' ? true: false
-        //圧縮
+        //圧縮して送付用の配列に格納
         fileCompresseer(file,i)
       }
     }
     else{
-      //何も選択しなかった場合、写真を空にする
+      //何も選択しなかった場合、にする
       srcs.value = []
     }
   }

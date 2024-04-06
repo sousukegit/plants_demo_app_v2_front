@@ -2,7 +2,7 @@
   <TheContainer>
   <div>ようこそ<ClientOnly>{{ userName }}</ClientOnly>さん</div>
   <WhiteContainer>
-   <div><Chart/></div>
+   <!-- <div><Chart/></div> -->
 
     <AppLink  :href="`/place`">場所から探す</AppLink>
     <AppLink  :href="`/species`">種類から探す</AppLink>
