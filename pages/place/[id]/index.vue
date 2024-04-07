@@ -14,32 +14,30 @@
     </div>
    <div class="w-full bg-cream">
     <!-- 店舗情報TOP -->
-        <div v-show="isActive === '#top'"
-        class="p-2"
-        >
+        <div v-show="isActive === '#top'" class="p-2">
             <!-- トップは店舗情報、口コミ、写真、地図を表示する -->
           <div v-if="place">
               <AppH2>{{ place.name }}</AppH2>
             <!-- todo 写真のスライダー -->
             <swiper-container
-            navigation="true" 
-            pagination="true" 
+            navigation="true"
+            pagination="true"
             scrollbar="true"
             >
-              <swiper-slide 
+              <swiper-slide
               v-if="srcs.length > 0"
               v-for="(src, i) in srcs" :key="i" eager
               >
-                  <div>                  
+                  <div>
                     <img class="object-cover h-80 lg:h-96 mx-auto w-full xl:max-w-screen-lg" :src="src" />
                   </div>
               </swiper-slide>
-              <swiper-slide 
+              <swiper-slide
               v-else>
               <div>">
                     <img class="object-cover h-80 lg:h-96 mx-auto w-full xl:max-w-screen-lg" src="/assets/images/plantimage.jpg" />
                   </div>
-              </swiper-slide>            
+                </swiper-slide>
             </swiper-container>
             <!-- 現在の総合評価 　押したら口コミ一覧へ遷移-->
             <AppH3>評価</AppH3>
@@ -80,15 +78,15 @@
             <div class="flex">
                 <div class="ml-0 w-38" v-if="review.rating !== null && review.rating !== undefined">
                     <NuxtRating
-                    :read-only="true"
-                    :rating-count="5.0"
-                    :rating-size="'24px'"
-                    :rating-value="review.rating"
+                      :read-only="true"
+                      :rating-count="5.0"
+                      :rating-size="'24px'"
+                      :rating-value="review.rating"
                     />
                 </div>
                 <div class= "ml-40">{{ review.rating }}</div>
             </div>
-            <!-- 写真 -->            
+            <!-- 写真 -->
             <div class="grid  grid-cols-3 sm:grid-cols-5">
               <div
               v-for="(scr,i) in review.image_url"

@@ -12,7 +12,7 @@
       </div>
     </div>  
       <!-- <div>ようこそ{{ userEmail }}さん</div> -->
-      <ButtonSecondary @click="log()">log</ButtonSecondary>   
+      <ButtonSecondary @click="getReviewAverageFunc()">ave</ButtonSecondary>   
     </TheContainer> 
   </template>
   <script setup lang="ts">
@@ -53,7 +53,23 @@
              await getPlaces()
           }
           getPlacesFunc()
+      const getReviewAverage = async() => {
+              try {
+              const response = await useGet(`/api/v1/reviews/average`,customHeaders);
+              //TODO 成功時の処理
+              console.log(response)
+              } catch (error) {
+              console.log(error)          
+              }  
+        }
+        async function getReviewAverageFunc(){
+            await getReviewAverage()
+        }
+        getReviewAverageFunc()
+
     })
+
+
    
   
   </script>
