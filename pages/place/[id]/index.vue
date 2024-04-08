@@ -87,7 +87,7 @@
                 <div class= "ml-40">{{ review.rating }}</div>
             </div>
             <!-- 写真 -->
-            <div class="grid  grid-cols-3 sm:grid-cols-5">
+            <div class="grid  grid-cols-3 sm:grid-cols-5 gap-1">
               <div
               v-for="(scr,i) in review.image_url"
               :key="i">
