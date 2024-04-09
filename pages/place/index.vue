@@ -18,7 +18,7 @@
                     :read-only="true"
                     :rating-count="5.0"
                     :rating-size="'24px'"
-                    :rating-value="place.avg_reviews.rating"
+                    :rating-value="parseFloat(place.avg_reviews.rating)"
                     />
                 </div>
                 
@@ -77,12 +77,13 @@
 
     const checkFloat = (array) =>{
       
-      array.map(value => Number.isInteger(value.avg_reviews.rating) ? parseFloat(String(value.avg_reviews.rating)+".0") : value.avg_reviews.rating)
+      // array.map(value => Number.isInteger(value.avg_reviews.rating) ? parseFloat(String(value.avg_reviews.rating)+".0") : value.avg_reviews.rating)
+      // console.log(array)
+      array.forEach(e => {
+          //小数点第一位の数字意外である、整数なら⓪を付ける
+         e.avg_reviews.rating = Number.isInteger(e.avg_reviews.rating) ? String(e.avg_reviews.rating)+".0" : String(e.avg_reviews.rating)
+        });
       console.log(array)
-      // array.forEach(e => {
-        //   //小数点第一位の数字意外である、整数なら⓪を付ける
-        //  e.avg_reviews.rating = Number.isInteger(e.avg_reviews.rating) ? parseFloat(String(e.avg_reviews.rating)+".0") : e.avg_reviews.rating
-        // });
     }
    
   

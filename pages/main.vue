@@ -1,7 +1,4 @@
 <template>
-  <TheContainer>
-  <div>ようこそ<ClientOnly>{{ userName }}</ClientOnly>さん</div>
-
   <swiper-container
             navigation="true" 
             pagination="true" 
@@ -25,7 +22,9 @@
                   </a>
                   </div>
               </swiper-slide>            
-            </swiper-container>
+    </swiper-container>
+  <TheContainer>
+   
 
   <WhiteContainer>
    <!-- <div><Chart/></div> -->
