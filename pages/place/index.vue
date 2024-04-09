@@ -7,12 +7,29 @@
       <div v-for="(place,i) in places"
           :key="place.id"   
         >
-        <AppLink :href="`/place/${place.id}`">{{ place.name }}</AppLink> 
+        <a :href="`/place/${place.id}`">
+          <div class="border rounded-md bg-cream dark:bg-coffee my-2 p-4 shadow-md
+          ">
+            <div>{{  place.name }}</div>
+            <div class="flex gap-2">
+                <div class= "">{{place.avg_reviews.rating }}</div>
+                <div class="ml-0 w-38" v-if="place.avg_reviews.rating !== null && place.avg_reviews.rating !== undefined">
+                    <NuxtRating
+                    :read-only="true"
+                    :rating-count="5.0"
+                    :rating-size="'24px'"
+                    :rating-value="parseFloat(place.avg_reviews.rating)"
+                    />
+                </div>
+                
+            </div>
+          </div>
+        </a>
   
       </div>
     </div>  
       <!-- <div>ようこそ{{ userEmail }}さん</div> -->
-      <ButtonSecondary @click="log()">log</ButtonSecondary>   
+      <ButtonSecondary @click="getReviewAverageFunc()">ave</ButtonSecondary>   
     </TheContainer> 
   </template>
   <script setup lang="ts">
@@ -35,7 +52,8 @@
     }; 
 
     userName.value = auth.user.name 
-  
+    const average = ref([])
+
     const places = ref<string[]>("")
     onMounted(() => {
       const getPlaces = async() => {
@@ -44,6 +62,7 @@
               // 成功時の処理
               console.log(response)
               places.value = response
+              checkFloat(places.value)
               console.log(places.value)
               } catch (error) {
               console.log(error)
@@ -53,7 +72,19 @@
              await getPlaces()
           }
           getPlacesFunc()
+
     })
+
+    const checkFloat = (array) =>{
+      
+      // array.map(value => Number.isInteger(value.avg_reviews.rating) ? parseFloat(String(value.avg_reviews.rating)+".0") : value.avg_reviews.rating)
+      // console.log(array)
+      array.forEach(e => {
+          //小数点第一位の数字意外である、整数なら⓪を付ける
+         e.avg_reviews.rating = Number.isInteger(e.avg_reviews.rating) ? String(e.avg_reviews.rating)+".0" : String(e.avg_reviews.rating)
+        });
+      console.log(array)
+    }
    
   
   </script>

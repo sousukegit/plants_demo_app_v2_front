@@ -108,7 +108,6 @@ import imageCompression from "browser-image-compression";
 
 
 const auth = useAuthStore();
-const review = useReviewStore();
 
 const customHeaders = {
     'Authorization': `Bearer ${auth.auth.token}`
@@ -147,17 +146,18 @@ const health_point = ref<Number>(0);
 const user_id = ref<Number>(auth.user.id);
 
 //データをセット
-const setRating = (event: number) =>{
-  rating.value = event
+//小数点第一位に変換した文字にして数値に戻す
+const setRating = (event: number) =>{   
+  rating.value = parseFloat(event.toFixed(1))
 }
 const setHealthPoint = (event: number) =>{
-  health_point.value = event
+  health_point.value = parseFloat(event.toFixed(1))
 }
 const setPricePoint= (event: number) =>{
-  price_point.value = event
+  price_point.value = parseFloat(event.toFixed(1))
 }
 const setManiaPoint= (event: number) =>{
-  mania_point.value = event
+  mania_point.value =parseFloat(event.toFixed(1))
 }
 
 // 画像アップロード-------------------

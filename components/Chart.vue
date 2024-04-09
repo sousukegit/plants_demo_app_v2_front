@@ -40,18 +40,19 @@ const data:ChartData<'radar'> = {
   labels: [
     '管理状態',
     '価格帯',
-    'マニア性',
+    'マニア度',
   ],
   datasets: [
     {
       label: '植物評価',
-      backgroundColor: 'rgba(179,181,198,0.2)',
-      borderColor: 'rgba(179,181,198,1)',
-      pointBackgroundColor: 'rgba(179,181,198,1)',
+      backgroundColor: 'rgba(39, 63, 243,0.1)',
+      borderColor: 'rgba(39, 63, 243,1)',
+      pointBackgroundColor: 'rgba(39, 63, 243,1)',
       pointBorderColor: '#fff',
       pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(179,181,198,1)',
-      data: [props.health_point, 3.0,props.price_point,]
+      pointHoverBorderColor: 'rgba(39, 63, 243,1)',
+      // data: [props.health_point, props.price_point,props.mania_point]
+      data: [props.health_point,props.price_point,props.mania_point]
     },
     // {
     //   label: '植物平均評価',
@@ -66,16 +67,30 @@ const data:ChartData<'radar'> = {
   ]
 };
 
-// ここではchartに使うoptionsを登録していきます。
-// ChartOptions<'radar'>でRadar-Chartの型付けを使ってます。
-// 他にも<"bar">などがあります。
+// ここではchartに使うoptionsを登録
 const options:ChartOptions<'radar'> = {
   responsive: true,
-  maintainAspectRatio: false
+  maintainAspectRatio: false,
+  scales: {
+            r:{
+              min:0,
+              max:5.0,
+              pointLabels: {
+                font: {
+                  size: 18
+                }
+              }
+            }
+        } 
 };
 </script>
 
 <template>
   <!-- 定義したdataとoptionsを渡してあげます。 -->
-  <Radar :data="data" :options="options"/>
+  <div>
+    <Radar :data="data" :options="options"/>
+  </div>
+
+ 
+
 </template>

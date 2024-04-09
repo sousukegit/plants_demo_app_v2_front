@@ -29,5 +29,11 @@ export default defineNuxtConfig({
     '@/plugins/refreshTokenInit.client.ts',
     '@/plugins/history-state.ts',
 
-  ]
+  ],
+  vue: {
+    compilerOptions: {
+      isCustomElement: (tag) => /^(swiper|swiper-slide|swiper-container)$/.test(tag),
+    },
+  },
+
 })

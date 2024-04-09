@@ -29,10 +29,6 @@
             :price_point = "review.price_point"
              />
             </div>
-            
-            <div>{{ review.health_point }}</div>
-            <div>{{ review.mania_point }}</div>
-            <div>{{ review.price_point }}</div>
             <AppH3>コメント</AppH3>
             <div>{{ review.comment }}</div>
             <AppH3 >写真</AppH3>
