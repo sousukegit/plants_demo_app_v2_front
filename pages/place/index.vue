@@ -2,10 +2,10 @@
     <TheContainer>
         <!-- ここにはgooglemap載せる -->
     <AppH1>MAP</AppH1>
- 
+
     <div v-if="places.length">
       <div v-for="(place,i) in places"
-          :key="place.id"   
+          :key="place.id"
         >
         <a :href="`/place/${place.id}`">
           <div class="border rounded-md bg-cream dark:bg-coffee my-2 p-4 shadow-md
@@ -21,16 +21,14 @@
                     :rating-value="parseFloat(place.avg_reviews.rating)"
                     />
                 </div>
-                
             </div>
           </div>
         </a>
-  
       </div>
-    </div>  
+    </div>
       <!-- <div>ようこそ{{ userEmail }}さん</div> -->
-      <ButtonSecondary @click="getReviewAverageFunc()">ave</ButtonSecondary>   
-    </TheContainer> 
+      <ButtonSecondary @click="getReviewAverageFunc()">ave</ButtonSecondary>
+    </TheContainer>
   </template>
   <script setup lang="ts">
     import { useAuthStore } from '~~/stores/auth';
@@ -49,9 +47,9 @@
     const userName = ref<string>("unknown")
     const customHeaders = {
         'Authorization': `Bearer ${auth.auth.token}`
-    }; 
+    };
 
-    userName.value = auth.user.name 
+    userName.value = auth.user.name
     const average = ref([])
 
     const places = ref<string[]>("")
@@ -66,7 +64,7 @@
               console.log(places.value)
               } catch (error) {
               console.log(error)
-              }  
+              }
           }
           async function getPlacesFunc(){
              await getPlaces()
@@ -76,15 +74,9 @@
     })
 
     const checkFloat = (array) =>{
-      
-      // array.map(value => Number.isInteger(value.avg_reviews.rating) ? parseFloat(String(value.avg_reviews.rating)+".0") : value.avg_reviews.rating)
-      // console.log(array)
       array.forEach(e => {
           //小数点第一位の数字意外である、整数なら⓪を付ける
          e.avg_reviews.rating = Number.isInteger(e.avg_reviews.rating) ? String(e.avg_reviews.rating)+".0" : String(e.avg_reviews.rating)
         });
-      console.log(array)
     }
-   
-  
   </script>
