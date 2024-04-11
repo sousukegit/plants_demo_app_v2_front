@@ -85,7 +85,7 @@
                   const map = new google.maps.Map(document.getElementById('map') ,{
                       //初期表示設定
                       //適当な値で表示
-                      zoom:100,
+                      zoom:5,
                       center: new google.maps.LatLng(35.65832866308476, 139.74136906081668),
                       fullscreenControl:false,
                       mapTypeControl:false,

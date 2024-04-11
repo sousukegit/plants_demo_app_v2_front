@@ -81,7 +81,7 @@ const options:ChartOptions<'radar'> = {
                 }
               }
             }
-        } 
+        }
 };
 </script>
 
@@ -90,7 +90,4 @@ const options:ChartOptions<'radar'> = {
   <div>
     <Radar :data="data" :options="options"/>
   </div>
-
- 
-
 </template>
