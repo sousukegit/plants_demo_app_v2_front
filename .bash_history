@@ -44,3 +44,5 @@ exit
 npm install swiper
 npm cache clean --force  
 exit
+npm cache clean --force  
+exit

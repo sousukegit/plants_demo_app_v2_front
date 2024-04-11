@@ -1,9 +1,6 @@
 <template>
+    <div id="map" class="w-full h-80 mx-auto">google map</div>
     <TheContainer>
-        <!-- ここにはgooglemap載せる -->
-    <AppH1>MAP</AppH1>
-    <div id="map">google map</div>
-
     <div v-if="places.length">
       <div v-for="(place,i) in places"
           :key="place.id"
@@ -79,25 +76,25 @@
     }
 
     //spaで空のオブジェクトを宣言
- // const plantMap = ref<google.maps.places.PlaceResult>({})
+ const plantMap = ref<google.maps.places.PlaceResult>({})
 
-  // onMounted(()=>{
-  //     const loader = useGoogle()
-  //     loader.load().then((google)=>{
-  //                 //mapインスタンス作成 初期描画用
-  //                 const map = new google.maps.Map(document.getElementById('map') ,{
-  //                     //初期表示設定
-  //                     //適当な値で表示
-  //                     zoom:17,
-  //                     center: new google.maps.LatLng(0,0),
-  //                     fullscreenControl:false,
-  //                     mapTypeControl:false,
-  //                     streetViewControl:true,
-  //                     streetViewControlOptions:{
-  //                         position:google.maps.ControlPosition.LEFT_BOTTOM
-  //                     },
-  //                     scaleControl:true
-  //                 })
+  onMounted(()=>{
+      const loader = useGoogle()
+      loader.load().then((google)=>{
+                  //mapインスタンス作成 初期描画用
+                  const map = new google.maps.Map(document.getElementById('map') ,{
+                      //初期表示設定
+                      //適当な値で表示
+                      zoom:100,
+                      center: new google.maps.LatLng(35.65832866308476, 139.74136906081668),
+                      fullscreenControl:false,
+                      mapTypeControl:false,
+                      streetViewControl:true,
+                      streetViewControlOptions:{
+                          position:google.maps.ControlPosition.LEFT_BOTTOM
+                      },
+                      scaleControl:true
+                  })
                   // const service = new google.maps.places.PlacesService(map)
 
                   //受け取ったパラメータを元にmap情報の詳細を検索
@@ -131,10 +128,10 @@
                   //     }
                   // )
 
-  //             }
-  //         )
-  //         .catch(()=>{})
-  // })
+              }
+          )
+          .catch(()=>{})
+  })
 
 
   </script>
