@@ -104,7 +104,6 @@
                   // service.getDetails({
                   //     placeId:queryPlaceID
                   // },
-                  
                   //     (place,status)=>{
                   //         if(status === google.maps.places.PlacesServiceStatus.OK){
                   //             spa.value = place
