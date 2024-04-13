@@ -11,8 +11,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig:{
     public:{
-       apiOrigin: process.env.NUXT_API_ORIGIN
-      //apiOrigin: ""
+       apiOrigin: process.env.NUXT_API_ORIGIN,
+       googleMapsApiKey:process.env.NUXT_GOOGLE_MAPS_API_KEY
     }
   },
   typescript:{

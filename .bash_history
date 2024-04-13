@@ -44,3 +44,7 @@ exit
 npm install swiper
 npm cache clean --force  
 exit
+npm cache clean --force  
+exit
+npm i -D @types/google.maps
+exit
