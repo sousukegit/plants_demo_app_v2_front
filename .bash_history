@@ -48,3 +48,6 @@ npm cache clean --force
 exit
 npm i -D @types/google.maps
 exit
+npm cache clean --force
+q
+exit
