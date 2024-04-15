@@ -1,25 +1,36 @@
 <template>
     <div id="map" class="w-full h-80 mx-auto">google map</div>
     <TheContainer>
+      
     <div v-if="places.length">
       <div v-for="(place,i) in places"
           :key="place.id"
         >
         <a :href="`/place/${place.id}`">
           <div class="border rounded-md bg-cream dark:bg-coffee my-2 p-4 shadow-md
-          ">
+          hover:bg-accent-300 transition-all duration-300">
             <div>{{  place.name }}</div>
-            <div class="flex gap-2">
-                <div class= "">{{place.avg_reviews.rating }}</div>
-                <div class="ml-0 w-38" v-if="place.avg_reviews.rating !== null && place.avg_reviews.rating !== undefined">
-                    <NuxtRating
+            <div class="flex gap-2"
+            v-if="place.avg_reviews !== null && place.avg_reviews !== undefined">
+                <div class= "ml-0 w-38">{{place.avg_reviews.rating }}</div>
+                  <NuxtRating
                     :read-only="true"
                     :rating-count="5.0"
                     :rating-size="'24px'"
                     :rating-value="parseFloat(place.avg_reviews.rating)"
                     />
-                </div>
             </div>
+            <div class="flex gap-2"
+            v-else>
+                <div class= "ml-0 w-38">0.0</div>
+                  <NuxtRating
+                    :read-only="true"
+                    :rating-count="5.0"
+                    :rating-size="'24px'"
+                    :rating-value="0.0"
+                    />
+            </div>
+
           </div>
         </a>
       </div>
@@ -55,7 +66,9 @@
               try {
               const response = await useGet('/api/v1/places',customHeaders);
               // 成功時の処理
+              console.log(response)
               places.value = response
+              console.log(places.value)
               checkFloat(places.value)
               } catch (error) {
               console.log(error)
@@ -65,12 +78,13 @@
              await getPlaces()
           }
           getPlacesFunc()
-
     })
 
     const checkFloat = (array) =>{
       array.forEach(e => {
           //小数点第一位の数字意外である、整数なら⓪を付ける
+        // レビューが存在する場合はしょりする
+        if(e.avg_reviews !== null && e.avg_reviews !== undefined)
          e.avg_reviews.rating = Number.isInteger(e.avg_reviews.rating) ? String(e.avg_reviews.rating)+".0" : String(e.avg_reviews.rating)
         });
     }

@@ -51,3 +51,6 @@ exit
 npm cache clean --force
 q
 exit
+exit
+npm cache clean --force
+exit
