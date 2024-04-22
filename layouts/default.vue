@@ -45,7 +45,7 @@
             </div>
          </Teleport>
         </div>
-        <div><AppH1 @click="navigateTo(`/`)">hello plants</AppH1></div>
+        <div><AppH1 @click="navigateTo(`/`)">BotaniSpot</AppH1></div>
         <div class="mx-2">
           <font-awesome-icon class="mt-6 text-2xl align-middle" :icon="['fas', 'magnifying-glass']" />
       </div>          

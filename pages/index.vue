@@ -18,8 +18,6 @@
     console.log(config.public.apiOrigin);
   }
 
-
-
   const dateFormat = (date) =>{
     const dateTimeFormat = new Intl.DateTimeFormat(
           'ja', { dateStyle: 'medium', timeStyle: 'short' }
