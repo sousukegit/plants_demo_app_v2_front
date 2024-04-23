@@ -18,7 +18,7 @@
                 }"
                 class="fixed inset-0 h-screen w-screen items-center justify-center
                 bg-coffee bg-opacity-50 py-8 px-2 dark:bg-cream dark:bg-opacity-30"
-                >                 
+                >
                 <button
                 class="absolute top-0 left-48 m-6 text-5xl font-bold text-coffee hover:opacity-70 dark:text-cream"
                 @click="doesShowModal = false"
@@ -41,23 +41,21 @@
                     </ul>
                     <ModeSwitcher :dark-or-empty="mode" :switch-mode="switchMode"></ModeSwitcher>
                   </div>
-                </div>       
+                </div>
             </div>
          </Teleport>
         </div>
         <div><AppH1 @click="navigateTo(`/`)">BotaniSpot</AppH1></div>
         <div class="mx-2">
           <font-awesome-icon class="mt-6 text-2xl align-middle" :icon="['fas', 'magnifying-glass']" />
-      </div>          
-    </div>
-
-      
-      </header>
-   
-      <div>
-          <slot/>
+        </div>
       </div>
+    </header>
+
+    <div>
+        <slot/>
     </div>
+  </div>
 </template>
 <script setup lang="ts">
 
@@ -78,25 +76,24 @@ import { useAuthStore } from '~~/stores/auth';
     console.log(auth.auth.token)
       //先にユーザーを用意
   const  res  = await $fetch(config.public.apiOrigin+'/api/v1/auth_token',
-          {       
+          {
           method:"DELETE",
           credentials: 'include',
           headers:{
-          'X-Requested-With': 'XMLHttpRequest', 
-          // 'Authorization': `Bearer ${auth.auth.token}`
-          }  
-       }                    
+          'X-Requested-With': 'XMLHttpRequest',
+          }
+       }
       )
       .then(res=>{
-          console.log(res)          
-      })                
+          console.log(res)
+      })
   }
-   catch (error) {      
-    console.log(error)     
+   catch (error) {
+    console.log(error)
   }
 }
 
- const logout = () => {    
+ const logout = () => {
     tokenDelete()
     auth.resetPinia()
     alert("ログアウトしました")
@@ -106,7 +103,6 @@ import { useAuthStore } from '~~/stores/auth';
   const login = () => {
     doesShowModal.value = false;
     navigateTo(`/login`);
-    
   }
   const singup = () => {
     doesShowModal.value = false;
@@ -128,7 +124,7 @@ import { useAuthStore } from '~~/stores/auth';
 const mode = useCookie("mode",{maxAge:60*60*24*365,})
 //mode切り替え関数
 const switchMode = () =>{
-  mode.value =mode.value? "" :"dark";  
+  mode.value =mode.value? "" :"dark";
 }
 
 </script>
