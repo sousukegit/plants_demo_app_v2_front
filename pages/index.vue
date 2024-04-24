@@ -1,10 +1,9 @@
 <template>
 <!-- ここは簡単なランディングページにしたい -->
+  <AppH1>BotaniSpot</AppH1>
 
-      <AppH1>TOPバーナー</AppH1>
-
-  </template>
-  <script setup lang="ts">
+</template>
+<script setup lang="ts">
   //環境変数を取得
   const config = useRuntimeConfig()
   // const post = usePost()
