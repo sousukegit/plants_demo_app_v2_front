@@ -1,10 +1,10 @@
 <template>
   <swiper-container
-            navigation="true" 
-            pagination="true" 
+            navigation="true"
+            pagination="true"
             scrollbar="true"
             >
-              <!-- <swiper-slide 
+              <!-- <swiper-slide
               v-if="srcs.length > 0"
               v-for="(src, i) in srcs" :key="i" eager
               >
@@ -14,17 +14,16 @@
                   </a>
                   </div>
               </swiper-slide> -->
-              <swiper-slide 
+              <swiper-slide
               >
               <div>
                   <a href="#" target="_blank">
                     <img class="object-cover h-80 lg:h-96 mx-auto w-full xl:max-w-screen-lg" src="/assets/images/plantimage.jpg" />
                   </a>
                   </div>
-              </swiper-slide>            
+              </swiper-slide>
     </swiper-container>
   <TheContainer>
-   
 
   <WhiteContainer>
    <!-- <div><Chart/></div> -->
@@ -32,9 +31,8 @@
     <AppLink  :href="`/place`">場所から探す</AppLink>
     <AppLink  :href="`/species`">種類から探す</AppLink>
   </WhiteContainer>
-  
 
-  </TheContainer> 
+  </TheContainer>
 </template>
 <script setup lang="ts">
 
@@ -51,10 +49,10 @@ register();
   const userEmail = ref<string>("unknown")
   const customHeaders = {
       'Authorization': `Bearer ${auth.auth.token}`
-  }; 
+  };
 
-  userEmail.value = user.user.email
-  userName.value = auth.user.name 
+  userEmail.value = user.user.emaiz
+  userName.value = auth.user.name
 
   const places = ref<string[]>("")
   // onMounted(() => {
@@ -66,14 +64,14 @@ register();
   //           places.value = response
   //           console.log(places.value)
   //           } catch (error) {
-  //           console.log(error)          
-  //           }  
+  //           console.log(error)
+  //           }
   //       }
   //       async function getPlacesFunc(){
   //          await getPlaces()
   //       }
   //       getPlacesFunc()
   // })
- 
+
 
 </script>
