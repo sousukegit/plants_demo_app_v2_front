@@ -8,7 +8,9 @@ ENV HOME=/${WORKDIR} \
     LANG=C.UTF-8 \
     TZ=Asia/Tokyo \
     HOST=0.0.0.0 \
-    API_URL=${API_URL}
+    #API_URL=${API_URL}
+    #本番のみ使用
+    API_URL=https://api.botanispot.com
 
 WORKDIR ${HOME}
 
