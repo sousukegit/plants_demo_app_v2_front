@@ -1,19 +1,19 @@
-<template>    
+<template>
     <TheContainer>
         <WhiteContainer>
             <AppH2>ログイン</AppH2>
             <label>メールアドレス</label>
                 <inputText v-model="User.email" :max="60" ></inputText> 
-            
+
             <div class="flex justify-between">
                 <label>パスワード</label>
                 <NuxtLink class="text-sm text-accent-600 underline dark:text-cream" to="#">パスワードを忘れた？</NuxtLink>
-            </div>        
+            </div>
                 <InputPassword v-model="User.password" :min="8"></InputPassword> 
             <div class="mx-auto my-2"> 
-                <ButtonPrimary :on-click="loginFunc" >ログイン</ButtonPrimary>      
+                <ButtonPrimary :on-click="loginFunc" >ログイン</ButtonPrimary>
             </div>
-        </WhiteContainer>         
+        </WhiteContainer>
     </TheContainer>
 </template>
 
@@ -34,8 +34,10 @@ interface login{
 }
 
 const User = reactive<login>({
-    email:"user0@example.com",
-    password:"password"
+    // email:"user0@example.com",
+    // password:"password"
+    email:"",
+    password:""
 })
 
 const userData = reactive({
@@ -51,17 +53,17 @@ const login = async() => {
         // エラー時の処理
     console.error(error);
     authFailure(error)
-    }  
+    }
 }
 async function loginFunc(){
    await login()
 }
-      
+
 const authSuccessful = (response) =>{
     console.log('authSuccessful',response)
     // ①ログイン処理
     //ユーザー情報をストアへ
-    auth.setAuth(response)    
+    auth.setAuth(response)
 
     //　②記憶ルートにリダイレクト
     navigateTo('/main')
