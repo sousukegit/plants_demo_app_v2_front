@@ -74,7 +74,7 @@
                 <div class="text-xl">{{ users[i].name }}</div>
                 <!-- ★ -->
                 <div v-if="review.rating !== null && review.rating !== undefined" class="flex gap-2 py-1" >
-                    <div class= "ml-0 w-38">{{review.rating }}</div>
+                    <div class= "ml-0 w-38">{{review.rating }}.0</div>
                     <NuxtRating
                       :read-only="true"
                       :rating-count="5.0"
@@ -136,6 +136,7 @@
             <div class="text-xl">{{ users[i].name }}</div>
             <!-- ★ -->
             <div class="flex">
+               <div class= "ml-0 w-38">{{ review.rating }}.0</div>
                 <div class="ml-0 w-38" v-if="review.rating !== null && review.rating !== undefined">
                     <NuxtRating
                     :read-only="true"
@@ -144,7 +145,7 @@
                     :rating-value="review.rating"
                     />
                 </div>
-                <div class= "ml-40">{{ review.rating }}</div>
+                
             </div>
             <!-- 写真 -->
             <div class="grid  grid-cols-3 sm:grid-cols-5">
