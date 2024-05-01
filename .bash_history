@@ -54,3 +54,8 @@ exit
 exit
 npm cache clean --force
 exit
+npm cache clean --force  
+exit
+nuxi cleanup
+npx nuxi cleanup
+exit

@@ -35,8 +35,6 @@
         </a>
       </div>
     </div>
-      <!-- <div>ようこそ{{ userEmail }}さん</div> -->
-      <ButtonSecondary @click="getReviewAverageFunc()">ave</ButtonSecondary>
     </TheContainer>
   </template>
 <script setup lang="ts">
@@ -69,7 +67,7 @@
             // 成功時の処理
             console.log(response)
             places.value = response
-            console.log(places.value)
+            console.log(places.value[0])
             checkFloat(places.value)
             } catch (error) {
             console.log(error)
@@ -92,11 +90,12 @@
 
   //spaで空のオブジェクトを宣言
 //const plantMap = ref<google.maps.places.PlaceResult>({})
+const Marker = ref([]);
+
 
 onMounted(()=>{
     const loader = useGoogle()
     loader.load().then((google)=>{
-                
                 //mapインスタンス作成 初期描画用
                 const map = new google.maps.Map(document.getElementById('map') ,{
                     //初期表示設定
@@ -112,12 +111,21 @@ onMounted(()=>{
                     scaleControl:true
                 })
                 const service = new google.maps.places.PlacesService(map)
-                
-                new google.maps.Marker({
+
+
+                const marker = new google.maps.Marker({
                                 map,
                                 position: { lat: 35.65832866308476, lng: 139.74136906081668 }
                 })
-                           
+                const marker1 = new google.maps.Marker({
+                                map,
+                                position: { lat: 30.65832866308476, lng: 139.74136906081668 }
+                })
+
+               marker.addListener('click', () => {
+                alert('clicked');
+                
+              });
                 //受け取ったパラメータを元にmap情報の詳細を検索
                 //getDetails（A,B）
                 //Aでリクエスト送る

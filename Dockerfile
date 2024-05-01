@@ -8,9 +8,9 @@ ENV HOME=/${WORKDIR} \
     LANG=C.UTF-8 \
     TZ=Asia/Tokyo \
     HOST=0.0.0.0 \
-    #API_URL=${API_URL}
+    API_URL=${API_URL}
     #本番のみ使用
-    API_URL=https://api.botanispot.com
+    #API_URL=https://api.botanispot.com
 
 WORKDIR ${HOME}
 
@@ -23,4 +23,5 @@ RUN apt-get update \
 #npmの依存関係をイメージ内にコピー
 COPY package.json package-lock.json ./
 #.npmのキャッシュを覗いてインストールする（追加分のみ）
-RUN --mount=type=cache,target=./.npm npm install
+RUN npm install
+#RUN --mount=type=cache,target=./.npm npm install
