@@ -35,8 +35,6 @@
         </a>
       </div>
     </div>
-      <!-- <div>ようこそ{{ userEmail }}さん</div> -->
-      <ButtonSecondary @click="getReviewAverageFunc()">ave</ButtonSecondary>
     </TheContainer>
   </template>
 <script setup lang="ts">
@@ -47,40 +45,23 @@
 
   const tag = useTagsStore();
   const historyState = useHistoryState()
-    if (historyState.action === 'back') {
+  if (historyState.action === 'back') {
       //tag情報をリセット
       tag.resetPlaceTag()
       }
 
   const auth = useAuthStore();
   const userName = ref<string>("unknown")
+  userName.value = auth.user.name
   const customHeaders = {
       'Authorization': `Bearer ${auth.auth.token}`
   };
-
-  userName.value = auth.user.name
-  const average = ref([])
-
   const places = ref<string[]>("")
-  onMounted(() => {
-    const getPlaces = async() => {
-            try {
-            const response = await useGet('/api/v1/places',customHeaders);
-            // 成功時の処理
-            console.log(response)
-            places.value = response
-            console.log(places.value)
-            checkFloat(places.value)
-            } catch (error) {
-            console.log(error)
-            }
-        }
-        async function getPlacesFunc(){
-            await getPlaces()
-        }
-        getPlacesFunc()
-  })
-
+  //map系
+  const loader = useGoogle()
+  let marker = ref([]);
+  
+  
   const checkFloat = (array) =>{
     array.forEach(e => {
         //小数点第一位の数字意外である、整数なら⓪を付ける
@@ -90,68 +71,113 @@
       });
   }
 
-  //spaで空のオブジェクトを宣言
-//const plantMap = ref<google.maps.places.PlaceResult>({})
-
-onMounted(()=>{
-    const loader = useGoogle()
-    loader.load().then((google)=>{
-                
+  const makeMap = (load:any) => {
+    load.then((google)=>{
                 //mapインスタンス作成 初期描画用
-                const map = new google.maps.Map(document.getElementById('map') ,{
-                    //初期表示設定
-                    //適当な値で表示
-                    zoom:5,
-                    center: new google.maps.LatLng(35.65832866308476, 139.74136906081668),
-                    fullscreenControl:false,
-                    mapTypeControl:false,
-                    streetViewControl:true,
-                    streetViewControlOptions:{
-                        position:google.maps.ControlPosition.LEFT_BOTTOM
-                    },
-                    scaleControl:true
-                })
-                const service = new google.maps.places.PlacesService(map)
-                
-                new google.maps.Marker({
-                                map,
-                                position: { lat: 35.65832866308476, lng: 139.74136906081668 }
-                })
-                           
-                //受け取ったパラメータを元にmap情報の詳細を検索
-                //getDetails（A,B）
-                //Aでリクエスト送る
-                //Bで戻ってきた関数の実行
-                // service.getDetails({
-                //     placeId:queryPlaceID
-                // },
-                //     (place,status)=>{
-                //         if(status === google.maps.places.PlacesServiceStatus.OK){
-                //             spa.value = place
-                //             useHead({title: spa.value.name})
-                //             //位置情報を取得
-                //             map.setCenter(
-                //                 new google.maps.LatLng(
-                //                 place.geometry.location.lat(),
-                //                 place.geometry.location.lng()
-                //                 )
-                //             )
-                //             //マーカーオブジェクトをつける
-                //             new google.maps.Marker({
-                //                 map,
-                //                 position: new google.maps.LatLng(
-                //                     place.geometry.location.lat(),
-                //                     place.geometry.location.lng()
-                //                 )
-                //             })
-                //         }
-                //     }
-                // )
+
+                 // 地図の作成
+                var mapLatLng = new google.maps.LatLng({lat:35.65832, lng:139.74136 }); // 緯度経度のデータ作成
+                const map = new google.maps.Map(document.getElementById('map'), { // #sampleに地図を埋め込む
+                  center: mapLatLng, // 地図の中心を指定
+                  zoom: 5, // 地図のズームを指定
+                  fullscreenControl:false,
+                  mapTypeControl:false,
+                  streetViewControl:true,
+                  streetViewControlOptions:{
+                    position:google.maps.ControlPosition.LEFT_BOTTOM
+                  },
+                  scaleControl:true
+                });
+                for(var i=0; i < places.value.length; i++){
+                  // alert(places.value[i].longitude)
+                  //let markerLatLng = new google.maps.LatLng({lat: places.value[i].latitude, lng: places.value[i].longitude,}); // 緯度経度のデータ作成
+                  let markerLatLng = new google.maps.LatLng({lat: places.value[i].latitude, lng: places.value[i].longitude}); // 緯度経度のデータ作成
+                  marker[i] = new google.maps.Marker({ // マーカーの追加
+                    //position:{lat: parseFloat(places.value[i].latitude), lng: parseFloat(places.value[i].longitude),},
+                    position: markerLatLng, // マーカーを立てる位置を指定
+                    map: map // マーカーを立てる地図を指定
+                  });
+                  markerEvent(i);
+               }
 
             }
         )
         .catch(()=>{})
-})
+  }
 
+  onMounted(() => {
+    const getPlaces = async() => {
+            try {
+            const response = await useGet('/api/v1/places',customHeaders);
+            // 成功時の処理
+            console.log(response)
+            places.value = response
+            //小数点表記の確認
+            checkFloat(places.value)
+            makeMap(loader.load())
+            //マップに表示する
+            } catch (error) {
+            console.log(error)
+            }
+        }
+        async function getPlacesFunc(){
+            await getPlaces()
+        }
+        getPlacesFunc()
+    })
+
+
+
+  //spaで空のオブジェクトを宣言
+//const plantMap = ref<google.maps.places.PlaceResult>({})
+
+
+
+// onMounted(()=>{
+    
+//     loader.load().then((google)=>{
+//                 //mapインスタンス作成 初期描画用
+
+//                  // 地図の作成
+//                 var mapLatLng = new google.maps.LatLng({lat:35.65832866308476, lng:139.74136906081668 }); // 緯度経度のデータ作成
+//                 const map = new google.maps.Map(document.getElementById('map'), { // #sampleに地図を埋め込む
+//                   center: mapLatLng, // 地図の中心を指定
+//                   zoom: 5, // 地図のズームを指定
+//                   fullscreenControl:false,
+//                   mapTypeControl:false,
+//                   streetViewControl:true,
+//                   streetViewControlOptions:{
+//                     position:google.maps.ControlPosition.LEFT_BOTTOM
+//                   },
+//                   scaleControl:true
+//                 });
+//                 alert(places.value[0])
+//                 new google.maps.Marker({
+//                                 map,
+//                                 position: { lat: 35.65832866308476, lng: 139.74136906081668 }
+//                 })
+//                 for(var i=0; i < places.value.length; i++){
+//                 // let markerLatLng = new google.maps.LatLng({lat: places.value[i].latitude, lng: places.value[i].longitude,}); // 緯度経度のデータ作成
+//                 marker.value[i] = new google.maps.Marker({ // マーカーの追加
+//                 position:{ lat: 35.65832866308476, lng: 139.74136906081668 },
+//                 // position: markerLatLng, // マーカーを立てる位置を指定
+//                 map: map // マーカーを立てる地図を指定                
+//                 });
+//                 markerEvent(i);
+                
+//                }
+               
+                
+
+//             }
+//         )
+//         .catch(()=>{})
+// })
+
+const markerEvent = (i:Number) => {
+  marker[i].addListener('click', function() { // マーカーをクリックしたとき
+      alert('clicked');// 吹き出しの表示
+  });
+}
 
 </script>
