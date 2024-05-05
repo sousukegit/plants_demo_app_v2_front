@@ -209,7 +209,7 @@ files.value.splice(index,1)
 }
 
 //画像圧縮処理を監視する
-const compresseedFin = ref<Boolean>(false);
+const compresseedFin = ref<Boolean>(true);
 
 
 // ①画像をuploadすると、画像データがstateに入る
@@ -246,7 +246,7 @@ const handleImageUploaded = (e: Event) => {
 //送信処理----------------
 //バイナリーデータを含むのでFormData.appendで一つずついれて送る
 const reviewUpload = () =>{
-if(!errorImage.value&&!errorImage.value&&compresseedFin.value){
+  if(!errorImage.value&&!errorImage.value&&compresseedFin.value){
   const formData = new FormData();
   for(let i=0; i < files.value.length; i++){
     formData.append("images[]",files.value[i])
@@ -275,9 +275,12 @@ if(!errorImage.value&&!errorImage.value&&compresseedFin.value){
     }
     reviewFunc()
 }
-else{
-  alert("登録できませんでした。")
-}
+// else{
+//   alert("登録できませんでした。")
+// }
 }
 
+const messageAlert = (msg:String) => {
+  alert(msg)
+}
 </script>

@@ -41,7 +41,6 @@
   import { useAuthStore } from '~~/stores/auth';
   import { useTagsStore } from '~~/stores/tags';
   import { useHistoryState } from 'vue-history-state'
-  
 
   const tag = useTagsStore();
   const historyState = useHistoryState()
@@ -60,8 +59,7 @@
   //map系
   const loader = useGoogle()
   let marker = ref([]);
-  
-  
+
   const checkFloat = (array) =>{
     array.forEach(e => {
         //小数点第一位の数字意外である、整数なら⓪を付ける
@@ -97,7 +95,7 @@
                     position: markerLatLng, // マーカーを立てる位置を指定
                     map: map // マーカーを立てる地図を指定
                   });
-                  markerEvent(i);
+                  markerEvent(i,places.value[i],map);
                }
 
             }
@@ -127,56 +125,12 @@
     })
 
 
-
-  //spaで空のオブジェクトを宣言
-//const plantMap = ref<google.maps.places.PlaceResult>({})
-
-
-
-// onMounted(()=>{
-    
-//     loader.load().then((google)=>{
-//                 //mapインスタンス作成 初期描画用
-
-//                  // 地図の作成
-//                 var mapLatLng = new google.maps.LatLng({lat:35.65832866308476, lng:139.74136906081668 }); // 緯度経度のデータ作成
-//                 const map = new google.maps.Map(document.getElementById('map'), { // #sampleに地図を埋め込む
-//                   center: mapLatLng, // 地図の中心を指定
-//                   zoom: 5, // 地図のズームを指定
-//                   fullscreenControl:false,
-//                   mapTypeControl:false,
-//                   streetViewControl:true,
-//                   streetViewControlOptions:{
-//                     position:google.maps.ControlPosition.LEFT_BOTTOM
-//                   },
-//                   scaleControl:true
-//                 });
-//                 alert(places.value[0])
-//                 new google.maps.Marker({
-//                                 map,
-//                                 position: { lat: 35.65832866308476, lng: 139.74136906081668 }
-//                 })
-//                 for(var i=0; i < places.value.length; i++){
-//                 // let markerLatLng = new google.maps.LatLng({lat: places.value[i].latitude, lng: places.value[i].longitude,}); // 緯度経度のデータ作成
-//                 marker.value[i] = new google.maps.Marker({ // マーカーの追加
-//                 position:{ lat: 35.65832866308476, lng: 139.74136906081668 },
-//                 // position: markerLatLng, // マーカーを立てる位置を指定
-//                 map: map // マーカーを立てる地図を指定                
-//                 });
-//                 markerEvent(i);
-                
-//                }
-               
-                
-
-//             }
-//         )
-//         .catch(()=>{})
-// })
-
-const markerEvent = (i:Number) => {
+const markerEvent = (i:Number,place:any,map:any) => {
   marker[i].addListener('click', function() { // マーカーをクリックしたとき
-      alert('clicked');// 吹き出しの表示
+    const placeInfo = place
+    //クリックしたら中心に移動して、モーダルが上がる
+    alert(marker[i].position)
+    alert(placeInfo.name);// 吹き出しの表示
   });
 }
 
