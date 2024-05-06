@@ -1,22 +1,3 @@
-<template>
-    <TheContainer>
-        <WhiteContainer>
-            <AppH2>ログイン</AppH2>
-            <label>メールアドレス</label>
-                <inputText v-model="User.email" :max="60" ></inputText> 
-
-            <div class="flex justify-between">
-                <label>パスワード</label>
-                <NuxtLink class="text-sm text-accent-600 underline dark:text-cream" to="#">パスワードを忘れた？</NuxtLink>
-            </div>
-                <InputPassword v-model="User.password" :min="8"></InputPassword> 
-            <div class="mx-auto my-2"> 
-                <ButtonPrimary :on-click="loginFunc" >ログイン</ButtonPrimary>
-            </div>
-        </WhiteContainer>
-    </TheContainer>
-</template>
-
 <script setup lang="ts">
 import { type User } from "~~/types/entities";
 import { useAuthStore } from '~~/stores/auth';
@@ -80,3 +61,21 @@ const authFailure = (response) => {
 
 
 </script>
+<template>
+    <TheContainer>
+        <WhiteContainer>
+            <AppH2>ログイン</AppH2>
+            <label>メールアドレス</label>
+                <inputText v-model="User.email" :max="60" ></inputText>
+
+            <div class="flex justify-between">
+                <label>パスワード</label>
+                <NuxtLink class="text-sm text-accent-600 underline dark:text-cream" to="#">パスワードを忘れた？</NuxtLink>
+            </div>
+                <InputPassword v-model="User.password" :min="8"></InputPassword> 
+            <div class="mx-auto my-2">
+                <ButtonPrimary :on-click="loginFunc" >ログイン</ButtonPrimary>
+            </div>
+        </WhiteContainer>
+    </TheContainer>
+</template>
