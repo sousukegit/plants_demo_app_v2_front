@@ -1,4 +1,3 @@
-
 <script setup lang="ts">
 //環境変数を取得
 const config = useRuntimeConfig()

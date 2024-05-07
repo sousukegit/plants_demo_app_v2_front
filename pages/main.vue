@@ -66,7 +66,7 @@ register();
     </swiper-container>
   <TheContainer>
 
-  <WhiteContainer
+  <WhiteContainer>
 
     <AppLink  :href="`/place`">場所から探す</AppLink>
     <AppLink  :href="`/species`">種類から探す</AppLink>
