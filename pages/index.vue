@@ -23,6 +23,9 @@ const dateFormat = (date) =>{
 </script>
 
 <template>
-  <!-- ここは簡単なランディングページにしたい -->
+  <TheContainer>
     <AppH1>BotaniSpot</AppH1>
+  </TheContainer>
+  <!-- ここは簡単なランディングページにしたい -->
+    
   </template>
