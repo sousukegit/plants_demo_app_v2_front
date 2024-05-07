@@ -1,3 +1,78 @@
+<script setup lang="ts">
+
+  import { useAuthStore } from '~~/stores/auth';
+  import { useTagsStore } from '~~/stores/tags';
+  import { register } from 'swiper/element/bundle';
+  register();
+  const auth = useAuthStore();
+  //ブラウザバックタグ記憶用
+  const tag = useTagsStore();
+  const customHeaders = {
+      'Authorization': `Bearer ${auth.auth.token}`
+  };
+
+  //ルートIDをURLより取得
+  const route = useRoute()
+  const placeID =route.params.id
+
+  //タグクリックを検知
+  const tagClick = ref<boolean>(false)
+
+ //タブ切り替え
+ const isActive = ref(tag.placeTag)
+  const isSelect = (hash:string) => {
+    isActive.value = hash
+    tag.placeTag = hash
+  }
+
+
+  //店舗情報取得
+  const place = ref<string>("")
+  const reviews = ref([])
+  const users = ref([])
+  const srcs = ref([])
+
+  onMounted(() => {
+    const getPlaces = async() => {
+            try {
+            const response = await useGet(`/api/v1/places/${placeID}`,customHeaders);
+            //TODO 成功時の処理
+            console.log(response)
+            google_place_id.value = response.google_place_id
+            place.value = response
+            reviews.value = response.reviews
+            for (let i = 0; i < response.reviews.length; i++) {
+              srcs.value= srcs.value.concat(response.reviews[i].image_url) 
+              users.value= users.value.concat(response.reviews[i].user)
+            }
+            console.log(place.value)
+            } catch (error) {
+            console.log(error)
+            }  
+        }
+        async function getPlacesFunc(){
+            await getPlaces()
+        }
+        getPlacesFunc()
+  })
+
+  
+  //GoogleAPI
+  
+  //口コミのポスト
+  
+  //ポストデータ
+  const place_id = ref<Number>(placeID);
+  const google_place_id = ref<String>("");
+  const user_id = ref<Number>(auth.user.id);
+  
+  // onMounted(() => {
+  //   const toReview = () =>{
+  //   navigateTo(`/place/${place.id}/review`)
+  // }
+  // })
+  
+</script>
 <template>
   <TheContainer>
     <div class="border-2 border-coffee rounded-t-lg px-2 bg-cream">
@@ -170,78 +245,3 @@
     <AppLink :href="`/place/${place.id}/post-review`">タップしてレビュー</AppLink>
   </TheContainer>
 </template>
-<script setup lang="ts">
-
-  import { useAuthStore } from '~~/stores/auth';
-  import { useTagsStore } from '~~/stores/tags';
-  import { register } from 'swiper/element/bundle';
-  register();
-  const auth = useAuthStore();
-  //ブラウザバックタグ記憶用
-  const tag = useTagsStore();
-  const customHeaders = {
-      'Authorization': `Bearer ${auth.auth.token}`
-  };
-
-  //ルートIDをURLより取得
-  const route = useRoute()
-  const placeID =route.params.id
-
-  //タグクリックを検知
-  const tagClick = ref<boolean>(false)
-
- //タブ切り替え
- const isActive = ref(tag.placeTag)
-  const isSelect = (hash:string) => {
-    isActive.value = hash
-    tag.placeTag = hash
-  }
-
-
-  //店舗情報取得
-  const place = ref<string>("")
-  const reviews = ref([])
-  const users = ref([])
-  const srcs = ref([])
-
-  onMounted(() => {
-    const getPlaces = async() => {
-            try {
-            const response = await useGet(`/api/v1/places/${placeID}`,customHeaders);
-            //TODO 成功時の処理
-            console.log(response)
-            google_place_id.value = response.google_place_id
-            place.value = response
-            reviews.value = response.reviews
-            for (let i = 0; i < response.reviews.length; i++) {
-              srcs.value= srcs.value.concat(response.reviews[i].image_url) 
-              users.value= users.value.concat(response.reviews[i].user)
-            }
-            console.log(place.value)
-            } catch (error) {
-            console.log(error)
-            }  
-        }
-        async function getPlacesFunc(){
-            await getPlaces()
-        }
-        getPlacesFunc()
-  })
-
-  
-  //GoogleAPI
-  
-  //口コミのポスト
-  
-  //ポストデータ
-  const place_id = ref<Number>(placeID);
-  const google_place_id = ref<String>("");
-  const user_id = ref<Number>(auth.user.id);
-  
-  // onMounted(() => {
-  //   const toReview = () =>{
-  //   navigateTo(`/place/${place.id}/review`)
-  // }
-  // })
-  
-</script>

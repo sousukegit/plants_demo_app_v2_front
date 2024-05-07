@@ -1,39 +1,3 @@
-<template>
-  <swiper-container
-            navigation="true"
-            pagination="true"
-            scrollbar="true"
-            >
-              <!-- <swiper-slide
-              v-if="srcs.length > 0"
-              v-for="(src, i) in srcs" :key="i" eager
-              >
-                  <div>
-                  <a href="#" target="_blank">
-                    <img class="object-cover h-80 lg:h-96 mx-auto w-full xl:max-w-screen-lg" :src="src" />
-                  </a>
-                  </div>
-              </swiper-slide> -->
-              <swiper-slide
-              >
-              <div>
-                  <a href="#" target="_blank">
-                    <img class="object-cover h-80 lg:h-96 mx-auto w-full xl:max-w-screen-lg" src="/assets/images/plantimage.jpg" />
-                  </a>
-                  </div>
-              </swiper-slide>
-    </swiper-container>
-  <TheContainer>
-
-  <WhiteContainer>
-   <!-- <div><Chart/></div> -->
-
-    <AppLink  :href="`/place`">場所から探す</AppLink>
-    <AppLink  :href="`/species`">種類から探す</AppLink>
-  </WhiteContainer>
-
-  </TheContainer>
-</template>
 <script setup lang="ts">
 
 import { useAuthStore } from '~~/stores/auth';
@@ -75,3 +39,38 @@ register();
 
 
 </script>
+<template>
+  <swiper-container
+            navigation="true"
+            pagination="true"
+            scrollbar="true"
+            >
+              <!-- <swiper-slide
+              v-if="srcs.length > 0"
+              v-for="(src, i) in srcs" :key="i" eager
+              >
+                  <div>
+                  <a href="#" target="_blank">
+                    <img class="object-cover h-80 lg:h-96 mx-auto w-full xl:max-w-screen-lg" :src="src" />
+                  </a>
+                  </div>
+              </swiper-slide> -->
+              <swiper-slide
+              >
+              <div>
+                  <a href="#" target="_blank">
+                    <img class="object-cover h-80 lg:h-96 mx-auto w-full xl:max-w-screen-lg" src="/assets/images/plantimage.jpg" />
+                  </a>
+                  </div>
+              </swiper-slide>
+    </swiper-container>
+  <TheContainer>
+
+  <WhiteContainer>
+
+    <AppLink  :href="`/place`">場所から探す</AppLink>
+    <AppLink  :href="`/species`">種類から探す</AppLink>
+  </WhiteContainer>
+
+  </TheContainer>
+</template>

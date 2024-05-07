@@ -1,3 +1,68 @@
+<script setup lang="ts">
+
+import AppH3 from '~/components/AppH3.vue';
+import { useAuthStore } from '~~/stores/auth';
+   const auth = useAuthStore();
+   const customHeaders = {
+       'Authorization': `Bearer ${auth.auth.token}`
+   };
+
+  //ルートIDをURLより取得
+  const route = useRoute()
+  const placeID =route.params.id
+  const reviewID =route.params.review_id
+
+  const review = ref("");
+  const place = ref("");
+  const user = ref("");
+  const rating = ref(null);
+  const srcs = ref<string[]>(null);
+
+   onMounted(() => {
+    const getReview = async() => {
+            try {
+            const response = await useGet(`/api/v1/reviews/${reviewID}`,customHeaders);
+            //TODO 成功時の処理
+            review.value = response
+            place.value = response.place
+            user.value = response.user
+            rating.value = response.rating
+            srcs.value = response.image_url
+            console.log(review.value)
+            } catch (error) {
+            console.log(error)
+            }
+        }
+        async function getReviewFunc(){
+            await getReview()
+        }
+        getReviewFunc()
+  })
+
+  const editReview = ():void => {
+    navigateTo(`/review/${reviewID}`)
+  }
+  const deleteReview = ():void => {
+    //TODO　消しますか？　アラート
+    if(window.confirm('このレビューを削除しますか？')){
+        const deleteReview = async() => {
+            try {
+            const response = await useDelete(`/api/v1/reviews/${reviewID}`,customHeaders);
+            //TODO 成功時の処理
+            alert("レビューを削除しました。")
+            navigateTo(`/place/${placeID}`)
+            } catch (error) {
+            console.log(error)
+            }
+        }
+        async function deleteReviewFunc(){
+            await deleteReview()
+        }
+        deleteReviewFunc()
+    }
+}
+
+</script>
 <template>
     <!-- レビュー確認ん -->
     <TheContainer>
@@ -46,72 +111,4 @@
             <div v-else>写真はありません</div>
         </WhiteContainer>
     </TheContainer>
-
-
 </template>
-<script setup lang="ts">
-
-import AppH3 from '~/components/AppH3.vue';
-import { useAuthStore } from '~~/stores/auth';
-   const auth = useAuthStore();
-   const customHeaders = {
-       'Authorization': `Bearer ${auth.auth.token}`
-   }; 
-
-  //ルートIDをURLより取得
-  const route = useRoute()
-  const placeID =route.params.id
-  const reviewID =route.params.review_id
-
-  const review = ref("");
-  const place = ref("");
-  const user = ref("");
-  const rating = ref(null);
-  const srcs = ref<string[]>(null);
-
-   onMounted(() => {
-    const getReview = async() => {
-            try {
-            const response = await useGet(`/api/v1/reviews/${reviewID}`,customHeaders);
-            //TODO 成功時の処理
-
-            review.value = response            
-            place.value = response.place
-            user.value = response.user
-            rating.value = response.rating
-            srcs.value = response.image_url
-            console.log(review.value)
-            } catch (error) {
-            console.log(error)          
-            }  
-        }
-        async function getReviewFunc(){
-            await getReview()
-        }
-        getReviewFunc()
-  })
-
-  const editReview = ():void => {
-    navigateTo(`/review/${reviewID}`)
-  }
-  const deleteReview = ():void => {
-    //TODO　消しますか？　アラート
-    if(window.confirm('このレビューを削除しますか？')){
-        const deleteReview = async() => {
-            try {
-            const response = await useDelete(`/api/v1/reviews/${reviewID}`,customHeaders);
-            //TODO 成功時の処理
-            alert("レビューを削除しました。")
-            navigateTo(`/place/${placeID}`)
-            } catch (error) {
-            console.log(error)
-            }
-        }
-        async function deleteReviewFunc(){
-            await deleteReview()
-        }
-        deleteReviewFunc()
-    }
-}
-
-</script>

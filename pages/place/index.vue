@@ -1,42 +1,3 @@
-<template>
-    <div id="map" class="w-full h-80 mx-auto">google map</div>
-    <TheContainer>
-      
-    <div v-if="places.length">
-      <div v-for="(place,i) in places"
-          :key="place.id"
-        >
-        <a :href="`/place/${place.id}`">
-          <div class="border rounded-md bg-cream dark:bg-coffee my-2 p-4 shadow-md
-          hover:bg-main-100 transition-all duration-300">
-            <div>{{  place.name }}</div>
-            <div class="flex gap-2"
-            v-if="place.avg_reviews !== null && place.avg_reviews !== undefined">
-                <div class= "ml-0 w-38">{{place.avg_reviews.rating }}</div>
-                  <NuxtRating
-                    :read-only="true"
-                    :rating-count="5.0"
-                    :rating-size="'24px'"
-                    :rating-value="parseFloat(place.avg_reviews.rating)"
-                    />
-            </div>
-            <div class="flex gap-2"
-            v-else>
-                <div class= "ml-0 w-38">0.0</div>
-                  <NuxtRating
-                    :read-only="true"
-                    :rating-count="5.0"
-                    :rating-size="'24px'"
-                    :rating-value="0.0"
-                    />
-            </div>
-
-          </div>
-        </a>
-      </div>
-    </div>
-    </TheContainer>
-  </template>
 <script setup lang="ts">
   import { useAuthStore } from '~~/stores/auth';
   import { useTagsStore } from '~~/stores/tags';
@@ -135,3 +96,42 @@ const markerEvent = (i:Number,place:any,map:any) => {
 }
 
 </script>
+<template>
+  <div id="map" class="w-full h-80 mx-auto">google map</div>
+  <TheContainer>
+    
+  <div v-if="places.length">
+    <div v-for="(place,i) in places"
+        :key="place.id"
+      >
+      <a :href="`/place/${place.id}`">
+        <div class="border rounded-md bg-cream dark:bg-coffee my-2 p-4 shadow-md
+        hover:bg-main-100 transition-all duration-300">
+          <div>{{  place.name }}</div>
+          <div class="flex gap-2"
+          v-if="place.avg_reviews !== null && place.avg_reviews !== undefined">
+              <div class= "ml-0 w-38">{{place.avg_reviews.rating }}</div>
+                <NuxtRating
+                  :read-only="true"
+                  :rating-count="5.0"
+                  :rating-size="'24px'"
+                  :rating-value="parseFloat(place.avg_reviews.rating)"
+                  />
+          </div>
+          <div class="flex gap-2"
+          v-else>
+              <div class= "ml-0 w-38">0.0</div>
+                <NuxtRating
+                  :read-only="true"
+                  :rating-count="5.0"
+                  :rating-size="'24px'"
+                  :rating-value="0.0"
+                  />
+          </div>
+
+        </div>
+      </a>
+    </div>
+  </div>
+  </TheContainer>
+</template>
