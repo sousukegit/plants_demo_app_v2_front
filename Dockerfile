@@ -1,4 +1,4 @@
-FROM node:18-slim
+FROM node:20.7.0-alpine3.18
 
 #Dockerファイルで環境変数を設定
 ARG WORKDIR
@@ -14,14 +14,14 @@ ENV HOME=/${WORKDIR} \
 
 WORKDIR ${HOME}
 
-RUN apt-get update \
-    && apt-get install -y \
+RUN apk update \
     git \
     vim
 
 #npmインストール
 #npmの依存関係をイメージ内にコピー
-COPY package.json package-lock.json ./
+#COPY package.json package-lock.json ./
+COPY ./ ./
 #.npmのキャッシュを覗いてインストールする（追加分のみ）
 RUN npm install
 #RUN --mount=type=cache,target=./.npm npm install
