@@ -1,6 +1,88 @@
+<script setup lang="ts">
+
+import { useAuthStore } from '~~/stores/auth';
+const auth = useAuthStore();
+const config = useRuntimeConfig()
+const router = useRouter()
+const route = ref(useRoute())
+
+
+
+const notRedirectPaths = ["/","/login","/signup","/signupAfter"]
+const loginUrlChecker = ():boolean => {
+  route.value = useRoute().path
+  return !notRedirectPaths.includes(route.value)
+}
+const loginUrlCheck = ref(loginUrlChecker())
+
+ async function tokenDelete(){
+  try {
+    //先にユーザーを用意
+  const  res  = await $fetch(config.public.apiOrigin+'/api/v1/auth_token',
+          {
+          method:"DELETE",
+          credentials: 'include',
+          headers:{
+          'X-Requested-With': 'XMLHttpRequest',
+          }
+       }
+      )
+      .then(res=>{
+          console.log(res)
+      })
+  }
+   catch (error) {
+    console.log(error)
+  }
+}
+
+ const logout = () => {
+    tokenDelete()
+    auth.resetPinia()
+    alert("ログアウトしました")
+    doesShowModal.value = false;
+    navigateTo(`/`)
+  }
+  const login = () => {
+    if(!auth.loggedIn){
+      doesShowModal.value = false;
+      navigateTo(`/login`);
+      return
+    }
+    navigateTo(`/main`);
+  }
+  const singup = () => {
+    doesShowModal.value = false;
+    navigateTo(`/signup`);
+  }
+
+  const back = () => {
+    console.log(route)
+  }
+
+
+  //書き込みモーダルウィンドウの表示状態を管理
+  const doesShowModal = ref(false);
+  const showModal = () => {
+      doesShowModal.value = true;
+      
+      loginUrlCheck.value = loginUrlChecker()
+  };
+
+//ダーク切り替え用のrefを用意,usecookieで記憶管理
+const mode = useCookie("mode",{maxAge:60*60*24*365,})
+//mode切り替え関数
+const switchMode = () =>{
+  mode.value =mode.value? "" :"dark";
+}
+
+defineExpose({
+  loginUrlCheck
+});
+</script>
 <template>
   <div :class="mode" >
-    <header>
+    <header class="sticky top-0 w-full z-50">
       <div class ="flex justify-between bg-cream dark:bg-coffee dark:border-b-2 dark:border-cream dark:text-cream" id="hamberger" >
         <div  class="mx-2" >
           <!-- 戻る -->
@@ -16,7 +98,7 @@
                         doesShowModal = false;
                     }
                 }"
-                class="fixed inset-0 h-screen w-screen items-center justify-center
+                class="fixed inset-0 h-screen w-screen items-center justify-center z-50
                 bg-coffee bg-opacity-50 py-8 px-2 dark:bg-cream dark:bg-opacity-30"
                 >
                 <button
@@ -27,8 +109,8 @@
                 <div
                     class="container ml-0 w-64 overflow-auto rounded-md p-4 text-coffee bg-cream dark:bg-coffee dark:text-cream"
                 >
-                  <div v-if=auth.loggedIn>
-                    <div class="mb-4">{{ auth.user.name }}さん</div>
+                  <div v-if= "loginUrlCheck" >
+                    <div v-if=auth.loggedIn class="mb-4">{{ auth.user.name }}さん</div>
                     <ul>
                       <li @click="logout">ログアウト</li>
                     </ul>
@@ -57,74 +139,3 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
-
-import { useAuthStore } from '~~/stores/auth';
- const loginFlg = ref<boolean>(false) 
- const auth = useAuthStore();
- const config = useRuntimeConfig()
- const router = useRouter()
-
-
-
- if(auth.loggedIn){
-    loginFlg.value = true
- }
-
- async function tokenDelete(){
-  try {
-    console.log(auth.auth.token)
-      //先にユーザーを用意
-  const  res  = await $fetch(config.public.apiOrigin+'/api/v1/auth_token',
-          {
-          method:"DELETE",
-          credentials: 'include',
-          headers:{
-          'X-Requested-With': 'XMLHttpRequest',
-          }
-       }
-      )
-      .then(res=>{
-          console.log(res)
-      })
-  }
-   catch (error) {
-    console.log(error)
-  }
-}
-
- const logout = () => {
-    tokenDelete()
-    auth.resetPinia()
-    alert("ログアウトしました")
-    doesShowModal.value = false;
-    navigateTo(`/`)
-  }
-  const login = () => {
-    doesShowModal.value = false;
-    navigateTo(`/login`);
-  }
-  const singup = () => {
-    doesShowModal.value = false;
-    navigateTo(`/signup`);
-  }
-
-  const back = () => {
-    console.log(route)
-  }
-
-
-  //書き込みモーダルウィンドウの表示状態を管理
-  const doesShowModal = ref(false);
-  const showModal = () => {
-      doesShowModal.value = true;
-  };
-
-//ダーク切り替え用のrefを用意,usecookieで記憶管理
-const mode = useCookie("mode",{maxAge:60*60*24*365,})
-//mode切り替え関数
-const switchMode = () =>{
-  mode.value =mode.value? "" :"dark";
-}
-
-</script>

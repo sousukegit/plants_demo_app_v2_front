@@ -16,7 +16,7 @@ export default defineNuxtPlugin( async () =>{
               headers:{
                   'X-Requested-With': 'XMLHttpRequest', 
                   'Authorization': `Bearer ${auth.auth.token}`,                                                                
-              },                
+              },
           }
           ).then(response =>{
             auth.setAuth(response)

@@ -9,8 +9,6 @@ ENV HOME=/${WORKDIR} \
     TZ=Asia/Tokyo \
     HOST=0.0.0.0 \
     API_URL=${API_URL}
-    #本番のみ使用
-    #API_URL=https://api.botanispot.com
 
 WORKDIR ${HOME}
 
@@ -21,7 +19,7 @@ RUN apk update \
 #npmインストール
 #npmの依存関係をイメージ内にコピー
 #COPY package.json package-lock.json ./
-COPY ./ ./
+COPY . .
 #.npmのキャッシュを覗いてインストールする（追加分のみ）
 RUN npm install
 #RUN --mount=type=cache,target=./.npm npm install
