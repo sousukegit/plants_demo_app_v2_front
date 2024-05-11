@@ -8,6 +8,7 @@ import imageCompression from "browser-image-compression";
 
   //ルートIDをURLより取得
   const route = useRoute()
+  const placeID =route.params.id
   const reviewID =route.params.review_id
 
   const review = ref("");
@@ -29,14 +30,17 @@ import imageCompression from "browser-image-compression";
             try {
             const response = await useGet(`/api/v1/reviews/${reviewID}`,customHeaders);
             //TODO 成功時の処理
-
+            
             review.value = response
+            console.log(review.value)
             place.value = response.place
             user.value = response.user
-            srcs.value = Array.from(response.image_url)
-            files.value = Array.from(response.image_url)
+            if (!response.image_url===null){
+              srcs.value = Array.from(response.image_url)
+              files.value = Array.from(response.image_url)
+            }
             currentData(review.value)
-            console.log(review.value)
+            
             } catch (error) {
             console.log(error)
             }  
@@ -54,7 +58,6 @@ const currentData = (review) :void=> {
     health_point.value = review.health_point
     price_point.value = review.price_point
     mania_point.value = review.mania_point
-    console.log(mania_point.value)
 }
 // const user_id = ref<Number>(auth.user.id);
 
@@ -72,11 +75,7 @@ const setManiaPoint= (event: number) =>{
   mania_point.value = event
 }
 
-
-
 //画像アップロードーーーー
-
-
 
 //エラーチェック
 const errorSize = ref(false);
@@ -104,7 +103,7 @@ const fileCompresseer = async (file:File,i:number) =>{
           //圧縮したファイルを格納
           files.value.push(compresseedFile)
           //成功したらしたらTrue
-          compresseedFin.value = true          
+          compresseedFin.value = true
         } catch (error) {
           console.log(error)
         }
@@ -126,7 +125,6 @@ const handleImageUploaded = (e: Event) => {
   console.log(srcs.value)
     if (e.target instanceof HTMLInputElement && e.target.files) {
     fileList.value = e.target.files
-    console.log(srcs.value)
     if(fileList.value.length > 0){
       //forで取り出して処理する（Foreach使えない）
       for(let i=0; i<fileList.value.length; i++){
@@ -174,6 +172,8 @@ const reviewEdit = ():void => {
             //成功したら口コミ一覧にリダイレクト
 
             console.log(response)
+            alert("口コミ登録しました。")
+            navigateTo(`/place/${placeID}/${reviewID}`)
             } 
             catch (error) {
                 // エラー時の処理
