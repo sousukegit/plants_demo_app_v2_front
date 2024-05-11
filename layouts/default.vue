@@ -47,9 +47,11 @@ const loginUrlCheck = ref(loginUrlChecker())
     if(!auth.loggedIn){
       doesShowModal.value = false;
       navigateTo(`/login`);
+      doesShowModal.value = false;
       return
     }
     navigateTo(`/main`);
+    doesShowModal.value = false;
   }
   const singup = () => {
     doesShowModal.value = false;
@@ -61,11 +63,10 @@ const loginUrlCheck = ref(loginUrlChecker())
   }
 
 
-  //書き込みモーダルウィンドウの表示状態を管理
+  //モーダルウィンドウの表示状態を管理
   const doesShowModal = ref(false);
   const showModal = () => {
       doesShowModal.value = true;
-      
       loginUrlCheck.value = loginUrlChecker()
   };
 

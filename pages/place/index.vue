@@ -36,16 +36,17 @@
 
                  // 地図の作成
                 var mapLatLng = new google.maps.LatLng({lat:35.65832, lng:139.74136 }); // 緯度経度のデータ作成
-                const map = new google.maps.Map(document.getElementById('map'), { // #sampleに地図を埋め込む
+                let map = new google.maps.Map(document.getElementById('map'), { // #sampleに地図を埋め込む
                   center: mapLatLng, // 地図の中心を指定
-                  zoom: 5, // 地図のズームを指定
+                  zoom: 7, // 地図のズームを指定
                   fullscreenControl:false,
                   mapTypeControl:false,
                   streetViewControl:true,
                   streetViewControlOptions:{
                     position:google.maps.ControlPosition.LEFT_BOTTOM
                   },
-                  scaleControl:true
+                  scaleControl:true,
+                  gestureHandling: "greedy",
                 });
                 for(var i=0; i < places.value.length; i++){
                   // alert(places.value[i].longitude)
@@ -56,7 +57,7 @@
                     position: markerLatLng, // マーカーを立てる位置を指定
                     map: map // マーカーを立てる地図を指定
                   });
-                  markerEvent(i,places.value[i],map);
+                  markerEvent(i,places.value[i],mapLatLng,map,google);
                }
 
             }
@@ -86,21 +87,109 @@
     })
 
 
-const markerEvent = (i:Number,place:any,map:any) => {
+const markerEvent = (i:number,places:any,mapLatLng:any,map:any,google:any) => {
   marker[i].addListener('click', function() { // マーカーをクリックしたとき
-    const placeInfo = place
     //クリックしたら中心に移動して、モーダルが上がる
-    alert(marker[i].position)
-    alert(placeInfo.name);// 吹き出しの表示
+    var latlng = new google.maps.LatLng(places.latitude, places.longitude);
+    map.panTo(latlng)
+    placeModalInfo(i)
+    showModal()
+    updateHeight()
   });
+}
+ //モーダルウィンドウの表示状態を管理
+const doesShowModal = ref(false);
+const showModal = () => {
+      doesShowModal.value = true;
+  };
+
+const marginHeight = ref("300px");
+const updateHeight = ()=> {
+  const nowHight = window.innerHeight
+  marginHeight.value = `${(nowHight /4)*3}px`
+}
+
+onMounted(()=>{
+  updateHeight(),
+  window.addEventListener('resize',updateHeight)
+  
+})
+
+onUnmounted(()=>{
+  window.removeEventListener('resize',updateHeight)
+})
+
+// モーダル表示に使用する値を定義
+const placeId = ref<string>("");
+const placeName = ref<string>("");
+const placeRating = ref<string|null>("");
+
+const placeModalInfo = (i:number) => {
+  placeId.value = places.value[i].id
+  placeName.value = places.value[i].name
+  placeRating.value = places.value[i].avg_reviews.rating
 }
 
 </script>
 <template>
-  <div id="map" class="w-full h-80 mx-auto">google map</div>
-  <TheContainer>
+
+  <div id="map" class="w-full h-screen mx-auto">
+    google map
     
-  <div v-if="places.length">
+  </div>
+  <div id="modal" class="w-full ">
+  </div>
+  <Teleport v-if="doesShowModal" to="#modal">
+            <div  v-if="doesShowModal"
+                @click="(event)=>{
+                    //子要素以外をクリックしたらモーダルウィンドウを閉じる
+                    if(event.target === event.currentTarget){
+                        doesShowModal = false;
+                    }
+                }"
+                class="fixed inset-0 h-screen w-screen items-center justify-center z-50"
+                
+                >
+                <div class="border items-center rounded-md bg-cream dark:bg-coffee mx-8 py-8 px-2 shadow-md
+                     hover:bg-main-100 transition-all duration-300 z-50"
+                     :style="{ 'margin-top': marginHeight }"
+                     >
+                     <div>
+                    <a :href="`/place/${placeId}`">
+                      
+                        <div class="text-lg font-bold">{{ placeName }}</div>
+                        <div class="flex gap-2"
+                        v-if="placeRating !== null && placeRating!== undefined">
+                            <div class= "ml-0 w-38">{{ placeRating }}</div>
+                              <NuxtRating
+                                :read-only="true"
+                                :rating-count="5.0"
+                                :rating-size="'24px'"
+                                :rating-value="parseFloat(placeRating)"
+                                />
+                        </div>
+                        <div class="flex gap-2"
+                        v-else>
+                            <div class= "ml-0 w-38">0.0</div>
+                              <NuxtRating
+                                :read-only="true"
+                                :rating-count="5.0"
+                                :rating-size="'24px'"
+                                :rating-value="0.0"
+                                />
+                        </div>
+
+                      
+                    </a>
+                  </div>
+                </div>
+                  
+            </div>
+            
+  </Teleport>
+  
+    
+  <!-- <div v-if="places.length">
     <div v-for="(place,i) in places"
         :key="place.id"
       >
@@ -132,6 +221,6 @@ const markerEvent = (i:Number,place:any,map:any) => {
         </div>
       </a>
     </div>
-  </div>
-  </TheContainer>
+  </div> -->
+
 </template>
