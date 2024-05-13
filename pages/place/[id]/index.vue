@@ -75,8 +75,8 @@
 </script>
 <template>
   <TheContainer>
-    <div class="border-2 border-coffee rounded-t-lg px-2 bg-cream">
-      <div id="tab" class="grid grid-cols-3 gap-2 bg-cream rounded-t-lg">
+    <div class="border-2 border-coffee rounded-t-lg px-2 bg-cream dark:border-cream">
+      <div id="tab" class="grid grid-cols-3 gap-2 bg-cream rounded-t-lg dark:bg-coffee ">
         <div  @click="isSelect('#top')" class="w-full text-center hover:bg-main-300 hover:text-cream transition-all duration-300"
           :class="{'border-b-main-500 border-b-4 font-bold ':isActive === '#top'}"
         >TOP</div>
@@ -87,7 +87,7 @@
         :class="{'border-b-main-500 border-b-4 font-bold':isActive === '#review-list'}"
         >口コミ</div>
     </div>
-   <div class="w-full bg-cream">
+   <div class="w-full bg-cream dark:bg-coffee">
     <!-- 店舗情報TOP -->
         <div v-show="isActive === '#top'" class="p-2">
             <!-- トップは店舗情報、口コミ、写真、地図を表示する -->
@@ -127,6 +127,7 @@
                   :rating-value="parseFloat(place.avg_reviews.rating)"
                   />
             </div>
+            <AppLink :href="`/place/${place.id}/post-review`">タップしてレビューする</AppLink>
             <!-- <div>タップして評価の★</div> -->
             <!-- レーダー -->
             <AppH3>植物別評価</AppH3>
@@ -239,9 +240,7 @@
               口コミはまだありません。
           </div>
         </div>
+      </div>
     </div>
-
-    </div>
-    <AppLink :href="`/place/${place.id}/post-review`">タップしてレビュー</AppLink>
   </TheContainer>
 </template>

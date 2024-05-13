@@ -57,8 +57,7 @@ export const useAuthStore = defineStore('auth', {
        this.auth.token = (response.token) ? response.token : null 
        this.auth.expires = (response.expires)? response.expires * 1000 : 0
        this.auth.payload = (response.token) ? jwtDecode(response.token) : {}
-       console.log("setAuth user:"+this.user.name )
-       console.log("setAuth token:"+this.auth.token )
+       console.log("fin setAuth" )
     },
     resetPinia(){
       this.user.id = null

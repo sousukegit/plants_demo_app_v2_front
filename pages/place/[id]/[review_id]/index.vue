@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import AppH3 from '~/components/AppH3.vue';
 import { useAuthStore } from '~~/stores/auth';
    const auth = useAuthStore();
