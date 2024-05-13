@@ -4,20 +4,6 @@ const config = useRuntimeConfig()
 // const post = usePost()
 // console.log(post)
 const users = ref<string[]>("")
-async function getHello(){
-  //先にユーザーを用意
-  const { data } = await useFetch(config.public.apiOrigin+'/api/v1/users')
-  users.value = data.value
-  console.log(data)
-  console.log(config.public.apiOrigin);
-}
-
-const dateFormat = (date) =>{
-  const dateTimeFormat = new Intl.DateTimeFormat(
-        'ja', { dateStyle: 'medium', timeStyle: 'short' }
-      )
-      return dateTimeFormat.format(new Date(date))
-}
 
 
 </script>
@@ -25,6 +11,12 @@ const dateFormat = (date) =>{
 <template>
   <TheContainer>
     <AppH1>BotaniSpot</AppH1>
+    <div>BotaniSpotとは、観葉植物の取り扱いに特化した店舗の情報検索アプリです
+    </div>
+    <div>植物は生き物だから、本当は店舗で買いたいけど、観葉植物の店舗情報に行きつかない…！
+    </div>
+    <div>そんなニーズから生まれたアプリです。
+    </div>
   </TheContainer>
   <!-- ここは簡単なランディングページにしたい -->
     

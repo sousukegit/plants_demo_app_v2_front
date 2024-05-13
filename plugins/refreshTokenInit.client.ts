@@ -5,36 +5,38 @@ import { useAuthStore } from '~~/stores/auth';
 export default defineNuxtPlugin( async () =>{
     console.log("plugins refreshTokenInit")
     const config = useRuntimeConfig()
-    const auth = useAuthStore(); 
+    console.log("fin runtimeconfig")
+    const auth = useAuthStore();
+    console.log("fin useAuthStore");
      const refresh = async() =>{
+        console.log("start $fetch");
         await $fetch(
            config.public.apiOrigin+'/api/v1/auth_token/refresh',
           {
               method:"POST",
-              credentials: 'include', 
-              body:{},                             
+              credentials: 'include',
+              body:{},
               headers:{
-                  'X-Requested-With': 'XMLHttpRequest', 
-                  'Authorization': `Bearer ${auth.auth.token}`,                                                                
+                  'X-Requested-With': 'XMLHttpRequest',
+                  'Authorization': `Bearer ${auth.auth.token}`,
               },
           }
           ).then(response =>{
+            console.log("fin $fetch");
             auth.setAuth(response)
             console.log(response)
             //ログイン状態であればログイントップにリダイレクト
             navigateTo('/main')
           }).catch(error=>{
-             
-          })    
-    }    
+
+          })
+    }
 
     async function initFunc(){
+        console.log("start initFunc");
         const response = await refresh()
     }
 
     await initFunc()
-     
+    console.log("fin initFunc");
 })
-    
-
-  

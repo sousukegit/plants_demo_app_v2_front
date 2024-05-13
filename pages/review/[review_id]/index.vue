@@ -30,7 +30,6 @@ import imageCompression from "browser-image-compression";
             try {
             const response = await useGet(`/api/v1/reviews/${reviewID}`,customHeaders);
             //TODO 成功時の処理
-            
             review.value = response
             console.log(review.value)
             place.value = response.place
@@ -40,10 +39,9 @@ import imageCompression from "browser-image-compression";
               files.value = Array.from(response.image_url)
             }
             currentData(review.value)
-            
             } catch (error) {
             console.log(error)
-            }  
+            }
         }
         async function getReviewFunc(){
             await getReview()
