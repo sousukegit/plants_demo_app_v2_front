@@ -85,7 +85,7 @@ defineExpose({
   <div :class="mode" >
     <header class="sticky top-0 w-full z-50">
       <div class ="flex justify-between bg-cream dark:bg-coffee dark:border-b-2 dark:border-cream dark:text-cream" id="hamberger" >
-        <div  class="mx-2" >
+        <div  class="mx-2">
           <!-- 戻る -->
           <font-awesome-icon  @click="$router.go(-1)" :icon="['fas', 'chevron-left']" class="mt-6 text-2xl mr-2"/>
           <!-- ハンバーガー -->
@@ -128,7 +128,12 @@ defineExpose({
             </div>
          </Teleport>
         </div>
-        <div><AppH1 @click="navigateTo(`/`)">BotaniSpot</AppH1></div>
+        <h1 class="mb-0">
+          <NuxtLink to="/" title="Botanispot">
+            <img v-if="mode=='dark'" class="logo" src="/assets/images/Botanispot _logoicon_Dark.png">
+            <img v-else class="logo" src="/assets/images/Botanispot _logoicon.png">
+          </NuxtLink>
+        </h1>
         <div class="mx-2">
           <font-awesome-icon class="mt-6 text-2xl align-middle" :icon="['fas', 'magnifying-glass']" />
         </div>
@@ -140,3 +145,9 @@ defineExpose({
     </div>
   </div>
 </template>
+
+<style scoped>
+ .logo{
+  @apply w-60 mt-2 sm:w-72  md:w-80 
+ }
+</style>
