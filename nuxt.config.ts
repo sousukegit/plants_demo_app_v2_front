@@ -25,7 +25,9 @@ export default defineNuxtConfig({
   runtimeConfig:{
     public:{
        apiOrigin: process.env.NUXT_API_ORIGIN,
-       googleMapsApiKey:process.env.NUXT_GOOGLE_MAPS_API_KEY
+       googleMapsApiKey:process.env.NUXT_GOOGLE_MAPS_API_KEY,
+       gestUserName:process.env.NUXT_GEST_USER_NAME,
+       gestUserPassword:process.env.NUXT_GEST_USER_PASSWORD
     }
   },
   typescript:{

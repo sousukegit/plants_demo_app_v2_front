@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { type User } from "~~/types/entities";
 import { useAuthStore } from '~~/stores/auth';
-import WhiteContainer from "~/components/WhiteContainer.vue";
 const auth = useAuthStore();
 
 

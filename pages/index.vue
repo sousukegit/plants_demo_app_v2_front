@@ -1,12 +1,60 @@
 <script setup lang="ts">
-import type { ButtonPrimary } from '#build/components';
 
-//環境変数を取得
+import { type User } from "~~/types/entities";
+import { useAuthStore } from '~~/stores/auth';
+
+const auth = useAuthStore();
 const config = useRuntimeConfig()
-// const post = usePost()
-// console.log(post)
-const users = ref<string[]>("")
 
+
+
+interface login{
+    email:String|null,
+    password:String|null,
+}
+
+const User = reactive<login>({
+    email:config.public.gestUserName,
+    password:config.public.gestUserPassword
+})
+
+const userData = reactive({
+  auth:User
+})
+
+const login = async() => {
+    try {
+    const response = await usePost('/api/v1/auth_token',userData);
+    // 成功時の処理
+    authSuccessful(response)
+    } catch (error) {
+        // エラー時の処理
+    console.error(error);
+    authFailure(error)
+    }
+}
+async function loginFunc(){
+   await login()
+}
+
+const authSuccessful = (response) =>{
+    console.log('authSuccessful',response)
+    // ①ログイン処理
+    //ユーザー情報をストアへ
+    auth.setAuth(response)
+
+    //　②記憶ルートにリダイレクト
+    navigateTo('/main')
+
+}
+const authFailure = (response) => {
+    if(response && response.status === 404){
+        //トースタ出力
+        console.log("ログイン失敗")
+    }
+    //エラー処理
+    console.log('authFailure',response)
+}
 
 </script>
 
@@ -20,7 +68,7 @@ const users = ref<string[]>("")
             <div class="text-center text-cream text-2xl drop-shadow-md">
               <span class=" bg-slate-400/20 px-0">探そう、欲しい一株を実物で。</span>
             </div>
-            <ButtonPrimary class="mx-auto block text-2xl">お試しで使ってみる</ButtonPrimary>
+            <ButtonPrimary :on-click="loginFunc" class="mx-auto block py-4 text-2xl ">お試しで使ってみる</ButtonPrimary>
           </div>
         </div>
       </div>
@@ -55,6 +103,7 @@ const users = ref<string[]>("")
         <div>ユーザー登録をすると、店舗のレビューを書き込むことができます。</div>
         <div>お気に入りのスポットの評価・投稿をしてみましょう</div>
       </div>
+      <ButtonPrimary :on-click="loginFunc" class="mx-auto py-6 block text-2xl">お試しで使ってみる</ButtonPrimary>
     </div>
     
     
