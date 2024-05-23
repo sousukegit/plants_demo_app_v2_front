@@ -76,7 +76,7 @@ const authFailure = (response) => {
       
     </div>
     <!-- アプリ説明 -->
-    <div class="flex flex-col gap-4 sm:justify-center h-full text-center bg-sub-50 pt-10 pb-24">
+    <div class="flex flex-col gap-4 sm:justify-center h-full text-center bg-sub-50 pt-10 pb-24 dark:bg-coffee dark:text-cream">
       <div class="gap-disc">
         <h2 class="text-xl font-bold ">BotaniSpotとは?</h2>
         <div class="block mx-auto">

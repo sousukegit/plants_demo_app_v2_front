@@ -2,6 +2,7 @@
   import { useAuthStore } from '~~/stores/auth';
   import { useTagsStore } from '~~/stores/tags';
   import { useHistoryState } from 'vue-history-state'
+import ButtonSecondary from '~/components/ButtonSecondary.vue';
 
   const tag = useTagsStore();
   const historyState = useHistoryState()
@@ -127,9 +128,13 @@ const placeModalInfo = (i:number) => {
   placeRating.value = places.value[i].avg_reviews?.rating
 }
 
+const openForm = () =>{
+  navigateTo("https://forms.gle/XxCoJLGYZgt41wHRA", {external:true}
+  )
+}
 </script>
 <template>
-
+  <ButtonSecondary :on-click="openForm" class="right-0 my-2 mr-2 fixed z-50">ショップ登録申請</ButtonSecondary>
   <div id="map" class="w-full h-screen mx-auto">google map</div>
   <div id="modal" class="w-full "></div>
   <Teleport v-if="doesShowModal" to="#modal">
