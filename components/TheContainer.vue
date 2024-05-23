@@ -1,7 +1,7 @@
 <template>
 <!-- 共通機能 -->
 <div id="the_container">
-    <div class="min-h-screen bg bg-main-300 py-2 px-1 text-coffee dark:bg-coffee dark:text-main-100">
+    <div class="min-h-screen bg bg-main-200 py-2 px-1 text-coffee dark:bg-coffee dark:text-main-100">
 
 <!-- コンテンツゾーン -->
         <slot/>  
