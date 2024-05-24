@@ -60,7 +60,7 @@ const authFailure = (response) => {
 
 <template>
   <!-- バナーブロック -->
-    <div> 
+    <div>
       <div class="h-80 w-full bg- md:h-[500px] lg:h-[650px]  bg-center bg-cover bg-[url('/assets/images/top-barner.png')]
       transition: background-image 2s;">
         <div class="h-80 w-full bg- md:h-[500px] lg:h-[650px] bg-gray-400/30">
@@ -72,8 +72,6 @@ const authFailure = (response) => {
           </div>
         </div>
       </div>
-
-      
     </div>
     <!-- アプリ説明 -->
     <div class="flex flex-col gap-4 sm:justify-center h-full text-center bg-sub-50 pt-10 pb-24 dark:bg-coffee dark:text-cream">
@@ -105,8 +103,6 @@ const authFailure = (response) => {
       </div>
       <ButtonPrimary :on-click="loginFunc" class="mx-auto py-6 block text-2xl">お試しで使ってみる</ButtonPrimary>
     </div>
-    
-    
 </template>
 <style scoped>
  .gap-disc{
