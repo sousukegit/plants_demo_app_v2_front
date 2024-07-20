@@ -168,7 +168,6 @@ const reviewEdit = ():void => {
             const response = await usePatch(`/api/v1/reviews/${reviewID}`,formData,customHeaders);
             // 成功時の処理
             //成功したら口コミ一覧にリダイレクト
-
             console.log(response)
             alert("口コミ登録しました。")
             navigateTo(`/place/${placeID}/${reviewID}`)
