@@ -14,6 +14,11 @@ export const usePost = async <T>(url: string, requestBody?: T, customHeaders?: R
             // body: requestBody? JSON.stringify(requestBody) : undefined,
             body: requestBody? requestBody : undefined,
             headers,
+            onResponseError({response}) {
+                console.log(response)
+                throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
+                showError({ statusCode: response.status })
+            },
         }
     );
 };
