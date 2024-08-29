@@ -9,11 +9,11 @@ const config = useRuntimeConfig()
 
 
 interface login{
-    email:String|null,
-    password:String|null,
+    email:string|null,
+    password:string|null,
 }
 
-const User = reactive<login>({
+const gestUser = reactive<login>({
     email:config.public.gestUserName,
     password:config.public.gestUserPassword
 })
