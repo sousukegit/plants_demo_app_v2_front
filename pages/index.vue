@@ -7,21 +7,24 @@ const auth = useAuthStore();
 const config = useRuntimeConfig()
 
 type loginUser = {
-
+  id:number;
+  name:string;
+  sub:string;
 }
+
 
 type loginResponse = {
   token:string;
   expire:number;
-  user:string;
+  user:loginUser;
 }
 
-interface login{
+interface loginFrom{
     email:string|null,
     password:string|null,
 }
 
-const User = reactive<login>({
+const User = reactive<loginFrom>({
     email:config.public.gestUserName,
     password:config.public.gestUserPassword
 })
@@ -33,7 +36,6 @@ const userData = reactive({
 const login = async() => {
     try {
     const response = await usePost('/api/v1/auth_token',userData);
-    console.log("レスポンス"+response)
     // 成功時の処理
     authSuccessful(response)
     } catch (error:unknown) {
@@ -47,7 +49,7 @@ async function loginFunc(){
    await login()
 }
 
-const authSuccessful = (response) =>{
+const authSuccessful = (response:loginResponse) =>{
     console.log('authSuccessful',response)
     // ①ログイン処理
     //ユーザー情報をストアへ
