@@ -1,4 +1,9 @@
-export const usePost = async <T>(url: string, requestBody?: T, customHeaders?: Record<string, string>) => {
+type errorResponse = {
+    status:number;
+    message?:string;
+}
+
+export const usePost = async <T,U>(url: string, requestBody?: T, customHeaders?: Record<string, string>):Promise<U|errorResponse>=> {
     const config = useRuntimeConfig();
 
     const headers: Record<string, string> = {
