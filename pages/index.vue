@@ -19,30 +19,36 @@ type loginResponse = {
   user:loginUser;
 }
 
-interface loginFrom{
+type loginForm = {
     email:string|null,
     password:string|null,
 }
 
-const User = reactive<loginFrom>({
+type authLoginForm = {
+  auth:loginForm
+}
+
+type errorResponse = {
+    status:number;
+    message?:string;
+}
+
+const gestUser:authLoginForm ={
+  auth:{
     email:config.public.gestUserName,
     password:config.public.gestUserPassword
-})
-
-const userData = reactive({
-  auth:User
-})
+  }
+}
 
 const login = async() => {
     try {
-    const response = await usePost('/api/v1/auth_token',userData);
-    // 成功時の処理
-    authSuccessful(response)
-    } catch (error:unknown) {
-        // エラー時の処理
-    //console.error(error);
-    console.log("errror")
-    authFailure(error)
+    const response = await usePost<authLoginForm,loginResponse>('/api/v1/auth_token',gestUser);
+      // 成功時の処理
+      if("token" in response){
+        authSuccessful(response)
+      }
+    } catch (error) {
+        authFailure(error as errorResponse)
     }
 }
 async function loginFunc(){
@@ -59,7 +65,7 @@ const authSuccessful = (response:loginResponse) =>{
     navigateTo('/main')
 
 }
-const authFailure = (response) => {
+const authFailure = (response:errorResponse) => {
     if(response && response.status === 404){
         //トースタ出力
         console.log("ログイン失敗")

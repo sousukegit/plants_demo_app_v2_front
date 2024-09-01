@@ -4,7 +4,6 @@ import { useAuthStore } from '~~/stores/auth';
 //リロード時や初期アクセス時にリフレッシュトークンを持っていたらログイン状態にする
 export default defineNuxtRouteMiddleware( (to,from) =>{
     console.log("global silent")
-    const config = useRuntimeConfig()
     const auth = useAuthStore(); 
     const customHeaders = {
         'Authorization': `Bearer ${auth.auth.token}`
@@ -43,8 +42,11 @@ export default defineNuxtRouteMiddleware( (to,from) =>{
       }
     //ユーザーが存在しているかを確認する
     //遷移しないディレクトリ
+    console.log(auth.user);
     const notRedirectPaths = ["/","/login","/signup","/signupAfter"]
     if (!auth.isExistUser){
+      
+
       //特定のディレクトリならリダイレクトしない
       if(notRedirectPaths.includes(to.path)){
         return
