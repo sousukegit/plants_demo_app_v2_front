@@ -42,7 +42,8 @@ export default defineNuxtRouteMiddleware( (to,from) =>{
       }
     //ユーザーが存在しているかを確認する
     //遷移しないディレクトリ
-    console.log(auth.user);
+console.log(to);
+console.log(auth.user);
     const notRedirectPaths = ["/","/login","/signup","/signupAfter"]
     if (!auth.isExistUser){
       
@@ -55,6 +56,7 @@ export default defineNuxtRouteMiddleware( (to,from) =>{
       const msg = 'まずはログインしてください'
       console.log(msg)
       alert(msg)
-      return navigateTo({path:'/'})
+      //navigateTo({path:'/'})
+      return 
     }
 })
