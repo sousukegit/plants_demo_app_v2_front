@@ -17,7 +17,7 @@ console.log("after setAuth");
 console.log(auth.user);
             navigateTo('/main');
         } catch (error) {
-            console.log(error);
+            console.log("error:"+error);
         }
 
     }

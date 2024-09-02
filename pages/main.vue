@@ -15,8 +15,8 @@ register();
       'Authorization': `Bearer ${auth.auth.token}`
   };
 
-  userEmail.value = user.user.emaiz
-  userName.value = auth.user.name
+  //userEmail.value = user.user.email
+  //userName.value = auth.user.name
 
   const places = ref<string[]>("")
   // onMounted(() => {
