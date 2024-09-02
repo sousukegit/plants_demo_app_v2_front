@@ -24,7 +24,7 @@ export default defineNuxtPlugin( async () =>{
           ).then(response =>{
             console.log("fin $fetch");
             auth.setAuth(response)
-            console.log(response)
+            console.log(auth.user)
             //ログイン状態であればログイントップにリダイレクト
             navigateTo('/main')
           }).catch(error=>{
@@ -37,6 +37,6 @@ export default defineNuxtPlugin( async () =>{
         const response = await refresh()
     }
 
-    await initFunc()
-    console.log("fin initFunc");
+    await refresh()
+    console.log("fin Public");
 })
