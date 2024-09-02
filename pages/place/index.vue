@@ -152,7 +152,8 @@ const openForm = () =>{
               :style="{ 'margin-top': marginHeight }"
               >
           <div>
-            <a :href="`/place/${placeId}`">
+            <NuxtLink :to="{name:'place-id',params:{id:placeId}}">
+           
               <div class="text-lg font-bold dark:text-cream">{{ placeName }}</div>
               <div class="flex gap-2"
                 v-if="placeRating !== null && placeRating!== undefined">
@@ -174,7 +175,7 @@ const openForm = () =>{
                         :rating-value="0.0"
                         />
                 </div>
-            </a>
+              </NuxtLink>
           </div>
         </div>
     </div>
