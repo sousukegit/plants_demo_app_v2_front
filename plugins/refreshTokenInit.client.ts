@@ -5,9 +5,7 @@ import { useAuthStore } from '~~/stores/auth';
 export default defineNuxtPlugin( async () =>{
     console.log("plugins refreshTokenInit")
     const config = useRuntimeConfig()
-    console.log("fin runtimeconfig")
     const auth = useAuthStore();
-    console.log("fin useAuthStore");
      const refresh = async() =>{
         console.log("start $fetch");
         await $fetch(
@@ -31,12 +29,6 @@ export default defineNuxtPlugin( async () =>{
 
           })
     }
-
-    async function initFunc(){
-        console.log("start initFunc");
-        const response = await refresh()
-    }
-
     await refresh()
     console.log("fin Public");
 })
