@@ -10,11 +10,8 @@ export default defineNuxtPlugin( async () =>{
     const refresh = async() =>{
         try {
 console.log("plugins");
-console.log(auth.user);
             const response = await usePost('/api/v1/auth_token/refresh',{},customHeaders);
             auth.setAuth(response);
-console.log("after setAuth");
-console.log(auth.user);
             navigateTo('/main');
         } catch (error) {
             console.log("error:"+error);
@@ -22,5 +19,7 @@ console.log(auth.user);
 
     }
     
-    refresh();
+    //ここで初回の問い合わせを待つことで、同期的に処理する
+    //pluginsの実行が終わるまで待つ
+    await refresh();
 })

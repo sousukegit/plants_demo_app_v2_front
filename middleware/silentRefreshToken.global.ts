@@ -23,7 +23,6 @@ export default defineNuxtRouteMiddleware( (to,from) =>{
             const response = await usePost('/api/v1/auth_token/refresh',customHeaders);
             // 成功時の処理
             auth.setAuth(response)
-            console.log(response)
             } catch (error) {
             // 期限切れ　不正なリフレッシュトークンの場合
             console.error(error);
