@@ -19,7 +19,7 @@ const gestUser = reactive<login>({
 })
 
 const userData = reactive({
-  auth:User
+  auth:gestUser
 })
 
 const login = async() => {
