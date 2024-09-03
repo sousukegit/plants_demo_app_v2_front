@@ -6,38 +6,56 @@ import { useAuthStore } from '~~/stores/auth';
 const auth = useAuthStore();
 const config = useRuntimeConfig()
 
-
-
-interface login{
-    email:String|null,
-    password:String|null,
+type loginUser = {
+  id:number;
+  name:string;
+  sub:string;
 }
 
-const User = reactive<login>({
+
+type loginResponse = {
+  token:string;
+  expire:number;
+  user:loginUser;
+}
+
+type loginForm = {
+    email:string|null,
+    password:string|null,
+}
+
+type authLoginForm = {
+  auth:loginForm
+}
+
+type errorResponse = {
+    status:number;
+    message?:string;
+}
+
+const gestUser:authLoginForm ={
+  auth:{
     email:config.public.gestUserName,
     password:config.public.gestUserPassword
-})
-
-const userData = reactive({
-  auth:User
-})
+  }
+}
 
 const login = async() => {
     try {
-    const response = await usePost('/api/v1/auth_token',userData);
-    // 成功時の処理
-    authSuccessful(response)
+    const response = await usePost<authLoginForm,loginResponse>('/api/v1/auth_token',gestUser);
+      // 成功時の処理
+      if("token" in response){
+        authSuccessful(response)
+      }
     } catch (error) {
-        // エラー時の処理
-    console.error(error);
-    authFailure(error)
+        authFailure(error as errorResponse)
     }
 }
 async function loginFunc(){
    await login()
 }
 
-const authSuccessful = (response) =>{
+const authSuccessful = (response:loginResponse) =>{
     console.log('authSuccessful',response)
     // ①ログイン処理
     //ユーザー情報をストアへ
@@ -47,7 +65,7 @@ const authSuccessful = (response) =>{
     navigateTo('/main')
 
 }
-const authFailure = (response) => {
+const authFailure = (response:errorResponse) => {
     if(response && response.status === 404){
         //トースタ出力
         console.log("ログイン失敗")
