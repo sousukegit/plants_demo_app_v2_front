@@ -12,7 +12,9 @@ export default defineNuxtConfig({
       ],
     },
   },
-
+  imports: {
+    dirs: ['composables/**'],
+  },
   ssr: false,
   devtools: { enabled: true },
   build: {
