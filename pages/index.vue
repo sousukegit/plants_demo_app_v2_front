@@ -1,37 +1,12 @@
 <script setup lang="ts">
+import { type loginResponse } from "~~/types/loginResponse";
+import { type authLoginForm } from "~~/types/authLoginForm";
+import { type errorResponse } from "~~/types/errorResponse";
 
-import { type User } from "~~/types/entities";
 import { useAuthStore } from '~~/stores/auth';
 
 const auth = useAuthStore();
 const config = useRuntimeConfig()
-
-type loginUser = {
-  id:number;
-  name:string;
-  sub:string;
-}
-
-
-type loginResponse = {
-  token:string;
-  expire:number;
-  user:loginUser;
-}
-
-type loginForm = {
-    email:string|null,
-    password:string|null,
-}
-
-type authLoginForm = {
-  auth:loginForm
-}
-
-type errorResponse = {
-    status:number;
-    message?:string;
-}
 
 const gestUser:authLoginForm ={
   auth:{
@@ -51,9 +26,7 @@ const login = async() => {
         authFailure(error as errorResponse)
     }
 }
-async function loginFunc(){
-   await login()
-}
+
 
 const authSuccessful = (response:loginResponse) =>{
     console.log('authSuccessful',response)
@@ -86,7 +59,7 @@ const authFailure = (response:errorResponse) => {
             <div class="text-center text-cream text-2xl drop-shadow-md">
               <span class=" bg-slate-400/20 px-0">探そう、欲しい一株を実物で。</span>
             </div>
-            <ButtonPrimary :on-click="loginFunc" class="mx-auto block py-4 text-2xl ">お試しで使ってみる</ButtonPrimary>
+            <ButtonPrimary :on-click="login" class="mx-auto block py-4 text-2xl ">お試しで使ってみる</ButtonPrimary>
           </div>
         </div>
       </div>
