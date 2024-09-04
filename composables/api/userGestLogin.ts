@@ -3,7 +3,7 @@ import type { loginResponse } from '~/types/loginResponse'
 import type { errorResponse } from '~/types/errorResponse'
 
 export const useGestLogin = () => {
-    const gestLogin = async(gestUser:authLoginForm, authSuccessful:(response:loginResponse)=>void, authFailure:(error:loginResponse)=>void ):Promise<void> => {
+    const gestLogin = async(gestUser:authLoginForm, authSuccessful:(response:loginResponse)=>void, authFailure:(error:errorResponse)=>void ):Promise<void> => {
         try {
         const response = await usePost<authLoginForm,loginResponse>('/api/v1/auth_token',gestUser);
           // 成功時の処理

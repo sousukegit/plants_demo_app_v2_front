@@ -5,6 +5,9 @@ import { type errorResponse } from "~~/types/errorResponse";
 
 import { useAuthStore } from '~~/stores/auth';
 
+const { gestLogin } = useGestLogin();
+
+
 const auth = useAuthStore();
 const config = useRuntimeConfig()
 
@@ -14,19 +17,6 @@ const gestUser:authLoginForm ={
     password:config.public.gestUserPassword
   }
 }
-
-const login = async() => {
-    try {
-    const response = await usePost<authLoginForm,loginResponse>('/api/v1/auth_token',gestUser);
-      // 成功時の処理
-      if("token" in response){
-        authSuccessful(response)
-      }
-    } catch (error) {
-        authFailure(error as errorResponse)
-    }
-}
-
 
 const authSuccessful = (response:loginResponse) =>{
     console.log('authSuccessful',response)
@@ -47,6 +37,8 @@ const authFailure = (response:errorResponse) => {
     console.log('authFailure',response)
 }
 
+
+
 </script>
 
 <template>
@@ -59,7 +51,7 @@ const authFailure = (response:errorResponse) => {
             <div class="text-center text-cream text-2xl drop-shadow-md">
               <span class=" bg-slate-400/20 px-0">探そう、欲しい一株を実物で。</span>
             </div>
-            <ButtonPrimary :on-click="login" class="mx-auto block py-4 text-2xl ">お試しで使ってみる</ButtonPrimary>
+            <ButtonPrimary :on-click="() => gestLogin(gestUser,authSuccessful,authFailure)" class="mx-auto block py-4 text-2xl ">お試しで使ってみる</ButtonPrimary>
           </div>
         </div>
       </div>
@@ -92,7 +84,7 @@ const authFailure = (response:errorResponse) => {
         <div>ユーザー登録をすると、店舗のレビューを書き込むことができます。</div>
         <div>お気に入りのスポットの評価・投稿をしてみましょう</div>
       </div>
-      <ButtonPrimary :on-click="loginFunc" class="mx-auto py-6 block text-2xl">お試しで使ってみる</ButtonPrimary>
+      <ButtonPrimary :on-click="() => gestLogin(gestUser,authSuccessful,authFailure)" class="mx-auto py-6 block text-2xl">お試しで使ってみる</ButtonPrimary>
     </div>
 </template>
 <style scoped>
