@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type User } from "~~/types/entities";
+import { type User } from "~~/types/user";
 import { useAuthStore } from '~~/stores/auth';
 const auth = useAuthStore();
 

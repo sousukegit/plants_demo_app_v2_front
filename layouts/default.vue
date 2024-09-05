@@ -3,8 +3,7 @@
 import { useAuthStore } from '~~/stores/auth';
 const auth = useAuthStore();
 const config = useRuntimeConfig()
-const router = useRouter()
-const route = ref(useRoute())
+const route = ref<string>(useRoute().path)
 
 
 
@@ -13,6 +12,7 @@ const loginUrlChecker = ():boolean => {
   route.value = useRoute().path
   return !notRedirectPaths.includes(route.value)
 }
+
 const loginUrlCheck = ref(loginUrlChecker())
 
  async function tokenDelete(){
