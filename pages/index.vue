@@ -5,8 +5,9 @@ import { type errorResponse } from "~~/types/errorResponse";
 
 import { useAuthStore } from '~~/stores/auth';
 
-const { gestLogin } = useGestLogin();
-
+const { login } = useLogin();
+const  { authSuccessful }  = useAuthSuccessful();
+const  { authFailure }  = useAuthFailure();
 
 const auth = useAuthStore();
 const config = useRuntimeConfig()
@@ -17,26 +18,6 @@ const gestUser:authLoginForm ={
     password:config.public.gestUserPassword
   }
 }
-
-const authSuccessful = (response:loginResponse) =>{
-    console.log('authSuccessful',response)
-    // ①ログイン処理
-    //ユーザー情報をストアへ
-    auth.setAuth(response)
-
-    //　②記憶ルートにリダイレクト
-    navigateTo('/main')
-
-}
-const authFailure = (response:errorResponse) => {
-    if(response && response.status === 404){
-        //トースタ出力
-        console.log("ログイン失敗")
-    }
-    //エラー処理
-    console.log('authFailure',response)
-}
-
 
 
 </script>
@@ -51,7 +32,7 @@ const authFailure = (response:errorResponse) => {
             <div class="text-center text-cream text-2xl drop-shadow-md">
               <span class=" bg-slate-400/20 px-0">探そう、欲しい一株を実物で。</span>
             </div>
-            <ButtonPrimary :on-click="() => gestLogin(gestUser,authSuccessful,authFailure)" class="mx-auto block py-4 text-2xl ">お試しで使ってみる</ButtonPrimary>
+            <ButtonPrimary :on-click="() =>login(gestUser,authSuccessful,authFailure)" class="mx-auto block py-4 text-2xl ">お試しで使ってみる</ButtonPrimary>
           </div>
         </div>
       </div>
