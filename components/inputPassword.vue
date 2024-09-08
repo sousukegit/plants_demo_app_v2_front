@@ -2,6 +2,7 @@
     <div>
         <div class="flex">
             <input  :type="inputType"
+            autocomplete="current-password"
             v-model="modelValue" 
             class="w-full rounded-lg border-2 p-2 dark:bg-coffee"
             :class="{'bg-danger-100 border-danger-200 dark:border-danger-400': props.modelValue.length< min&&props.modelValue.length>0}">   
