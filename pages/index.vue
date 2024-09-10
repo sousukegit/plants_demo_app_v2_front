@@ -65,7 +65,7 @@ const gestUser:authLoginForm ={
         <div>ユーザー登録をすると、店舗のレビューを書き込むことができます。</div>
         <div>お気に入りのスポットの評価・投稿をしてみましょう</div>
       </div>
-      <ButtonPrimary :on-click="() => gestLogin(gestUser,authSuccessful,authFailure)" class="mx-auto py-6 block text-2xl">お試しで使ってみる</ButtonPrimary>
+      <ButtonPrimary :on-click="() => login(gestUser,authSuccessful,authFailure)" class="mx-auto py-6 block text-2xl">お試しで使ってみる</ButtonPrimary>
     </div>
 </template>
 <style scoped>
