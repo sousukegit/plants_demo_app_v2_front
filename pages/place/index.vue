@@ -129,7 +129,7 @@ const placeModalInfo = (i:number) => {
 }
 
 const openForm = () =>{
-  navigateTo("https://forms.gle/XxCoJLGYZgt41wHRA", {external:true}
+  navigateTo("https://forms.gle/XxCoJLGYZgt41wHRA", {external:true,open:{target:"_blank"}}
   )
 }
 </script>
