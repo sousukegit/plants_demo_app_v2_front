@@ -26,9 +26,9 @@ const signup = async() => {
     console.error(error);
     }  
 }
-async function signupFunc(){
-    await signup()
-}
+
+
+
 
 </script>
 <template> 
@@ -46,7 +46,7 @@ async function signupFunc(){
                 <InputPassword v-model="user.password" :min="8"></InputPassword> 
             </label>
             <div>{{ userData }}</div>
-            <ButtonPrimary :on-click="signupFunc" >登録する</ButtonPrimary>
+            <ButtonPrimary :on-click="()=>signup()" >登録する</ButtonPrimary>
         </WhiteContainer>           
     </TheContainer>
 </template>
