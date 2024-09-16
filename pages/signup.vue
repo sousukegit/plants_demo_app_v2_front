@@ -36,8 +36,7 @@ const signup = async() => {
         <WhiteContainer>
             <AppH2>アカウント作成</AppH2>
             <label>ニックネーム
-                <inputText v-model="user.name" :max="30"></inputText> 
-                    
+                <inputText v-model="user.name" :max="30"></inputText>
             </label>
             <label>メールアドレス
                 <inputText v-model="user.email" :max="60" ></inputText> 

@@ -171,10 +171,7 @@ const reviewUpload = () =>{
       await review()
     }
     reviewFunc()
-}
-// else{
-//   alert("登録できませんでした。")
-// }
+  }
 }
 
 const messageAlert = (msg:String) => {

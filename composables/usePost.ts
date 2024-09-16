@@ -3,7 +3,7 @@ type errorResponse = {
     message?:string;
 }
 
-export const usePost = async <T,U>(url: string, requestBody?: T, customHeaders?: Record<string, string>):Promise< U | errorResponse>=> {
+export const usePost = async <T,U>(url: string, requestBody?: T, customHeaders?: Record<string, string>):Promise< U | errorResponse | unknown>=> {
     const config = useRuntimeConfig();
 
     const headers: Record<string, string> = {
