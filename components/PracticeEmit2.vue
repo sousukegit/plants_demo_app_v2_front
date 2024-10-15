@@ -6,7 +6,8 @@
     const randomNum = ref<number>(props.randomNum);
 
     type Emits = {
-        (e:"emitFire",randomNum:number):void;
+        //(e:"emitFire",randomNum:number):void;
+        "emitFire":[randomNum:number];
     }
 
     const emits = defineEmits<Emits>();
