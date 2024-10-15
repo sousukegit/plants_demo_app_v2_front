@@ -10,6 +10,12 @@ const setNewCount = (newCount:number) =>{
     count.value = newCount;
 }
 
+
+const randomNum = ref<number>(0);
+const setRandomNum= (culcRandomNum:number) => {
+    randomNum.value = culcRandomNum;
+}
+
 </script>
 
 <template>
@@ -26,10 +32,16 @@ const setNewCount = (newCount:number) =>{
         <PracticeProps name="こくのある深い味黒" color="black"></PracticeProps>
     </div> -->
 
-    <div class="bg-sub-100">
+    <div class="bg-sub-100 mb-3">
         <p>emit</p>
         <div>親コンポーネントのカウント:{{ count }}</div>
         <PracticeEmit :count="count" @countup="setNewCount"></PracticeEmit>
+    </div>
+
+    <div>
+        <div>emits2</div>
+        <div>親コンポーネント:{{ randomNum }}</div>
+        <PracticeEmit2 :randomNum="randomNum" @emitFire="setRandomNum"></PracticeEmit2>
     </div>
     
 </template>
